@@ -28,19 +28,15 @@ namespace JebraAzureFunctions
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string id = req.Query["id"];
+            string id = req.Query["id"];//Tbh, idk what this does.
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
-            //id = data?.id;
-            id = id ?? data?.id;
+            id = id ?? data?.id;//Get id from url
 
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
-            string responseMessage = "Response: \n";
+            string responseMessage = "";
 
             var str = Environment.GetEnvironmentVariable("SqlConnectionString");
-            //System.Diagnostics.Debug.WriteLine("Conn String: " + str);
             using (SqlConnection conn = new SqlConnection(str))
             {
                 conn.Open();
@@ -49,14 +45,9 @@ namespace JebraAzureFunctions
 
                 using (SqlCommand cmd = new SqlCommand(command, conn))
                 {
-                    // Execute the command and log the # rows affected.
                     SqlDataReader rows = await cmd.ExecuteReaderAsync();
-                    //while (rows.Read())
-                    //{
-                    //    responseMessage += $"{rows.GetValue(1)}, {rows.GetValue(3)} \n";
-                    //}
 
-                    responseMessage = tools.sqlDatoToJson(rows);
+                    responseMessage = tools.sqlDatoToJson(rows);//Convert object to JSON.
                 }
             }
             return new OkObjectResult(responseMessage);
