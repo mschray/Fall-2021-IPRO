@@ -61,7 +61,17 @@ namespace JebraAzureFunctions
                 int factor = possibleFactors[r.Next(0, possibleFactors.Count - 1)];
                 int x = (eNum - sumNum) / factor;
 
-                string command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'X=? {factor}X + {sumNum} = {eNum}')";
+                string command = "";
+
+                if(sumNum < 0)
+                {
+                    int sumNumB = sumNum * -1;
+                    command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor}X - {sumNumB} = {eNum}')";
+                }
+                else
+                {
+                    command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor}X + {sumNum} = {eNum}')";
+                }
                 //Run SQL Delete
                 var str = Environment.GetEnvironmentVariable("SqlConnectionString");
                 using (SqlConnection conn = new SqlConnection(str))
