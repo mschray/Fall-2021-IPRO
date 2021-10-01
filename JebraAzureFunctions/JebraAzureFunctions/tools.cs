@@ -7,10 +7,18 @@ using Newtonsoft.Json;
 
 namespace JebraAzureFunctions
 {
-    class tools
+    class Tools
     {
-        public tools() { }
+        public Tools() { }
 
+        /// <summary>
+        /// Prints to Visual Studio debug console.
+        /// </summary>
+        /// <param name="s">String to print.</param>
+        public static void printDebug(string s)
+        {
+            System.Diagnostics.Debug.WriteLine(s);
+        }
         public static String sqlDatoToJson(SqlDataReader dataReader)
         {
             var dataTable = new DataTable();

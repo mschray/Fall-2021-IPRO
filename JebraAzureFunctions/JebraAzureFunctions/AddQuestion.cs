@@ -1,5 +1,6 @@
-using System.IO;
 using System;
+using System.Data.SqlClient;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -11,48 +12,43 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using System.Data.SqlClient;
 
 namespace JebraAzureFunctions
 {
-    public static class GetQuestion
+    public static class AddQuestion
     {
-        [FunctionName("GetQuestion")]
-        [OpenApiOperation(operationId: "Run", tags: new[] { "id" })]
+        [FunctionName("AddQuestion")]
+        [OpenApiOperation(operationId: "Run", tags: new[] { "AddQuestion" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
-        [OpenApiParameter(name: "id", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **id** parameter")]
+        [OpenApiRequestBodyAttribute(contentType: "string", bodyType: typeof(QuestionModel))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             //log.LogInformation("C# HTTP trigger function processed a request.");
-            Console.WriteLine("GetQuestion Called!");
-
-            string id = req.Query["id"];//Tbh, idk what this does.
+            //Console.WriteLine("AddQuestion Called!");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            id = id ?? data?.id;//Get id from url
+            dynamic data = JsonConvert.DeserializeObject(requestBody);//Convert the body we received into an object.
+            //name = name ?? data?.name;
+            //int x = data?.answer_a;
 
-            string responseMessage = "";
-
+            //Run SQL Insert
             var str = Environment.GetEnvironmentVariable("SqlConnectionString");
             using (SqlConnection conn = new SqlConnection(str))
             {
                 conn.Open();
-                System.Diagnostics.Debug.WriteLine($"id from body = {id}");
-                var command = $"SELECT * FROM question WHERE id={id}";
 
+                var command = $"INSERT INTO QUESTION(answer_a, answer_b, question) VALUES({data?.answer_a},{data?.answer_b},'{data?.question}')";
                 using (SqlCommand cmd = new SqlCommand(command, conn))
                 {
-                    SqlDataReader rows = await cmd.ExecuteReaderAsync();
-
-                    responseMessage = Tools.sqlDatoToJson(rows);//Convert object to JSON.
+                    int exeTask = await cmd.ExecuteNonQueryAsync();
                 }
             }
-            return new OkObjectResult(responseMessage);
+
+            return new OkObjectResult($"Question insert requested with following parameters: \n {requestBody}");
         }
     }
 }
-
+ 
