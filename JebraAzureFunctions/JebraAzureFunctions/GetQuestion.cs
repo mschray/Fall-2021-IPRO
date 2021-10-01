@@ -18,7 +18,7 @@ namespace JebraAzureFunctions
     public static class GetQuestion
     {
         [FunctionName("GetQuestion")]
-        [OpenApiOperation(operationId: "Run", tags: new[] { "GetQuestion" })]
+        [OpenApiOperation(operationId: "Run", tags: new[] { "Question Requests" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "id", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **id** parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
@@ -46,7 +46,6 @@ namespace JebraAzureFunctions
                 using (SqlCommand cmd = new SqlCommand(command, conn))
                 {
                     SqlDataReader rows = await cmd.ExecuteReaderAsync();
-
                     responseMessage = Tools.sqlDatoToJson(rows);//Convert object to JSON.
                 }
             }

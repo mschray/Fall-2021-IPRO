@@ -18,7 +18,7 @@ namespace JebraAzureFunctions
     public static class RemoveQuestion
     {
         [FunctionName("RemoveQuestion")]
-        [OpenApiOperation(operationId: "Run", tags: new[] { "RemoveQuestion" })]
+        [OpenApiOperation(operationId: "Run", tags: new[] { "Question Requests" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "id", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The id of the question you wish to remove.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]

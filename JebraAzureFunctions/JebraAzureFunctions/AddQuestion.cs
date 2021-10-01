@@ -18,7 +18,7 @@ namespace JebraAzureFunctions
     public static class AddQuestion
     {
         [FunctionName("AddQuestion")]
-        [OpenApiOperation(operationId: "Run", tags: new[] { "AddQuestion" })]
+        [OpenApiOperation(operationId: "Run", tags: new[] { "Question Requests" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiRequestBodyAttribute(contentType: "string", bodyType: typeof(QuestionModel))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
