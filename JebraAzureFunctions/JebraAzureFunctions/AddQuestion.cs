@@ -40,7 +40,7 @@ namespace JebraAzureFunctions
             {
                 conn.Open();
 
-                var command = $"INSERT INTO QUESTION(answer_a, answer_b, question) VALUES({data?.answer_a},{data?.answer_b},'{data?.question}')";
+                var command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({data?.answer_a},{data?.answer_b},'{data?.question}')";
                 using (SqlCommand cmd = new SqlCommand(command, conn))
                 {
                     int exeTask = await cmd.ExecuteNonQueryAsync();
