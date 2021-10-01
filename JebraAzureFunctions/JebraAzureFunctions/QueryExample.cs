@@ -27,7 +27,7 @@ namespace JebraAzureFunctions
             using (SqlConnection conn = new SqlConnection(str))
             {
                 conn.Open();
-                var text3 = "SELECT * FROM client";
+                var text3 = "SELECT * FROM app_user";
 
                 using (SqlCommand cmd = new SqlCommand(text3, conn))
                 {
@@ -35,12 +35,14 @@ namespace JebraAzureFunctions
                     SqlDataReader rows = await cmd.ExecuteReaderAsync();
                     while (rows.Read())
                     {
-                        responseMessage += $"Data: {rows.GetValue(1)}, {rows.GetValue(2)}";
+                        responseMessage += $"Data: {rows.GetValue(1)}, {rows.GetValue(2)} \n";
                     }
                 }
             }
 
             return new OkObjectResult(responseMessage);
+
         }
+
     }
 }
