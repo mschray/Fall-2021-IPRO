@@ -4,6 +4,7 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Data;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace JebraAzureFunctions
 {
@@ -15,17 +16,33 @@ namespace JebraAzureFunctions
         /// Prints to Visual Studio debug console.
         /// </summary>
         /// <param name="s">String to print.</param>
-        public static void printDebug(string s)
+        public static void PrintDebug(string s)
         {
             System.Diagnostics.Debug.WriteLine(s);
         }
-        public static String sqlDatoToJson(SqlDataReader dataReader)
+        public static String SqlDatoToJson(SqlDataReader dataReader)
         {
             var dataTable = new DataTable();
             dataTable.Load(dataReader);
             string JSONString = string.Empty;
             JSONString = JsonConvert.SerializeObject(dataTable);
             return JSONString;
+        }
+
+        public static async Task<bool> ExecuteNonQueryAsync(string command)
+        {
+            //Run SQL Delete
+            var str = Environment.GetEnvironmentVariable("SqlConnectionString");
+            using (SqlConnection conn = new SqlConnection(str))
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = new SqlCommand(command, conn))
+                {
+                    int exeTask = await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            return true;
         }
     }
 }

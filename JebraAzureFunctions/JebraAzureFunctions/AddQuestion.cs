@@ -35,17 +35,7 @@ namespace JebraAzureFunctions
             //int x = data?.answer_a;
 
             //Run SQL Insert
-            var str = Environment.GetEnvironmentVariable("SqlConnectionString");
-            using (SqlConnection conn = new SqlConnection(str))
-            {
-                conn.Open();
-
-                var command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({data?.answer_a},{data?.answer_b},'{data?.question}')";
-                using (SqlCommand cmd = new SqlCommand(command, conn))
-                {
-                    int exeTask = await cmd.ExecuteNonQueryAsync();
-                }
-            }
+            Tools.ExecuteNonQueryAsync($"INSERT INTO question(answer_a, answer_b, question) VALUES({data?.answer_a},{data?.answer_b},'{data?.question}')");
 
             return new OkObjectResult($"Question insert requested with following parameters: \n {requestBody}");
         }

@@ -35,17 +35,7 @@ namespace JebraAzureFunctions
             id = id ?? data?.id;
 
             //Run SQL Delete
-            var str = Environment.GetEnvironmentVariable("SqlConnectionString");
-            using (SqlConnection conn = new SqlConnection(str))
-            {
-                conn.Open();
-
-                var command = $"DELETE FROM question WHERE id={id}";
-                using (SqlCommand cmd = new SqlCommand(command, conn))
-                {
-                    int exeTask = await cmd.ExecuteNonQueryAsync();
-                }
-            }
+            Tools.ExecuteNonQueryAsync($"DELETE FROM question WHERE id={id}");
 
             string responseMessage = $"A request to delete the question with id {id} has been sent.";
 
