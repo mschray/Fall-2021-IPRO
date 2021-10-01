@@ -46,7 +46,7 @@ namespace JebraAzureFunctions
                 using (SqlCommand cmd = new SqlCommand(command, conn))
                 {
                     SqlDataReader rows = await cmd.ExecuteReaderAsync();
-                    responseMessage = Tools.sqlDatoToJson(rows);//Convert object to JSON.
+                    responseMessage = Tools.SqlDatoToJson(rows);//Convert object to JSON.
                 }
             }
             return new OkObjectResult(responseMessage);
