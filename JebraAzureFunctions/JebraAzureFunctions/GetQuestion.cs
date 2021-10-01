@@ -41,7 +41,6 @@ namespace JebraAzureFunctions
             using (SqlConnection conn = new SqlConnection(str))
             {
                 conn.Open();
-                System.Diagnostics.Debug.WriteLine($"id from body = {id}");
                 var command = $"SELECT * FROM question WHERE id={id}";
 
                 using (SqlCommand cmd = new SqlCommand(command, conn))
