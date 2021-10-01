@@ -31,7 +31,6 @@ namespace JebraAzureFunctions
 
         public static async Task<bool> ExecuteNonQueryAsync(string command)
         {
-            //Run SQL Delete
             var str = Environment.GetEnvironmentVariable("SqlConnectionString");
             using (SqlConnection conn = new SqlConnection(str))
             {
