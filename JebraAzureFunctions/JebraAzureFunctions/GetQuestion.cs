@@ -29,7 +29,7 @@ namespace JebraAzureFunctions
             //log.LogInformation("C# HTTP trigger function processed a request.");
             //Console.WriteLine("GetQuestion Called!");
 
-            string id = req.Query["id"];//Tbh, idk what this does.
+            string id = req.Query["id"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
