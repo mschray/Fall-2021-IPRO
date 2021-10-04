@@ -27,7 +27,7 @@ namespace JebraAzureFunctions
             ILogger log)
         {
             //log.LogInformation("C# HTTP trigger function processed a request.");
-            Console.WriteLine("GetQuestion Called!");
+            //Console.WriteLine("GetQuestion Called!");
 
             string id = req.Query["id"];//Tbh, idk what this does.
 
