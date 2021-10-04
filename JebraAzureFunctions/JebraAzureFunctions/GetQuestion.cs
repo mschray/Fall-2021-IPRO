@@ -37,6 +37,11 @@ namespace JebraAzureFunctions
 
             string responseMessage = "";
 
+            //I've tried so hard to make this into a method in another class (Tools)
+            //which could be easily called in a more clean/elegant way.
+            //I just can't get the async/await stuff to work properly.
+            //I spent an entire day on this. It's driving me insane!
+            //-Dan Tiberi 10/3/2021 10:11pm. Send help... :(
             var str = Environment.GetEnvironmentVariable("SqlConnectionString");
             using (SqlConnection conn = new SqlConnection(str))
             {
