@@ -1,8 +1,23 @@
 import React from "react";
 
 const Login: React.FC = () => {
+    const handleSubmit = (event: { preventDefault: () => void; }) => {
+        alert('Login Successfully.')
+      }
     return (
-        <h3>Login</h3>
+         <div className="wrapper">
+             <h1>Login</h1>
+             <form onSubmit={handleSubmit}>
+                 <label>
+                     <p>Email</p>
+                     <input type="email" name="email" />
+                     <p>Password</p>
+                     <input type="password" name="password" />
+                 </label>
+                 <p></p>
+                 <button type="submit">Login</button>
+             </form>
+         </div>
     );
 };
 
