@@ -22,7 +22,7 @@ namespace JebraAzureFunctions
     public static class PublishStatisticForStage
     {
         [FunctionName("PublishStatisticForStage")]
-        [OpenApiOperation(operationId: "Run", tags: new[] { "name" })]
+        [OpenApiOperation(operationId: "Run", tags: new[] { "Statistic Requests" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiRequestBodyAttribute(contentType: "string", bodyType: typeof(PublishStatisticModel))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
