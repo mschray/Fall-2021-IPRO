@@ -18,7 +18,7 @@ namespace JebraAzureFunctions.Models
         [JsonProperty]
         public int inflicted_hp { get; set; }
         [JsonProperty]
-        public bool was_correct { get; set; }
+        public int was_correct { get; set; }
         [JsonProperty]
         public string event_time { get; set; }
     }
