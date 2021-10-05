@@ -36,12 +36,12 @@ namespace JebraAzureFunctions
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             //name = name ?? data?.name;
 
-            Tools.ExecuteNonQueryAsync("ALTER TABLE [dbo].[statistic_join] NOCHECK CONSTRAINT user_id_fk_on_statistic_join");
-            Tools.ExecuteNonQueryAsync("ALTER TABLE [dbo].[statistic_join] NOCHECK CONSTRAINT course_id_fk_on_statistic_join");
-            Tools.ExecuteNonQueryAsync("ALTER TABLE [dbo].[statistic_join] NOCHECK CONSTRAINT stage_id_fk_on_statistic_join");
-            Tools.ExecuteNonQueryAsync("ALTER TABLE [dbo].[statistic_join] NOCHECK CONSTRAINT statistic_id_fk_on_statistic_join");
-
             string command = $@"
+                ALTER TABLE [dbo].[statistic_join] CHECK CONSTRAINT user_id_fk_on_statistic_join
+                ALTER TABLE [dbo].[statistic_join] NOCHECK CONSTRAINT course_id_fk_on_statistic_join
+                ALTER TABLE [dbo].[statistic_join] NOCHECK CONSTRAINT stage_id_fk_on_statistic_join
+                ALTER TABLE [dbo].[statistic_join] NOCHECK CONSTRAINT statistic_id_fk_on_statistic_join
+    
                 IF NOT EXISTS ( SELECT user_id FROM statistic_join 
                     WHERE statistic_join.user_id = {data?.user_id} )
                 BEGIN
@@ -60,13 +60,14 @@ namespace JebraAzureFunctions
                         AND statistic_join.stage_id = {data?.stage_id} 
                         AND statistic_join.course_id = {data?.course_id} 
                         AND statistic.id = statistic_join.statistic_id
-                END                  
+                END   
+
+                ALTER TABLE [dbo].[statistic_join] CHECK CONSTRAINT statistic_id_fk_on_statistic_join
+                ALTER TABLE [dbo].[statistic_join] CHECK CONSTRAINT stage_id_fk_on_statistic_join
+                ALTER TABLE [dbo].[statistic_join] CHECK CONSTRAINT course_id_fk_on_statistic_join
+                ALTER TABLE [dbo].[statistic_join] CHECK CONSTRAINT user_id_fk_on_statistic_join
             ";
             await Tools.ExecuteNonQueryAsync(command);
-            Tools.ExecuteNonQueryAsync("ALTER TABLE [dbo].[statistic_join] CHECK CONSTRAINT statistic_id_fk_on_statistic_join");
-            Tools.ExecuteNonQueryAsync("ALTER TABLE [dbo].[statistic_join] CHECK CONSTRAINT stage_id_fk_on_statistic_join");
-            Tools.ExecuteNonQueryAsync("ALTER TABLE [dbo].[statistic_join] CHECK CONSTRAINT course_id_fk_on_statistic_join");
-            Tools.ExecuteNonQueryAsync("ALTER TABLE [dbo].[statistic_join] CHECK CONSTRAINT user_id_fk_on_statistic_join");
 
             //INSERT INTO statistic_join VALUES({data?.user_id},{data?.course_id},{data?.stage_id},{data?.})
             string responseMessage = "Request Sent";
