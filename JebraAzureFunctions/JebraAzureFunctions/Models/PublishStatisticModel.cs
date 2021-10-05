@@ -18,6 +18,6 @@ namespace JebraAzureFunctions.Models
         [JsonProperty]
         public int total_retries { get; set; }
         [JsonProperty]
-        public int score { get; set; }
+        public float score { get; set; }
     }
 }
