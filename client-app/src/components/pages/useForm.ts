@@ -1,12 +1,14 @@
 import { useState } from "react";
 
-// useForm functional componen
-export const useForm = (callback: any, initialState = {}) => {
-    const [values, setValues] = useState(initialState);
+type FormChangeCallback = (event: React.ChangeEvent<HTMLInputElement>) => void;
+type FormSubmitCallback = (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
+
+const useForm = function<StateType>(callback: () => Promise<void>, initialState: StateType): [StateType, FormChangeCallback, FormSubmitCallback] {
+    const [formState, setFormState] = useState(initialState);
 
     // onChange
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues({ ...values, [event.target.name]: event.target.value });
+        setFormState(formState => ({ ...formState, [event.target.name]: event.target.value }));
     };
 
     // onSubmit
@@ -16,9 +18,12 @@ export const useForm = (callback: any, initialState = {}) => {
     };
 
     // return values
-    return {
+    return [
+        formState,
         onChange,
-        onSubmit,
-        values,
-    };
+        onSubmit
+    ];
 }
+
+// useForm hook
+export default useForm;

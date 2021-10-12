@@ -1,9 +1,17 @@
-import React, {useState} from "react";
+import React from "react";
 
-import { useForm } from "./useForm";
+import useForm from "./useForm";
+
+interface SignupFormState {
+    fname: string,
+    lname: string,
+    email: string,
+    username: string,
+    password: string,
+};
 
 const Signup: React.FC = () => {
-    const initialState = {
+    const initialState: SignupFormState = {
         fname: "",
         lname: "",
         email: "",
@@ -11,53 +19,48 @@ const Signup: React.FC = () => {
         password: "",
     };
 
-    // getting the event handlers from our custom hook
-    const { onSubmit, values } = useForm(
-        loginUserCallback,
-        initialState
-    );
-
     // a submit function that will execute upon form submission
-    async function loginUserCallback() {
+    async function signupUserCallback() {
         // send "values" to database
         alert('You have submitted the form.')
     }
 
+    // getting the event handlers from our custom hook
+    const [formState, onFormChange, onFormSubmit] = useForm(
+        signupUserCallback,
+        initialState
+    );
+
     return (
         <div>
             <h3>Sign up</h3>
-            <form onSubmit = {onSubmit}>
-                <div>
-                {/* <fieldset> */}
-                    <label>
-                        <p>First Name</p>
-                        <input name="fname" placeholder="First name" type="text"/>
-                    </label>
-
-                    <label>
-                        <p>Last Name</p>
-                        <input name="lname" placeholder="Last name" type = "text"/>
-                    </label>
-
-                    <label>
-                        <p>Email</p>
-                        <input name="email" placeholder="Email" type = "email"/>
-                    </label>
-
-                    <label>
-                        <p>Username</p>
-                        <input name="username" placeholder="Username"/>
-                    </label>
-
-                    <label>
-                        <p>Password</p>
-                        <input name="password" placeholder="Password" type = "password"/>
-                    </label>
-        {/*    </fieldset> */}
-                    <div>
-                        <button type="submit">Submit</button>
-                    </div>
-                </div>
+            <form onSubmit={onFormSubmit}>
+                <label>
+                    First Name: 
+                    <input name="fname" value={formState.fname} placeholder="First name" type="text" onChange={onFormChange} />
+                </label>
+                <br/>
+                <label>
+                    Last Name: 
+                    <input name="lname" value={formState.lname} placeholder="Last name" type = "text" onChange={onFormChange} />
+                </label>
+                <br/>
+                <label>
+                    Email: 
+                    <input name="email" value={formState.email} placeholder="Email" type = "email" onChange={onFormChange} />
+                </label>
+                <br/>
+                <label>
+                    Username: 
+                    <input name="username" value={formState.username} placeholder="Username" onChange={onFormChange} />
+                </label>
+                <br/>
+                <label>
+                    Password: 
+                    <input name="password" value={formState.password} placeholder="Password" type = "password" onChange={onFormChange} />
+                </label>
+                <br/>
+                <input type="submit" value="Submit" />
             </form>
         </div>
     );
