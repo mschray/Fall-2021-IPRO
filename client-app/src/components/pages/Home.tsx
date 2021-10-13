@@ -1,8 +1,12 @@
+import Question from "components/Question";
 import React from "react";
 
 const Home: React.FC = () => {
     return (
-        <h3>Home</h3>
+        <div>
+            <h3>Home</h3>
+            <Question id={84} />
+        </div>
     );
 };
 
