@@ -1,6 +1,6 @@
 import React from "react";
 
-import useForm from "./useForm";
+import useForm from "hooks/useForm";
 
 interface LoginFormState {
     email: string,

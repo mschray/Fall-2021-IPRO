@@ -1,6 +1,6 @@
 import React from "react";
 
-import useForm from "./useForm";
+import useForm from "hooks/useForm";
 
 interface SignupFormState {
     fname: string,
@@ -42,22 +42,22 @@ const Signup: React.FC = () => {
                 <br/>
                 <label>
                     Last Name: 
-                    <input name="lname" value={formState.lname} placeholder="Last name" type = "text" onChange={onFormChange} />
+                    <input name="lname" value={formState.lname} placeholder="Last name" type="text" onChange={onFormChange} />
                 </label>
                 <br/>
                 <label>
                     Email: 
-                    <input name="email" value={formState.email} placeholder="Email" type = "email" onChange={onFormChange} />
+                    <input name="email" value={formState.email} placeholder="Email" type="email" onChange={onFormChange} />
                 </label>
                 <br/>
                 <label>
                     Username: 
-                    <input name="username" value={formState.username} placeholder="Username" onChange={onFormChange} />
+                    <input name="username" value={formState.username} placeholder="Username" type="text" onChange={onFormChange} />
                 </label>
                 <br/>
                 <label>
                     Password: 
-                    <input name="password" value={formState.password} placeholder="Password" type = "password" onChange={onFormChange} />
+                    <input name="password" value={formState.password} placeholder="Password" type="password" onChange={onFormChange} />
                 </label>
                 <br/>
                 <input type="submit" value="Submit" />
