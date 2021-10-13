@@ -21,7 +21,7 @@ namespace JebraAzureFunctions
         [FunctionName("GenerateTestingQuestions")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "Development Requests" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
-        [OpenApiParameter(name: "number", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Number of questions to generate.")]
+        [OpenApiParameter(name: "amount", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Number of questions to generate.")]
         [OpenApiParameter(name: "type", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Type of questions to generate.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         public static async Task<IActionResult> Run(
@@ -29,23 +29,58 @@ namespace JebraAzureFunctions
             ILogger log)
         {
 
-            string amountS = req.Query["number"];
-            string typeS = req.Query["type"];
+            string amountS = req.Query["amount"];
+            string type = req.Query["type"];
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-
-            amountS = amountS ?? data?.number;
             int amount = int.Parse(amountS);
 
-            typeS = typeS ?? data?.number;
-            string type = typeS;
+            int subjectId = -1;
 
-            Tools.ExecuteNonQueryAsync(amount, type);
+            /*
+            var str = Environment.GetEnvironmentVariable("SqlConnectionString");
+            using (SqlConnection conn = new SqlConnection(str))
+            {
+                conn.Open();
+                var command = $"SELECT id FROM subject WHERE subject_name='{type}'";
 
-            string responseMessage = $"A request to add {amount} questions of {type} type for development testing has been sent.";
+                using (SqlCommand cmd = new SqlCommand(command, conn))
+                {
+                    SqlDataReader rows = await cmd.ExecuteReaderAsync();
+                    //subjectId = int.Parse(Tools.SqlDatoToJson(rows));//Convert object to JSON.
+                    //Console.WriteLine(Tools.SqlDatoToJson(rows)); //[{"id":2}]
 
-            return new OkObjectResult(responseMessage);
+                    subjectId = int.Parse(rows.GetValue(0).ToString());
+                }
+            }
+            */
+
+            string command = "";
+            switch (type)
+            {
+                case "Simplify Exponents":
+                    subjectId = 2;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        QuestionModel question = Tools.SimplifyExponents();
+                        command += $"INSERT INTO question VALUES({question.answer_a}, null, '{question.question}', {subjectId}) \n";
+                    }
+                    break;
+                case "Simplify Square Roots":
+                    subjectId = 4;
+                    for (int i = 0; i < amount; i++)
+                    {
+                        QuestionModel question = Tools.SimplifySquareRoots();
+                        command += $"INSERT INTO question VALUES({question.answer_a}, {question.answer_b}, '{question.question}', {subjectId}) \n";
+                    }
+                    break;
+                default:
+                    // code block
+                    break;
+            }
+
+            Tools.ExecuteNonQueryAsync(command);
+
+            return new OkObjectResult("Request to add questions sent.");
         }
             
     }

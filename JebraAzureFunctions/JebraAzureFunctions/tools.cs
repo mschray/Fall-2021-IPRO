@@ -55,237 +55,208 @@ namespace JebraAzureFunctions
             return true;
         }
 
-        List<QuestionModel> questionList = new List<QuestionModel>();
-        
-        string questionOut;
-        for (int h = 0; h < questionList.size; i++) {
-                questionOut = 
-            }
-        string command = "";
-
-    INSERT INTO question(answer_a, answer_b, question) VALUES({factorial},null,'{num}!')
-
-        //ex: 4^2 = 16
-        private static async Task SimplifyExponents1(int amount)
+        /// <summary>
+        /// ex: 4^2 = 16
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
+        public static QuestionModel SimplifyExponents()
         {
-            for (int i = 0; i < amount; i++)
-            {
-                Random r = new Random();
-                int num = r.Next(1, 10);
-                int square = num ^ 2;
+            Random r = new Random();
+            int num = r.Next(1, 10);
+            //int square = num ^ 2;
+            int square = num * num;
 
-                QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = square;
-                questionModel.question = num + "^2";
-                questionList.Add(questionModel);
-            }
+            QuestionModel questionModel = new QuestionModel();
+            questionModel.answer_a = square;
+            questionModel.question = num + "^2";
+            return questionModel;
         }
 
+        //Result = Math.Pow(Number1, Number2);
+
         //ex: 4^4 = 256
-        private static async Task SimplifyExponents2(int amount)
+        public static QuestionModel SimplifyExponents2()
         {
-            for (int i = 0; i < amount; i++)
-            {
-                Random r = new Random();
-                int num = r.Next(1, 5);
-                int exp = r.Next(1, 5);
-                int exponential = num ^ exp;
+            Random r = new Random();
+            int num = r.Next(1, 5);
+            int exp = r.Next(1, 5);
+            int exponential = (int)Math.Pow(num, exp);
 
-                QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = exponential;
-                questionModel.question = num + "^" + exp;
-                questionList.Add(questionModel);
-            }
-
+            QuestionModel questionModel = new QuestionModel();
+            questionModel.answer_a = exponential;
+            questionModel.question = num + "^" + exp;
+            return questionModel;
         }
 
         //ex: sqrt(16) = 4
-        private static async Task SimplifySquareRoots(int amount)
+        public static QuestionModel SimplifySquareRoots()
         {
-            for (int i = 0; i < amount; i++)
-            {
-                Random r = new Random();
-                int num = r.Next(1, 10);
-                int square = num ^ 2;
+            Random r = new Random();
+            int num = r.Next(1, 10);
+            int square = num * num;
 
-                QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = num;
-                questionModel.question = "sqrt(" + square + ")";
-                questionList.Add(questionModel);
-        }
-
+            QuestionModel questionModel = new QuestionModel();
+            questionModel.answer_a = num;
+            questionModel.answer_b = 0 - num;
+            questionModel.question = "sqrt(" + square + ")";
+            return questionModel;
         }
 
         //ex: 4! = 24
-        private static async Task Factorials(int amount)
+        public static QuestionModel Factorials()
         {
-            for (int i = 0; i < amount; i++)
+            Random r = new Random();
+            int num = r.Next(1, 6);
+            int factorial = 1;
+
+            for (int j = 1; j <= num; j++)
             {
-                Random r = new Random();
-                int num = r.Next(1, 6);
-                int factorial = 1;
-
-                for (int j = 1; j <= num; j++)
-                {
-                    factorial = j * factorial;
-                }
-
-                //string command = "";
-                //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({factorial},null,'{num}!')";
-
-                QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = factorial;
-                questionModel.question = num + "!";
-                questionList.Add(questionModel);
+                factorial = j * factorial;
             }
 
+            //string command = "";
+            //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({factorial},null,'{num}!')";
+
+            QuestionModel questionModel = new QuestionModel();
+            questionModel.answer_a = factorial;
+            questionModel.question = num + "!";
+            return questionModel;
         }
 
         //ex: (-2,3) is in quadrant II
-        private static async Task CartesianCoordinates(int amount)
+        public static QuestionModel CartesianCoordinates()
         {
-            for (int i = 0; i < amount; i++)
+            Random r = new Random();
+            int x = r.Next(-10, -11);
+            int y = r.Next(-10, -11);
+
+            while (x == 0 || y == 0)
             {
-                Random r = new Random();
-                int x = r.Next(-10, -11);
-                int y = r.Next(-10, -11);
+                x = r.Next(-10, -11);
+                y = r.Next(-10, -11);
+            }
 
-                while (x == 0 || y == 0)
-                {
-                    x = r.Next(-10, -11);
-                    y = r.Next(-10, -11);
-                }
-
-                if (x > 0 && y > 0)
-                {
-                    QuestionModel questionModel = new QuestionModel();
-                    questionModel.answer_a = 1;
-                    questionModel.question = "(" + x + "," + y + ")";
-                    questionList.Add(questionModel);
-                }
-                else if (x < 0 && y > 0)
-                {
-                    QuestionModel questionModel = new QuestionModel();
-                    questionModel.answer_a = 2;
-                    questionModel.question = "(" + x + "," + y + ")";
-                    questionList.Add(questionModel);
-                }
-                else if (x < 0 && y < 0)
-                {
-                    QuestionModel questionModel = new QuestionModel();
-                    questionModel.answer_a = 3;
-                    questionModel.question = "(" + x + "," + y + ")";
-                    questionList.Add(questionModel);
-                }
-                else if (x > 0 && y < 0)
-                {
-                    QuestionModel questionModel = new QuestionModel();
-                    questionModel.answer_a = 4;
-                    questionModel.question = "(" + x + "," + y + ")";
-                    questionList.Add(questionModel);
-                }
-
+            if (x > 0 && y > 0)
+            {
+                QuestionModel questionModel = new QuestionModel();
+                questionModel.answer_a = 1;
+                questionModel.question = "(" + x + "," + y + ")";
+                return questionModel;
+            }
+            else if (x < 0 && y > 0)
+            {
+                QuestionModel questionModel = new QuestionModel();
+                questionModel.answer_a = 2;
+                questionModel.question = "(" + x + "," + y + ")";
+                return questionModel;
+            }
+            else if (x < 0 && y < 0)
+            {
+                QuestionModel questionModel = new QuestionModel();
+                questionModel.answer_a = 3;
+                questionModel.question = "(" + x + "," + y + ")";
+                return questionModel;
+            }
+            else
+            {
+                QuestionModel questionModel = new QuestionModel();
+                questionModel.answer_a = 4;
+                questionModel.question = "(" + x + "," + y + ")";
+                return questionModel;
             }
 
         }
 
         //ex: 3x - 5 = 10 -> x = 5
-        private static async Task SingleVariable(int amount)
+        public static QuestionModel SingleVariable()
         {
             Random r = new Random();
-            for (int i = 0; i < amount; i++)
+            //factor * x + sumNum = eNum
+            int eNum = 0;
+            int sumNum = 0;
+            List<int> possibleFactors = new List<int>();
+            while (possibleFactors.Count < 1)
             {
-                //factor * x + sumNum = eNum
-                int eNum = 0;
-                int sumNum = 0;
-                List<int> possibleFactors = new List<int>();
-                while (possibleFactors.Count < 1)
+                eNum = r.Next(0, 200);
+                sumNum = r.Next(-100, 100);
+
+                int n = eNum - sumNum;
+
+                for (int j = 1; j <= n; j++)//Get all round divisors and randomly pick one to be what x gets multiplied by.
                 {
-                    eNum = r.Next(0, 200);
-                    sumNum = r.Next(-100, 100);
-
-                    int n = eNum - sumNum;
-
-                    for (int j = 1; j <= n; j++)//Get all round divisors and randomly pick one to be what x gets multiplied by.
+                    if (n % j == 0)
                     {
-                        if (n % j == 0)
-                        {
-                            possibleFactors.Add(j);
-                        }
+                        possibleFactors.Add(j);
                     }
                 }
+            }
 
-                int factor = possibleFactors[r.Next(0, possibleFactors.Count - 1)];
-                int x = (eNum - sumNum) / factor;
+            int factor = possibleFactors[r.Next(0, possibleFactors.Count - 1)];
+            int x = (eNum - sumNum) / factor;
 
-                if (sumNum < 0)
-                {
-                    int sumNumB = sumNum * -1;
-                    QuestionModel questionModel = new QuestionModel();
-                    questionModel.answer_a = x;
-                    questionModel.question = factor + x + "-" + sumNumB + "=" +eNum;
-                    questionList.Add(questionModel);
-                }
-                else
-                {
-                    QuestionModel questionModel = new QuestionModel();
-                    questionModel.answer_a = x;
-                    questionModel.question = factor + x + "+" + sumNum + "=" + eNum;
-                    questionList.Add(questionModel);
-                }
-
+            if (sumNum < 0)
+            {
+                int sumNumB = sumNum * -1;
+                QuestionModel questionModel = new QuestionModel();
+                questionModel.answer_a = x;
+                questionModel.question = factor + x + "-" + sumNumB + "=" + eNum;
+                return questionModel;
+            }
+            else
+            {
+                QuestionModel questionModel = new QuestionModel();
+                questionModel.answer_a = x;
+                questionModel.question = factor + x + "+" + sumNum + "=" + eNum;
+                return questionModel;
             }
         }
 
         //ex: x + 4 = 3x - 6 -> x = 5
-        private static async Task SystemOfEquations(int amount)
+        public static QuestionModel SystemOfEquations()
         {
             Random r = new Random();
-            for (int i = 0; i < amount; i++)
+            int eNum = 0;
+            int sumNum = 0;
+            List<int> possibleFactors = new List<int>();
+            while (possibleFactors.Count < 1)
             {
-                int eNum = 0;
-                int sumNum = 0;
-                List<int> possibleFactors = new List<int>();
-                while (possibleFactors.Count < 1)
+                eNum = r.Next(0, 200);
+                sumNum = r.Next(-100, 100);
+
+                int n = eNum - sumNum;
+
+                for (int j = 1; j <= n; j++)//Get all round divisors and randomly pick one to be what x gets multiplied by.
                 {
-                    eNum = r.Next(0, 200);
-                    sumNum = r.Next(-100, 100);
-
-                    int n = eNum - sumNum;
-
-                    for (int j = 1; j <= n; j++)//Get all round divisors and randomly pick one to be what x gets multiplied by.
+                    if (n % j == 0)
                     {
-                        if (n % j == 0)
-                        {
-                            possibleFactors.Add(j);
-                        }
+                        possibleFactors.Add(j);
                     }
                 }
+            }
 
-                int factor = possibleFactors[r.Next(0, possibleFactors.Count - 1)];
-                int x = (eNum - sumNum) / factor;
+            int factor = possibleFactors[r.Next(0, possibleFactors.Count - 1)];
+            int x = (eNum - sumNum) / factor;
 
-                int factor1 = factor - r.Next(1, factor);
-                int factor2 = factor - factor1;
+            int factor1 = factor - r.Next(1, factor);
+            int factor2 = factor - factor1;
 
 
-                if (sumNum < 0)
-                {
-                    int sumNumB = sumNum * -1;
-                    QuestionModel questionModel = new QuestionModel();
-                    questionModel.answer_a = x;
-                    questionModel.question = factor + x + "-" + sumNum + "=" + factor2 + x + "+" + eNum;
-                    questionList.Add(questionModel);
-                    //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor1}x - {sumNum} = {factor2}x + {eNum}')";
-                }
-                else
-                {
-                    QuestionModel questionModel = new QuestionModel();
-                    questionModel.answer_a = x;
-                    questionModel.question = factor + x + "+" + sumNum + "=" + factor2 + x + "+" + eNum;
-                    questionList.Add(questionModel);
-                    //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor1}x + {sumNum} = {factor2}x + {eNum}')";
-                }
+            if (sumNum < 0)
+            {
+                int sumNumB = sumNum * -1;
+                QuestionModel questionModel = new QuestionModel();
+                questionModel.answer_a = x;
+                questionModel.question = factor + x + "-" + sumNum + "=" + factor2 + x + "+" + eNum;
+                return questionModel;
+                //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor1}x - {sumNum} = {factor2}x + {eNum}')";
+            }
+            else
+            {
+                QuestionModel questionModel = new QuestionModel();
+                questionModel.answer_a = x;
+                questionModel.question = factor + x + "+" + sumNum + "=" + factor2 + x + "+" + eNum;
+                return questionModel;
+                //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor1}x + {sumNum} = {factor2}x + {eNum}')";
             }
         }
 

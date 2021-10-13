@@ -46,7 +46,7 @@ namespace JebraAzureFunctions
             using (SqlConnection conn = new SqlConnection(str))
             {
                 conn.Open();
-                var command = $"SELECT * FROM question WHERE id={id}";
+                var command = $"SELECT question.id, question.answer_a, question.answer_b, question.question, subject.subject_name FROM question, subject WHERE question.id={id} AND subject.id = question.subject_id";
 
                 using (SqlCommand cmd = new SqlCommand(command, conn))
                 {
