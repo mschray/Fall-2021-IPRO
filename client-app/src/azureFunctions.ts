@@ -4,6 +4,8 @@ const azureFunctions = {
     GenerateTestingQuestions: "https://jebrafunctions.azurewebsites.net/api/GenerateTestingQuestions?code=lnw959e/IjlDWfcKzGiSarmNE4CQE4oNSjIyzzgZbKacqghoyQVbYQ==",
     GetAllQuestions: "https://jebrafunctions.azurewebsites.net/api/GetAllQuestions?code=SpE3YBRP8mI3O3gy0/jLVOEaLTbUphO3Ck4qPimW3sOk9gnnsN8hMg==",
     GetQuestion: "https://jebrafunctions.azurewebsites.net/api/GetQuestion?code=KoWO/aWjlpHbXBep0eePd39TA1uwcTXjYQxMIOaHDgrTwTKkBT3S2g==",
+    GetQuestionsBySubject: "https://jebrafunctions.azurewebsites.net/api/GetQuestionsBySubject?code=vNXyD4YCpneREaAqsgLXwhieE9G5BtsvpgNlQKbyehenaMmhlubBkg==",
+    GetSubjects: "https://jebrafunctions.azurewebsites.net/api/GetSubjects?code=3v6zECfqJMxl03FWkumi47hZcebRG1He3xrDcro0nK9RRVnoG19IAg==",
     GetStatistics: "https://jebrafunctions.azurewebsites.net/api/GetStatisticcs?code=ja3S6YrfmhFTYj/2/5Fv0oBTql40MTtXf6alYSyA6Ny1kxCPab4ZJg==",
     GetUser: "https://jebrafunctions.azurewebsites.net/api/GetUser?code=KTR86aCSyCac6BXkKb9ldo3hSt/5lYPNurnXMBjgAdG0gak4u0gNFw==",
     PublishStatisticForStage: "https://jebrafunctions.azurewebsites.net/api/PublishStatisticForStage?code=2vdm6tw60sMRJ5lkl5W/zbBaUN/hXQaQGuRuMGoZ3yaz52thBH8GRw==",

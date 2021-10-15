@@ -1,4 +1,3 @@
-import Question from "components/Question";
 import React from "react";
 
 const Home: React.FC = () => {
