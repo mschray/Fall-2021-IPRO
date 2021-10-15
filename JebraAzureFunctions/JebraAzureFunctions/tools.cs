@@ -56,6 +56,36 @@ namespace JebraAzureFunctions
         }
 
         /// <summary>
+        /// Executes a query on the remote database.
+        /// To retrieve the result, you must do .GetAwaiter().GetResult();
+        /// See below example from the GetQuestion function.
+        /// EX: responseMessage = Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult();
+        /// </summary>
+        /// <param name="command">Command to be executed.</param>
+        /// <returns>A json string representing the query result.</returns>
+        public static async Task<string> ExecuteQueryAsync(string command)
+        {
+            var str = Environment.GetEnvironmentVariable("SqlConnectionString");
+            using (SqlConnection conn = new SqlConnection(str))
+            {
+                await conn.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand(command, conn))
+                {
+                    Task<SqlDataReader> task = cmd.ExecuteReaderAsync();
+
+                    SqlDataReader rows = task.GetAwaiter().GetResult();
+
+                    string res = SqlDatoToJson(rows);
+
+                    await rows.DisposeAsync();//Cleanup
+                    await conn.CloseAsync();
+                    return res;
+                }
+            }
+        }
+
+        /// <summary>
         /// ex: 4^2 = 16
         /// </summary>
         /// <returns>A QuestionModel</returns>
