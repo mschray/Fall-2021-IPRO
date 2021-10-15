@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import azureFunctions from "azureFunctions";
+import useForm from "hooks/useForm";
 
 // Properties for the Question React component
 interface QuestionProperties {
@@ -57,9 +58,36 @@ interface FetchQuestionInProgress {
 // Full type for the fetched question result state
 type FetchQuestionResult = FetchQuestionSuccess | FetchQuestionFailure | FetchQuestionInProgress;
 
+// Interface for answer form
+interface AnswerFormState {
+    answer: string
+}
+
 const Question: React.FC<QuestionProperties> = (props) => {
     // Create a stateful variable fetchResult of type FetchQuestionResult, with default value as FetchQuestionInProgress (it hasn't fetched the question yet!)
     const [fetchResult, setFetchResult] = useState<FetchQuestionResult>({status: FetchQuestionStatus.InProgress});
+    
+    const initialState: AnswerFormState = {
+        answer: ""
+    }
+
+    // a submit function that will execute upon form submission
+    async function submitAnswerCallback(state: AnswerFormState) {
+        if (fetchResult.status === FetchQuestionStatus.Success) {
+            if (parseInt(state.answer) === fetchResult.payload.answer_a) {
+                alert("Bingo!");
+            } else {
+                alert("Wrong!");
+            }
+        } else {
+            alert("Question isn't determined yet");
+        }
+    }
+    
+    const [formState, onFormChange, onFormSubmit] = useForm(
+        submitAnswerCallback,
+        initialState
+    );
 
     // Fetch the question data using an effect
     useEffect(() => {
@@ -92,14 +120,14 @@ const Question: React.FC<QuestionProperties> = (props) => {
         return (
             <div>
                 <p>Solve: {payload.question}</p>
-                <p>
-                    {
-                        (payload.answer_b === null)
-                            ? `Answer: ${payload.answer_a}`
-                            : `Answers: ${payload.answer_a}, ${payload.answer_b}`
-                    }
-                </p>
                 <p>Subject: {payload.subject_name}</p>
+                <form onSubmit={onFormSubmit}>
+                    <label>
+                        Enter answer: 
+                        <input name="answer" value={formState.answer} type="text" placeholder="Answer" onChange={onFormChange} />
+                        <input type="submit" />
+                    </label>
+                </form>
             </div>
         )
     } else if (fetchResult.status === FetchQuestionStatus.Failure) {
