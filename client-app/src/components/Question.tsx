@@ -13,7 +13,7 @@ interface QuestionData {
     answer_a: number,
     answer_b: number | null,
     question: string,
-    subject_id: number
+    subject_name: string
 }
 
 // Type guard for validating that data returned from the backend contains the expected fields
@@ -28,7 +28,7 @@ function isQuestionData(data: any): data is QuestionData {
         && typeof questionData.answer_a === "number"
         && (typeof questionData.answer_b === "number" || questionData.answer_b === null)
         && typeof questionData.question === "string"
-        && typeof questionData.subject_id === "number"
+        && typeof questionData.subject_name === "string"
 }
 
 // Different statuses for question fetch operation
@@ -54,7 +54,7 @@ interface FetchQuestionInProgress {
     status: FetchQuestionStatus.InProgress
 }
 
-// Complete type for the fetched question result state
+// Full type for the fetched question result state
 type FetchQuestionResult = FetchQuestionSuccess | FetchQuestionFailure | FetchQuestionInProgress;
 
 const Question: React.FC<QuestionProperties> = (props) => {
@@ -63,6 +63,8 @@ const Question: React.FC<QuestionProperties> = (props) => {
 
     // Fetch the question data using an effect
     useEffect(() => {
+        setFetchResult({status: FetchQuestionStatus.InProgress});
+
         const fetchData = async () => {
             var request = azureFunctions.GetQuestion + "&id=" + props.id;
             const response = await fetch(request);
@@ -97,6 +99,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
                             : `Answers: ${payload.answer_a}, ${payload.answer_b}`
                     }
                 </p>
+                <p>Subject: {payload.subject_name}</p>
             </div>
         )
     } else if (fetchResult.status === FetchQuestionStatus.Failure) {
