@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using JebraAzureFunctions.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -34,7 +35,6 @@ namespace JebraAzureFunctions
 
             int amount = int.Parse(amountS);
 
-            int subjectId = -1;
 
             /*
             var str = Environment.GetEnvironmentVariable("SqlConnectionString");
@@ -53,12 +53,17 @@ namespace JebraAzureFunctions
                 }
             }
             */
+            string subjectIdString = Tools.ExecuteQueryAsync($"SELECT id FROM subject WHERE subject_name='{type}'").GetAwaiter().GetResult();
+            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length-2);
+            //[{"id":2}]
+            dynamic data = JsonConvert.DeserializeObject(subjectIdString);
+            int subjectId = -1;
+            subjectId = data?.id;
 
             string command = "";
             switch (type)
             {
                 case "Simplify Exponents":
-                    subjectId = 2;
                     for (int i = 0; i < amount; i++)
                     {
                         QuestionModel question = Tools.SimplifyExponents();
@@ -66,7 +71,6 @@ namespace JebraAzureFunctions
                     }
                     break;
                 case "Simplify Square Roots":
-                    subjectId = 4;
                     for (int i = 0; i < amount; i++)
                     {
                         QuestionModel question = Tools.SimplifySquareRoots();
@@ -78,7 +82,7 @@ namespace JebraAzureFunctions
                     break;
             }
 
-            Tools.ExecuteNonQueryAsync(command);
+            //Tools.ExecuteNonQueryAsync(command);
 
             return new OkObjectResult("Request to add questions sent.");
         }
