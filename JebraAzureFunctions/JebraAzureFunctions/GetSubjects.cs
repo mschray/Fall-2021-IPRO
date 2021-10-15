@@ -25,28 +25,9 @@ namespace JebraAzureFunctions
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            //log.LogInformation("C# HTTP trigger function processed a request.");
-
-            //string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            //dynamic data = JsonConvert.DeserializeObject(requestBody);
-            //name = name ?? data?.name;
-
-            string responseMessage = "";
-
-            var str = Environment.GetEnvironmentVariable("SqlConnectionString");
-            using (SqlConnection conn = new SqlConnection(str))
-            {
-                conn.Open();
-
-                var command = $"SELECT * FROM subject";
-
-                using (SqlCommand cmd = new SqlCommand(command, conn))
-                {
-                    SqlDataReader rows = await cmd.ExecuteReaderAsync();
-
-                    responseMessage = Tools.SqlDatoToJson(rows);//Convert object to JSON.
-                }
-            }
+            
+            var command = "SELECT * FROM subject";
+            string responseMessage = Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult();
 
             return new OkObjectResult(responseMessage);
         }

@@ -34,22 +34,8 @@ namespace JebraAzureFunctions
             //dynamic data = JsonConvert.DeserializeObject(requestBody);
             //name = name ?? data?.name;
 
-            string responseMessage = "";
-
-            var str = Environment.GetEnvironmentVariable("SqlConnectionString");
-            using (SqlConnection conn = new SqlConnection(str))
-            {
-                conn.Open();
-
-                var command = $"SELECT question.id, question.answer_a, question.answer_b, question.question, subject.subject_name FROM question, subject WHERE question.subject_id = subject.id AND subject.subject_name = '{subject}'";
-
-                using (SqlCommand cmd = new SqlCommand(command, conn))
-                {
-                    SqlDataReader rows = await cmd.ExecuteReaderAsync();
-
-                    responseMessage = Tools.SqlDatoToJson(rows);//Convert object to JSON.
-                }
-            }
+            var command = $"SELECT question.id, question.answer_a, question.answer_b, question.question, subject.subject_name FROM question, subject WHERE question.subject_id = subject.id AND subject.subject_name = '{subject}'";
+            string responseMessage = Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult();
 
             return new OkObjectResult(responseMessage);
         }
