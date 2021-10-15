@@ -51,6 +51,8 @@ namespace JebraAzureFunctions
                 {
                     int exeTask = await cmd.ExecuteNonQueryAsync();
                 }
+
+                await conn.DisposeAsync();
             }
             return true;
         }
