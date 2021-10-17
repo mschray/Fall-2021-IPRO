@@ -54,8 +54,9 @@ namespace JebraAzureFunctions
             }
             */
             string subjectIdString = Tools.ExecuteQueryAsync($"SELECT id FROM subject WHERE subject_name='{type}'").GetAwaiter().GetResult();
-            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length-2);
             //[{"id":2}]
+            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length-2);
+            //{"id":2}
             dynamic data = JsonConvert.DeserializeObject(subjectIdString);
             int subjectId = -1;
             subjectId = data?.id;
