@@ -1,6 +1,6 @@
 import React from "react";
 
-import azureFunctions from "azureFunctions";
+import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 import useForm from "hooks/useForm";
 
@@ -19,8 +19,10 @@ interface AnswerFormState {
 
 const Question: React.FC<QuestionProperties> = (props) => {
     // Fetch the question data using the GetQuestion function
+    const url = new URL(getAzureFunctions().GetQuestion);
+    url.searchParams.append("id", props.id.toString());
     const fetchResult = useFetch(
-        azureFunctions.GetQuestion + "&id=" + props.id,
+        url.toString(),
         (data) => {
             // The Azure function should return the data as an array with one QuestionModel object inside it
             if (Array.isArray(data) && isQuestionModel(data[0])) {

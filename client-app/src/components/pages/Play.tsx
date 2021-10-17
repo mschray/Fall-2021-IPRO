@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import _ from "lodash";
 
-import azureFunctions from "azureFunctions";
+import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 
 import { isQuestionModel } from "models/QuestionModel";
 import { isSubjectModel } from "models/SubjectModel";
 import Question from "components/Question";
+import ProgressBar from "components/ProgressBar";
 
 const NQUESTIONS = 5;
 
 const SubjectSelector: React.FC<{callback: (name: string) => void}> = (props) => {
     // Fetch the subjects
     const fetchResult = useFetch(
-        azureFunctions.GetSubjects,
+        getAzureFunctions().GetSubjects,
         (data) => {
             // The Azure function should return the data as an array of SubjectModels
             if (Array.isArray(data) && data.every(isSubjectModel)) {
@@ -50,8 +51,10 @@ const SubjectSelector: React.FC<{callback: (name: string) => void}> = (props) =>
 
 const Game: React.FC<{subjectName: string}> = (props) => {
     // Fetch the questions
+    const url = new URL(getAzureFunctions().GetQuestionsBySubject);
+    url.searchParams.append("subject", props.subjectName);
     const fetchResult = useFetch(
-        azureFunctions.GetQuestionsBySubject + "&subject=" + encodeURIComponent(props.subjectName),
+        url.toString(),
         (data) => {
             // The Azure function should return the data as an array of QuestionModels
             if (Array.isArray(data) && data.every(isQuestionModel)) {
@@ -69,23 +72,26 @@ const Game: React.FC<{subjectName: string}> = (props) => {
         if (fetchResult.payload.length === 0) {
             return (
                 <p>No questions for this subject.</p>
-            )
+            );
+        } else if (questionIndex < fetchResult.payload.length) {
+            return (
+                <>
+                    <ProgressBar alpha={1 - questionIndex / fetchResult.payload.length}/>
+                    <p>Question #{questionIndex + 1}:</p>
+                    <Question
+                        id={fetchResult.payload[questionIndex].id}
+                        onSolve={() => {setQuestionIndex((questionIndex) => questionIndex + 1);}}
+                    />
+                </>
+            );
+        } else {
+            return (
+                <>
+                    <ProgressBar alpha={0}/>
+                    <p>Congratulations, you won!</p>
+                </>
+            );
         }
-        return (
-            <Question
-                id={fetchResult.payload[questionIndex].id}
-                onSolve={() => {
-                    setQuestionIndex((questionIndex) => {
-                        if (questionIndex < fetchResult.payload.length - 1) {
-                            return questionIndex + 1;
-                        } else {
-                            alert("Congrats! You won!");
-                            return questionIndex;
-                        }
-                    });
-                }}
-            />
-        )
     } else if (fetchResult.status === FetchStatus.Failure) {
         // Notify user that the questions couldn't be fetched
         return (
