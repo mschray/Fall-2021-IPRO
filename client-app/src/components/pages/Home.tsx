@@ -32,7 +32,6 @@ const Home: React.FC = () => {
         initialState
     );
 
-
     return (
         <div>
             <h3>Home</h3>
