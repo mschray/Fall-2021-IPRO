@@ -1,5 +1,6 @@
 import React from "react";
 
+import styles from "./Page.module.scss"
 import useForm from "hooks/useForm";
 
 interface LoginFormState {
@@ -26,7 +27,7 @@ const Login: React.FC = () => {
     );
 
     return (
-        <div>
+        <div className={styles.content}>
             <h3>Log in</h3>
             <form onSubmit={onFormSubmit}>
                 <label>
