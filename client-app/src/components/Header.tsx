@@ -20,6 +20,9 @@ const Header: React.FC = () => {
                     <li>
                         <Link to="/signup">Sign up</Link>
                     </li>
+                    <li>
+                        <Link to="/play">Play</Link>
+                    </li>
                 </ul>
             </nav>
         </header>
