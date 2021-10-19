@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import { StyledEngineProvider } from "@mui/material/styles"
 
 const headersData = [
     {
@@ -47,14 +48,16 @@ const Header: React.FC = () => {
 
     return (
         <header>
-            <AppBar className={styles.header}>
-                <Toolbar className={styles.toolbar}>
-                    <JebraSVG className={styles.logo} />
-                    <div className={styles.menu}>
-                        {menuButtons}
-                    </div>
-                </Toolbar>
-            </AppBar>
+            <StyledEngineProvider injectFirst>
+                <AppBar className={styles.header}>
+                    <Toolbar className={styles.toolbar}>
+                        <JebraSVG className={styles.logo} />
+                        <div className={styles.menu}>
+                            {menuButtons}
+                        </div>
+                    </Toolbar>
+                </AppBar>
+            </StyledEngineProvider>
         </header>
     );
 };
