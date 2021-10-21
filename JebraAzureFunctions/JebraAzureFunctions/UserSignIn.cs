@@ -69,7 +69,6 @@ namespace JebraAzureFunctions
 
             string instructorIds = Tools.ExecuteQueryAsync($"SELECT instructor_id FROM course_assignment WHERE course_id={courseId} AND user_id IS NULL").GetAwaiter().GetResult();
             data = JsonConvert.DeserializeObject(instructorIds.Substring(1, instructorIds.Length - 2));//Removes [] from ends.
-            Console.WriteLine(instructorIds);
             int instructorId = data?.instructor_id;
 
             //Console.WriteLine($"courseId:{courseId}, userId:{userId}, instructorId:{instructorId}");
