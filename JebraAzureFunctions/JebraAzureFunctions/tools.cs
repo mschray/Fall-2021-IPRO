@@ -99,7 +99,7 @@ namespace JebraAzureFunctions
             int square = num * num;
 
             QuestionModel questionModel = new QuestionModel();
-            questionModel.answer_a = square;
+            questionModel.answer_a = square.ToString();
             questionModel.question = num + "^2";
             return questionModel;
         }
@@ -115,7 +115,7 @@ namespace JebraAzureFunctions
             int exponential = (int)Math.Pow(num, exp);
 
             QuestionModel questionModel = new QuestionModel();
-            questionModel.answer_a = exponential;
+            questionModel.answer_a = exponential.ToString();
             questionModel.question = num + "^" + exp;
             return questionModel;
         }
@@ -128,8 +128,8 @@ namespace JebraAzureFunctions
             int square = num * num;
 
             QuestionModel questionModel = new QuestionModel();
-            questionModel.answer_a = num;
-            questionModel.answer_b = 0 - num;
+            questionModel.answer_a = num.ToString();
+            questionModel.answer_b = (0 - num).ToString();
             questionModel.question = "sqrt(" + square + ")";
             return questionModel;
         }
@@ -150,7 +150,7 @@ namespace JebraAzureFunctions
             //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({factorial},null,'{num}!')";
 
             QuestionModel questionModel = new QuestionModel();
-            questionModel.answer_a = factorial;
+            questionModel.answer_a = factorial.ToString();
             questionModel.question = num + "!";
             return questionModel;
         }
@@ -171,28 +171,28 @@ namespace JebraAzureFunctions
             if (x > 0 && y > 0)
             {
                 QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = 1;
+                questionModel.answer_a = "1";
                 questionModel.question = "(" + x + "," + y + ")";
                 return questionModel;
             }
             else if (x < 0 && y > 0)
             {
                 QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = 2;
+                questionModel.answer_a = "2";
                 questionModel.question = "(" + x + "," + y + ")";
                 return questionModel;
             }
             else if (x < 0 && y < 0)
             {
                 QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = 3;
+                questionModel.answer_a = "3";
                 questionModel.question = "(" + x + "," + y + ")";
                 return questionModel;
             }
             else
             {
                 QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = 4;
+                questionModel.answer_a = "4";
                 questionModel.question = "(" + x + "," + y + ")";
                 return questionModel;
             }
@@ -230,14 +230,14 @@ namespace JebraAzureFunctions
             {
                 int sumNumB = sumNum * -1;
                 QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = x;
+                questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "-" + sumNumB + "=" + eNum;
                 return questionModel;
             }
             else
             {
                 QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = x;
+                questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "+" + sumNum + "=" + eNum;
                 return questionModel;
             }
@@ -277,7 +277,7 @@ namespace JebraAzureFunctions
             {
                 int sumNumB = sumNum * -1;
                 QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = x;
+                questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "-" + sumNum + "=" + factor2 + x + "+" + eNum;
                 return questionModel;
                 //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor1}x - {sumNum} = {factor2}x + {eNum}')";
@@ -285,7 +285,7 @@ namespace JebraAzureFunctions
             else
             {
                 QuestionModel questionModel = new QuestionModel();
-                questionModel.answer_a = x;
+                questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "+" + sumNum + "=" + factor2 + x + "+" + eNum;
                 return questionModel;
                 //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor1}x + {sumNum} = {factor2}x + {eNum}')";
