@@ -1,5 +1,7 @@
 import React from "react";
 
+import pageStyles from "./Page.module.scss"
+
 import useForm from "hooks/useForm";
 
 interface SignupFormState {
@@ -32,7 +34,7 @@ const Signup: React.FC = () => {
     );
 
     return (
-        <div>
+        <div className={pageStyles.content}>
             <h3>Sign up</h3>
             <form onSubmit={onFormSubmit}>
                 <label>
