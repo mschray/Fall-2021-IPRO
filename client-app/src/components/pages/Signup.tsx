@@ -59,8 +59,9 @@ const Signup: React.FC = () => {
                 </div>
                 <br/>
                 <div>                
-                    <TextField name="password" required label="Password" value={formState.password} placeholder="Password" onChange={onFormChange}
+                    <TextField name="password" required margin="normal" label="Password" value={formState.password} placeholder="Password" onChange={onFormChange}
                     type={visible ? 'text' : 'password'} 
+                    sx={{ m: 1, width: '25ch' }}
                     InputProps={{
                         endAdornment: (
                          <InputAdornment position="end">
