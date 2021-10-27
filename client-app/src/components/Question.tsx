@@ -77,7 +77,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
     } else if (fetchResult.status === FetchStatus.Failure) {
         // Notify user that the question couldn't be fetched
         return (
-            <p>Could not fetch question!</p>
+            <p>Could not fetch question! Reason: {fetchResult.reason}</p>
         )
     } else {
         // Notify user that the question is currently being fetched
