@@ -36,11 +36,11 @@ const Question: React.FC<QuestionProperties> = (props) => {
     // Callback to be fired when the Submit button is entered
     async function submitAnswerCallback(state: AnswerFormState) {
         if (fetchResult.status === FetchStatus.Success) {
-            if (parseInt(state.answer) === fetchResult.payload.answer_a) {
-                alert("Bingo!");
+            if (state.answer === fetchResult.payload.answer_a) {
+                alert("Correct!");
                 props.onSolve();
             } else {
-                alert("Wrong!");
+                alert("Incorrect!");
             }
         } else {
             alert("Question isn't determined yet");
