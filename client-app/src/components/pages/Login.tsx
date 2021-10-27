@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import styles from "./Page.module.scss"
 import useForm from "hooks/useForm";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import {IconButton, InputAdornment, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface LoginFormState {
@@ -57,6 +57,7 @@ const Login: React.FC = () => {
                 <br/>
                 <input type="submit" value="Submit" />
             </form>
+            <p> New to Jebra? <a href="/Signup">Create an account</a></p>
         </div>
     );
 };
