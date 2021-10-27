@@ -68,14 +68,14 @@ namespace JebraAzureFunctions
                     for (int i = 0; i < amount; i++)
                     {
                         QuestionModel question = Tools.SimplifyExponents();
-                        command += $"INSERT INTO question VALUES({question.answer_a}, null, '{question.question}', {subjectId}) \n";
+                        command += $"INSERT INTO question VALUES('{question.answer_a}', null, '{question.question}', {subjectId}) \n";
                     }
                     break;
                 case "Simplify Square Roots":
                     for (int i = 0; i < amount; i++)
                     {
                         QuestionModel question = Tools.SimplifySquareRoots();
-                        command += $"INSERT INTO question VALUES({question.answer_a}, {question.answer_b}, '{question.question}', {subjectId}) \n";
+                        command += $"INSERT INTO question VALUES('{question.answer_a}', '{question.answer_b}', '{question.question}', {subjectId}) \n";
                     }
                     break;
                 default:
