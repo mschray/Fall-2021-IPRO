@@ -37,7 +37,7 @@ const Login: React.FC = () => {
             <h3>Log in</h3>
             <form onSubmit={onFormSubmit}>
                 <div>
-                    <TextField name="email" required label="Email" value={formState.email} placeholder="Email" type="email" onChange={onFormChange} />
+                    <TextField name="email" sx={{ m: 1, width: '25ch' }} required label="Email" value={formState.email} placeholder="Email" type="email" onChange={onFormChange} />
                 </div>
                 <br/>
                 <div>                
