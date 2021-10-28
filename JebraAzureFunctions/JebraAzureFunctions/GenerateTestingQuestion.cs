@@ -35,24 +35,7 @@ namespace JebraAzureFunctions
 
             int amount = int.Parse(amountS);
 
-
-            /*
-            var str = Environment.GetEnvironmentVariable("SqlConnectionString");
-            using (SqlConnection conn = new SqlConnection(str))
-            {
-                conn.Open();
-                var command = $"SELECT id FROM subject WHERE subject_name='{type}'";
-
-                using (SqlCommand cmd = new SqlCommand(command, conn))
-                {
-                    SqlDataReader rows = await cmd.ExecuteReaderAsync();
-                    //subjectId = int.Parse(Tools.SqlDatoToJson(rows));//Convert object to JSON.
-                    //Console.WriteLine(Tools.SqlDatoToJson(rows)); //[{"id":2}]
-
-                    subjectId = int.Parse(rows.GetValue(0).ToString());
-                }
-            }
-            */
+            
             string subjectIdString = Tools.ExecuteQueryAsync($"SELECT id FROM subject WHERE subject_name='{type}'").GetAwaiter().GetResult();
             //[{"id":2}]
             subjectIdString = subjectIdString.Substring(1, subjectIdString.Length-2);
@@ -61,6 +44,11 @@ namespace JebraAzureFunctions
             int subjectId = -1;
             subjectId = data?.id;
 
+            string questionsS = Tools.ExecuteQueryAsync($"SELECT * FROM question WHERE subject_id='{subjectId}'").GetAwaiter().GetResult();
+            dynamic questionListD = JsonConvert.DeserializeObject(questionsS);
+            List<QuestionModel> questionList = Tools.JsonQuestionsToModelArray(questionListD);
+            
+
             string command = "";
             switch (type)
             {
@@ -68,13 +56,28 @@ namespace JebraAzureFunctions
                     for (int i = 0; i < amount; i++)
                     {
                         QuestionModel question = Tools.SimplifyExponents();
-                        command += $"INSERT INTO question VALUES('{question.answer_a}', null, '{question.question}', {subjectId}) \n";
+                        int maxPossible = 9;//Im afraid this has to be hard-coded.
+                        int count = 0;
+                        while (Tools.UniqueQuestion(question, questionList) == false && count < maxPossible)
+                        {
+                            question = Tools.SimplifyExponents();
+                            count++;
+                        }
+                        if(count<maxPossible)
+                        {
+                            questionList.Add(question);
+                            command += $"INSERT INTO question VALUES('{question.answer_a}', null, '{question.question}', {subjectId}) \n";
+                        }
                     }
                     break;
                 case "Simplify Square Roots":
                     for (int i = 0; i < amount; i++)
                     {
                         QuestionModel question = Tools.SimplifySquareRoots();
+                        while (Tools.UniqueQuestion(question, questionList) == false)
+                        {
+                            question = Tools.SimplifySquareRoots();
+                        }
                         command += $"INSERT INTO question VALUES('{question.answer_a}', '{question.answer_b}', '{question.question}', {subjectId}) \n";
                     }
                     break;
@@ -83,11 +86,13 @@ namespace JebraAzureFunctions
                     break;
             }
 
-            //Tools.ExecuteNonQueryAsync(command);
+            //Console.WriteLine(command);
+
+            Tools.ExecuteNonQueryAsync(command);
 
             return new OkObjectResult("Request to add questions sent.");
         }
-            
+
     }
 
 }

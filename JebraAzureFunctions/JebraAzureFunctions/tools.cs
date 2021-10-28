@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace JebraAzureFunctions
 {
@@ -85,6 +86,38 @@ namespace JebraAzureFunctions
                     return res;
                 }
             }
+        }
+
+        public static List<QuestionModel> JsonQuestionsToModelArray(dynamic questionList)
+        {
+            List <QuestionModel> ret = new List<QuestionModel>() { };
+            foreach (var obj in questionList)
+            {
+                QuestionModel q = new QuestionModel();
+                q.answer_a = obj?.answer_a;
+                q.answer_b = obj?.answer_b;
+                q.question = obj?.question;
+                q.id = obj?.id;
+                q.type = obj?.type;
+                ret.Add(q);
+            }
+            return ret;
+        }
+
+        public static Boolean UniqueQuestion(QuestionModel question, List<QuestionModel> questionList)
+        {
+            foreach (QuestionModel obj in questionList)
+            {
+                //Console.WriteLine(obj.address);
+                Console.WriteLine($"Q:{obj?.question}");
+                if (question.question.Equals((string)obj.question))
+                {
+                    Console.WriteLine("MATCH");
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>
