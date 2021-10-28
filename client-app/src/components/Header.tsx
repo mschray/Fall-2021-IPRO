@@ -51,11 +51,11 @@ const Header: React.FC = () => {
             <StyledEngineProvider injectFirst>
                 <AppBar className={styles.header}>
                     <JebraSVG className={styles.logo} />
-                        <Toolbar className={styles.toolbar}>
-                            <div className={styles.menu}>
-                                {menuButtons}
-                            </div>
-                        </Toolbar>
+                    <Toolbar className={styles.toolbar}>
+                        <div className={styles.menu}>
+                            {menuButtons}
+                        </div>
+                    </Toolbar>
                 </AppBar>
             </StyledEngineProvider>
         </header>
