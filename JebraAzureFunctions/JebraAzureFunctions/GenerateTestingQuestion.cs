@@ -35,62 +35,35 @@ namespace JebraAzureFunctions
 
             int amount = int.Parse(amountS);
 
-            
-            string subjectIdString = Tools.ExecuteQueryAsync($"SELECT id FROM subject WHERE subject_name='{type}'").GetAwaiter().GetResult();
-            //[{"id":2}]
-            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length-2);
-            //{"id":2}
-            dynamic data = JsonConvert.DeserializeObject(subjectIdString);
-            int subjectId = -1;
-            subjectId = data?.id;
+           
+            int subjectId = Tools.GetSubjectIdFromString(type);
 
             string questionsS = Tools.ExecuteQueryAsync($"SELECT * FROM question WHERE subject_id='{subjectId}'").GetAwaiter().GetResult();
             dynamic questionListD = JsonConvert.DeserializeObject(questionsS);
             List<QuestionModel> questionList = Tools.JsonQuestionsToModelArray(questionListD);
-            
 
-            string command = "";
+
+            string response = "";
+            bool status = false;
             switch (type)
             {
                 case "Simplify Exponents":
-                    for (int i = 0; i < amount; i++)
-                    {
-                        QuestionModel question = Tools.SimplifyExponents();
-                        int maxPossible = 9;//Im afraid this has to be hard-coded.
-                        int count = 0;
-                        while (Tools.UniqueQuestion(question, questionList) == false && count < maxPossible)
-                        {
-                            question = Tools.SimplifyExponents();
-                            count++;
-                        }
-                        if(count<maxPossible)
-                        {
-                            questionList.Add(question);
-                            command += $"INSERT INTO question VALUES('{question.answer_a}', null, '{question.question}', {subjectId}) \n";
-                        }
-                    }
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifyExponents, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "Simplify Square Roots":
-                    for (int i = 0; i < amount; i++)
-                    {
-                        QuestionModel question = Tools.SimplifySquareRoots();
-                        while (Tools.UniqueQuestion(question, questionList) == false)
-                        {
-                            question = Tools.SimplifySquareRoots();
-                        }
-                        command += $"INSERT INTO question VALUES('{question.answer_a}', '{question.answer_b}', '{question.question}', {subjectId}) \n";
-                    }
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifySquareRoots, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 default:
                     // code block
                     break;
             }
 
-            //Console.WriteLine(command);
+            if(status)
+                response = $"Successfully requested to insert {amount} {type} questions. :)";
+            else
+                response = $"Failed to insert {amount} {type} questions. :(";
 
-            Tools.ExecuteNonQueryAsync(command);
-
-            return new OkObjectResult("Request to add questions sent.");
+            return new OkObjectResult(response);
         }
 
     }

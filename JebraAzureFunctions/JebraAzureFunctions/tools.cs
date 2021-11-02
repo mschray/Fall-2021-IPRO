@@ -98,7 +98,7 @@ namespace JebraAzureFunctions
                 q.answer_b = obj?.answer_b;
                 q.question = obj?.question;
                 q.id = obj?.id;
-                q.type = obj?.type;
+                q.subject_id = obj?.subject_id;
                 ret.Add(q);
             }
             return ret;
@@ -112,12 +112,89 @@ namespace JebraAzureFunctions
                 Console.WriteLine($"Q:{obj?.question}");
                 if (question.question.Equals((string)obj.question))
                 {
-                    Console.WriteLine("MATCH");
+                    //Console.WriteLine("MATCH");
                     return false;
                 }
             }
 
             return true;
+        }
+
+        public static async Task<bool> InsertQuestionsAsync(List<QuestionModel> list)
+        {
+            try
+            {
+                string command = InsertQuestionsSQLCommandGenerator(list);
+                await ExecuteNonQueryAsync(command);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static List<QuestionModel> GenerateUniqueQuestions(Func<QuestionModel> QuestionGeneratorFunct, int amount, int subjectId)
+        {
+            string questionsS = Tools.ExecuteQueryAsync($"SELECT * FROM question WHERE subject_id='{subjectId}'").GetAwaiter().GetResult();
+            dynamic questionListD = JsonConvert.DeserializeObject(questionsS);
+            List<QuestionModel> questionList = Tools.JsonQuestionsToModelArray(questionListD);
+            List<QuestionModel> ret = new List<QuestionModel>() { };
+
+            int maxAttempts = 100; //Maximum attempts to generate a unique question
+
+            for (int i = 0; i < amount; i++)
+            {
+                QuestionModel question = QuestionGeneratorFunct();
+                int count = 0;
+                while (Tools.UniqueQuestion(question, questionList) == false && count < maxAttempts)
+                {
+                    question = QuestionGeneratorFunct();
+                    count++;
+                }
+                if (count < maxAttempts)
+                {
+                    ret.Add(question);
+                    questionList.Add(question);
+                    //command += $"INSERT INTO question VALUES('{question.answer_a}', null, '{question.question}', {subjectId}) \n";
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Given a list of QuestionModels, will generate a sql command to insert them. 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static string InsertQuestionsSQLCommandGenerator(List<QuestionModel> list)
+        {
+            string command = "";
+            foreach(QuestionModel question in list)
+            {
+                command += $"INSERT INTO question VALUES('{question.answer_a}', null, '{question.question}', {question.subject_id}) \n";
+            }
+            return command;
+        }
+
+        /// <summary>
+        /// Retreive the subject_id based on the subject_name field.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <returns>The subject's subject_id</returns>
+        public static int GetSubjectIdFromString(string subject)
+        {
+            string subjectIdString = Tools.ExecuteQueryAsync($"SELECT id FROM subject WHERE subject_name='{subject}'").GetAwaiter().GetResult();
+            //[{"id":2}]
+            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length - 2);
+            //{"id":2}
+            dynamic data = JsonConvert.DeserializeObject(subjectIdString);
+            return data?.id;
         }
 
         /// <summary>
@@ -134,6 +211,7 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = square.ToString();
             questionModel.question = num + "^2";
+            questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents");
             return questionModel;
         }
 
@@ -150,6 +228,8 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = exponential.ToString();
             questionModel.question = num + "^" + exp;
+
+            questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents2");
             return questionModel;
         }
 
@@ -164,6 +244,7 @@ namespace JebraAzureFunctions
             questionModel.answer_a = num.ToString();
             questionModel.answer_b = (0 - num).ToString();
             questionModel.question = "sqrt(" + square + ")";
+            questionModel.subject_id = GetSubjectIdFromString("Simplify Square Roots");
             return questionModel;
         }
 
