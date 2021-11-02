@@ -177,7 +177,7 @@ namespace JebraAzureFunctions
             string command = "";
             foreach(QuestionModel question in list)
             {
-                command += $"INSERT INTO question VALUES('{question.answer_a}', null, '{question.question}', {question.subject_id}) \n";
+                command += $"INSERT INTO question VALUES('{question.answer_a}', {question.answer_b}, '{question.question}', {question.subject_id}) \n";
             }
             return command;
         }
@@ -210,6 +210,7 @@ namespace JebraAzureFunctions
 
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = square.ToString();
+            questionModel.answer_b = "null";
             questionModel.question = num + "^2";
             questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents");
             return questionModel;
@@ -227,6 +228,7 @@ namespace JebraAzureFunctions
 
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = exponential.ToString();
+            questionModel.answer_b = "null";
             questionModel.question = num + "^" + exp;
 
             questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents 2");
@@ -265,6 +267,7 @@ namespace JebraAzureFunctions
 
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = factorial.ToString();
+            questionModel.answer_b = "null";
             questionModel.question = num + "!";
             questionModel.subject_id = GetSubjectIdFromString("Factorials");
             return questionModel;
@@ -306,7 +309,7 @@ namespace JebraAzureFunctions
                 questionModel.answer_a = "4";
                 questionModel.question = "(" + x + "," + y + ")";
             }
-
+            questionModel.answer_b = "null";
             return questionModel;
         }
 
@@ -352,6 +355,7 @@ namespace JebraAzureFunctions
                 questionModel.question = factor + x + "+" + sumNum + "=" + eNum;
             }
             questionModel.subject_id = GetSubjectIdFromString("Single Variable");
+            questionModel.answer_b = "null";
             return questionModel;
         }
 
@@ -402,6 +406,7 @@ namespace JebraAzureFunctions
             }
 
             questionModel.subject_id = GetSubjectIdFromString("System Of Equations");
+            questionModel.answer_b = "null";
             return questionModel;
         }
 
