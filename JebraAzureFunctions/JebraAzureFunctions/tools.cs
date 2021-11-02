@@ -88,6 +88,11 @@ namespace JebraAzureFunctions
             }
         }
 
+        /// <summary>
+        /// Converts a list of questions from a request body into a List<QuestionModel>
+        /// </summary>
+        /// <param name="questionList"></param>
+        /// <returns>List of QuestionModel</returns>
         public static List<QuestionModel> JsonQuestionsToModelArray(dynamic questionList)
         {
             List <QuestionModel> ret = new List<QuestionModel>() { };
@@ -104,6 +109,12 @@ namespace JebraAzureFunctions
             return ret;
         }
 
+        /// <summary>
+        /// Tests if a question has been entered into the database already.
+        /// </summary>
+        /// <param name="question"></param>
+        /// <param name="questionList"></param>
+        /// <returns>True if the question is unique.</returns>
         public static Boolean UniqueQuestion(QuestionModel question, List<QuestionModel> questionList)
         {
             foreach (QuestionModel obj in questionList)
@@ -120,6 +131,11 @@ namespace JebraAzureFunctions
             return true;
         }
 
+        /// <summary>
+        /// Takes a List of QuestionModels and inserts them into the database. 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public static async Task<bool> InsertQuestionsAsync(List<QuestionModel> list)
         {
             try
@@ -134,6 +150,13 @@ namespace JebraAzureFunctions
             }
         }
 
+        /// <summary>
+        /// Generates a list of questions which are not already in the database.
+        /// </summary>
+        /// <param name="QuestionGeneratorFunct">Base function used to generate the question.</param>
+        /// <param name="amount">Amount of questions to generate.</param>
+        /// <param name="subjectId">Subject id of the questions to be generated.</param>
+        /// <returns></returns>
         public static List<QuestionModel> GenerateUniqueQuestions(Func<QuestionModel> QuestionGeneratorFunct, int amount, int subjectId)
         {
             string questionsS = Tools.ExecuteQueryAsync($"SELECT * FROM question WHERE subject_id='{subjectId}'").GetAwaiter().GetResult();
@@ -168,7 +191,7 @@ namespace JebraAzureFunctions
         }
 
         /// <summary>
-        /// Given a list of QuestionModels, will generate a sql command to insert them. 
+        /// Given a list of QuestionModels, will generate a sql command to insert them into a database. 
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
@@ -218,7 +241,10 @@ namespace JebraAzureFunctions
 
         //Result = Math.Pow(Number1, Number2);
 
-        //ex: 4^4 = 256
+        /// <summary>
+        /// ex: 4^4 = 256
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
         public static QuestionModel SimplifyExponents2()
         {
             Random r = new Random();
@@ -235,7 +261,10 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
-        //ex: sqrt(16) = 4
+        /// <summary>
+        /// ex: sqrt(16) = 4
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
         public static QuestionModel SimplifySquareRoots()
         {
             Random r = new Random();
@@ -250,7 +279,10 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
-        //ex: 4! = 24
+        /// <summary>
+        /// ex: 4! = 24
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
         public static QuestionModel Factorials()
         {
             Random r = new Random();
@@ -273,7 +305,10 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
-        //ex: (-2,3) is in quadrant II
+        /// <summary>
+        /// ex: (-2,3) is in quadrant II
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
         public static QuestionModel CartesianCoordinates()
         {
             Random r = new Random();
@@ -313,7 +348,10 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
-        //ex: 3x - 5 = 10 -> x = 5
+        /// <summary>
+        /// ex: 3x - 5 = 10 -> x = 5
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
         public static QuestionModel SingleVariable()
         {
             Random r = new Random();
@@ -359,7 +397,10 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
-        //ex: x + 4 = 3x - 6 -> x = 5
+        /// <summary>
+        /// ex: x + 4 = 3x - 6 -> x = 5
+        /// </summary>
+        /// <returns></returns>
         public static QuestionModel SystemOfEquations()
         {
             Random r = new Random();
