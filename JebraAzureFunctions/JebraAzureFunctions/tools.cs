@@ -229,7 +229,7 @@ namespace JebraAzureFunctions
             questionModel.answer_a = exponential.ToString();
             questionModel.question = num + "^" + exp;
 
-            questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents2");
+            questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents 2");
             return questionModel;
         }
 
@@ -266,6 +266,7 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = factorial.ToString();
             questionModel.question = num + "!";
+            questionModel.subject_id = GetSubjectIdFromString("Factorials");
             return questionModel;
         }
 
@@ -282,35 +283,31 @@ namespace JebraAzureFunctions
                 y = r.Next(-10, -11);
             }
 
+            QuestionModel questionModel = new QuestionModel();
+            questionModel.subject_id = GetSubjectIdFromString("Cartesian Coordinates");
+
             if (x > 0 && y > 0)
             {
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = "1";
-                questionModel.question = "(" + x + "," + y + ")";
-                return questionModel;
+                questionModel.question = "(" + x + "," + y + ")";            
             }
             else if (x < 0 && y > 0)
             {
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = "2";
                 questionModel.question = "(" + x + "," + y + ")";
-                return questionModel;
             }
             else if (x < 0 && y < 0)
             {
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = "3";
                 questionModel.question = "(" + x + "," + y + ")";
-                return questionModel;
             }
             else
             {
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = "4";
                 questionModel.question = "(" + x + "," + y + ")";
-                return questionModel;
             }
 
+            return questionModel;
         }
 
         //ex: 3x - 5 = 10 -> x = 5
@@ -340,21 +337,22 @@ namespace JebraAzureFunctions
             int factor = possibleFactors[r.Next(0, possibleFactors.Count - 1)];
             int x = (eNum - sumNum) / factor;
 
+            QuestionModel questionModel = new QuestionModel();
+
             if (sumNum < 0)
             {
-                int sumNumB = sumNum * -1;
-                QuestionModel questionModel = new QuestionModel();
+                int sumNumB = sumNum * -1;             
                 questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "-" + sumNumB + "=" + eNum;
-                return questionModel;
+                
             }
             else
             {
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "+" + sumNum + "=" + eNum;
-                return questionModel;
             }
+            questionModel.subject_id = GetSubjectIdFromString("Single Variable");
+            return questionModel;
         }
 
         //ex: x + 4 = 3x - 6 -> x = 5
@@ -386,24 +384,25 @@ namespace JebraAzureFunctions
             int factor1 = factor - r.Next(1, factor);
             int factor2 = factor - factor1;
 
+            QuestionModel questionModel = new QuestionModel();
 
             if (sumNum < 0)
             {
                 int sumNumB = sumNum * -1;
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "-" + sumNum + "=" + factor2 + x + "+" + eNum;
-                return questionModel;
+                
                 //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor1}x - {sumNum} = {factor2}x + {eNum}')";
             }
             else
-            {
-                QuestionModel questionModel = new QuestionModel();
+            {  
                 questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "+" + sumNum + "=" + factor2 + x + "+" + eNum;
-                return questionModel;
                 //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor1}x + {sumNum} = {factor2}x + {eNum}')";
             }
+
+            questionModel.subject_id = GetSubjectIdFromString("System Of Equations");
+            return questionModel;
         }
 
         //answer type is string, wont work currently
