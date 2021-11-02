@@ -20,6 +20,6 @@ namespace JebraAzureFunctions
         public string answer_b { get; set; }
 
         [JsonProperty]
-        public string type { get; set; }
+        public int subject_id { get; set; }
     }
 }
