@@ -35,59 +35,52 @@ namespace JebraAzureFunctions
 
             int amount = int.Parse(amountS);
 
+           
+            int subjectId = Tools.GetSubjectIdFromString(type);
 
-            /*
-            var str = Environment.GetEnvironmentVariable("SqlConnectionString");
-            using (SqlConnection conn = new SqlConnection(str))
-            {
-                conn.Open();
-                var command = $"SELECT id FROM subject WHERE subject_name='{type}'";
+            string questionsS = Tools.ExecuteQueryAsync($"SELECT * FROM question WHERE subject_id='{subjectId}'").GetAwaiter().GetResult();
+            dynamic questionListD = JsonConvert.DeserializeObject(questionsS);
+            List<QuestionModel> questionList = Tools.JsonQuestionsToModelArray(questionListD);
 
-                using (SqlCommand cmd = new SqlCommand(command, conn))
-                {
-                    SqlDataReader rows = await cmd.ExecuteReaderAsync();
-                    //subjectId = int.Parse(Tools.SqlDatoToJson(rows));//Convert object to JSON.
-                    //Console.WriteLine(Tools.SqlDatoToJson(rows)); //[{"id":2}]
 
-                    subjectId = int.Parse(rows.GetValue(0).ToString());
-                }
-            }
-            */
-            string subjectIdString = Tools.ExecuteQueryAsync($"SELECT id FROM subject WHERE subject_name='{type}'").GetAwaiter().GetResult();
-            //[{"id":2}]
-            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length-2);
-            //{"id":2}
-            dynamic data = JsonConvert.DeserializeObject(subjectIdString);
-            int subjectId = -1;
-            subjectId = data?.id;
-
-            string command = "";
+            string response = "";
+            bool status = false;
             switch (type)
             {
                 case "Simplify Exponents":
-                    for (int i = 0; i < amount; i++)
-                    {
-                        QuestionModel question = Tools.SimplifyExponents();
-                        command += $"INSERT INTO question VALUES({question.answer_a}, null, '{question.question}', {subjectId}) \n";
-                    }
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifyExponents, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "Simplify Square Roots":
-                    for (int i = 0; i < amount; i++)
-                    {
-                        QuestionModel question = Tools.SimplifySquareRoots();
-                        command += $"INSERT INTO question VALUES({question.answer_a}, {question.answer_b}, '{question.question}', {subjectId}) \n";
-                    }
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifySquareRoots, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "Simplify Exponents 2":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifyExponents2, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "Factorials":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.Factorials, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "Cartesian Coordinates":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.CartesianCoordinates, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "Single Variable":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SingleVariable, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "System Of Equations":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SystemOfEquations, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 default:
-                    // code block
+                    status = false;
                     break;
             }
 
-            //Tools.ExecuteNonQueryAsync(command);
+            if(status)
+                response = $"Successfully requested to insert {amount} {type} questions. :)";
+            else
+                response = $"Failed to insert {amount} {type} questions. :(";
 
-            return new OkObjectResult("Request to add questions sent.");
+            return new OkObjectResult(response);
         }
-            
+
     }
 
 }
