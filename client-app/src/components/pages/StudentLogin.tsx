@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./Page.module.scss"
 import useForm from "hooks/useForm";
-import {TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
 
 interface LoginFormState {
     email: string,
@@ -36,7 +36,7 @@ const StudentLogin: React.FC = () => {
                 </div>
                 <br/>
                 <div>                
-                    <TextField name="course_id" required sx={{ m: 1, width: '25ch' }} label="course ID" value={formState.course_id} placeholder="Course ID" type="text" onChange={onFormChange} />
+                    <TextField name="course_id" required sx={{ m: 1, width: '25ch' }} label="Course ID" value={formState.course_id} placeholder="Course ID" type="text" onChange={onFormChange} />
                 </div>
                 <br/>
                 <button name="Join class">Join Class</button>

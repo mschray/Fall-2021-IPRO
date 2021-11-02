@@ -2,8 +2,12 @@ import React, { useState } from "react";
 
 import pageStyles from "./Page.module.scss"
 import useForm from "hooks/useForm";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 interface SignupFormState {
     fname: string,
