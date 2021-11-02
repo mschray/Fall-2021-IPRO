@@ -7,7 +7,7 @@ import { isStudentLoginModel } from "models/StudentLoginModel";
 
 // Properties for the Question React component
 interface StudentLoginProperties {
-    code: string
+    id: number
 }
 
 // Interface for answer form
@@ -18,7 +18,7 @@ interface AnswerFormState {
 const Student: React.FC<StudentLoginProperties> = (props) => {
     // Fetch the question data using the GetQuestion function
     const url = new URL("http://localhost:7071/api/UserSignIn");
-    url.searchParams.append("code", props.code.toString());
+    url.searchParams.append("id", props.id.toString());
     const fetchResult = useFetch(
         url.toString(),
         (data) => {
@@ -28,7 +28,7 @@ const Student: React.FC<StudentLoginProperties> = (props) => {
             }
             return undefined;
         },
-        [props.code]
+        [props.id]
     );
 
     // Callback to be fired when the Submit button is entered
@@ -60,7 +60,7 @@ const Student: React.FC<StudentLoginProperties> = (props) => {
         const payload = fetchResult.payload;
         return (
             <div>
-                <p>Solve: {payload.code}</p>
+                <p>Solve: {payload.id}</p>
                 <form onSubmit={onFormSubmit}>
                     <label>
                         Enter answer: 
