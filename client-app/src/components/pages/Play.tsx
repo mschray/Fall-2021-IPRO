@@ -87,7 +87,7 @@ const Game: React.FC<{subjectName: string}> = (props) => {
                     <ProgressBar alpha={1 - questionIndex / fetchResult.payload.length}/>
                     <p>Question #{questionIndex + 1}:</p>
                     <Question
-                        id={fetchResult.payload[questionIndex].id}
+                        questionData={fetchResult.payload[questionIndex]}
                         onSolve={() => {setQuestionIndex((questionIndex) => questionIndex + 1);}}
                     />
                 </>
