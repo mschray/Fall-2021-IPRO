@@ -53,8 +53,23 @@ namespace JebraAzureFunctions
                 case "Simplify Square Roots":
                     status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifySquareRoots, amount, subjectId)).GetAwaiter().GetResult();
                     break;
+                case "Simplify Exponents 2":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifyExponents2, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "Factorials":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.Factorials, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "Cartesian Coordinates":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.CartesianCoordinates, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "Single Variable":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SingleVariable, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "System Of Equations":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SystemOfEquations, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
                 default:
-                    // code block
+                    status = false;
                     break;
             }
 
