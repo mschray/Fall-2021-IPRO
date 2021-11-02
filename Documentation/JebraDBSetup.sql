@@ -93,41 +93,41 @@ CREATE TABLE [dbo].statistic_join (
 
 CREATE TABLE [dbo].question (
 	id					INT				NOT NULL,
-	answer_a			FLOAT			NOT NULL,
-	answer_b			FLOAT,
+	answer_a			VARCHAR(255)	NOT NULL,
+	answer_b			VARCHAR(255),
 	question			VARCHAR(255)	NOT NULL,
 	subject_id			INT				NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (subject_id) REFERENCES [dbo].subject(id)
 );
 -- Sample questions
-INSERT INTO [dbo].question VALUES (1, 1.0, NULL, '1^2', 1);
-INSERT INTO [dbo].question VALUES (2, 4.0, NULL, '2^2', 1);
-INSERT INTO [dbo].question VALUES (3, 9.0, NULL, '3^2', 1);
-INSERT INTO [dbo].question VALUES (4, 16.0, NULL, '4^2', 1);
-INSERT INTO [dbo].question VALUES (5, 25.0, NULL, '5^2', 1);
-INSERT INTO [dbo].question VALUES (6, 36.0, NULL, '6^2', 1);
-INSERT INTO [dbo].question VALUES (7, 49.0, NULL, '7^2', 1);
-INSERT INTO [dbo].question VALUES (8, 64.0, NULL, '8^2', 1);
-INSERT INTO [dbo].question VALUES (9, 81.0, NULL, '9^2', 1);
-INSERT INTO [dbo].question VALUES (10, 100.0, NULL, '10^2', 1);
-INSERT INTO [dbo].question VALUES (11, 1.0, -1.0, 'sqrt(1)', 2);
-INSERT INTO [dbo].question VALUES (12, 2.0, -2.0, 'sqrt(4)', 2);
-INSERT INTO [dbo].question VALUES (13, 3.0, -3.0, 'sqrt(9)', 2);
-INSERT INTO [dbo].question VALUES (14, 4.0, -4.0, 'sqrt(16)', 2);
-INSERT INTO [dbo].question VALUES (15, 5.0, -5.0, 'sqrt(25)', 2);
-INSERT INTO [dbo].question VALUES (16, 6.0, -6.0, 'sqrt(36)', 2);
-INSERT INTO [dbo].question VALUES (17, 7.0, -7.0, 'sqrt(49)', 2);
-INSERT INTO [dbo].question VALUES (18, 8.0, -8.0, 'sqrt(64)', 2);
-INSERT INTO [dbo].question VALUES (19, 9.0, -9.0, 'sqrt(81)', 2);
-INSERT INTO [dbo].question VALUES (20, 10.0, -10.0, 'sqrt(100)', 2);
-INSERT INTO [dbo].question VALUES (21, 1.0, NULL, '0!', 3);
-INSERT INTO [dbo].question VALUES (22, 1.0, NULL, '1!', 3);
-INSERT INTO [dbo].question VALUES (23, 2.0, NULL, '2!', 3);
-INSERT INTO [dbo].question VALUES (24, 6.0, NULL, '3!', 3);
-INSERT INTO [dbo].question VALUES (25, 24.0, NULL, '4!', 3);
-INSERT INTO [dbo].question VALUES (26, 120.0, NULL, '5!', 3);
-INSERT INTO [dbo].question VALUES (27, 720.0, NULL, '6!', 3);
+INSERT INTO [dbo].question VALUES (1, '1', NULL, '1^2', 1);
+INSERT INTO [dbo].question VALUES (2, '4', NULL, '2^2', 1);
+INSERT INTO [dbo].question VALUES (3, '9', NULL, '3^2', 1);
+INSERT INTO [dbo].question VALUES (4, '16', NULL, '4^2', 1);
+INSERT INTO [dbo].question VALUES (5, '25', NULL, '5^2', 1);
+INSERT INTO [dbo].question VALUES (6, '36', NULL, '6^2', 1);
+INSERT INTO [dbo].question VALUES (7, '49', NULL, '7^2', 1);
+INSERT INTO [dbo].question VALUES (8, '64', NULL, '8^2', 1);
+INSERT INTO [dbo].question VALUES (9, '81', NULL, '9^2', 1);
+INSERT INTO [dbo].question VALUES (10, '100', NULL, '10^2', 1);
+INSERT INTO [dbo].question VALUES (11, '1', '-1', 'sqrt(1)', 2);
+INSERT INTO [dbo].question VALUES (12, '2', '-2', 'sqrt(4)', 2);
+INSERT INTO [dbo].question VALUES (13, '3', '-3', 'sqrt(9)', 2);
+INSERT INTO [dbo].question VALUES (14, '4', '-4', 'sqrt(16)', 2);
+INSERT INTO [dbo].question VALUES (15, '5', '-5', 'sqrt(25)', 2);
+INSERT INTO [dbo].question VALUES (16, '6', '-6', 'sqrt(36)', 2);
+INSERT INTO [dbo].question VALUES (17, '7', '-7', 'sqrt(49)', 2);
+INSERT INTO [dbo].question VALUES (18, '8', '-8', 'sqrt(64)', 2);
+INSERT INTO [dbo].question VALUES (19, '9', '-9', 'sqrt(81)', 2);
+INSERT INTO [dbo].question VALUES (20, '10', '-10', 'sqrt(100)', 2);
+INSERT INTO [dbo].question VALUES (21, '1', NULL, '0!', 3);
+INSERT INTO [dbo].question VALUES (22, '1', NULL, '1!', 3);
+INSERT INTO [dbo].question VALUES (23, '2', NULL, '2!', 3);
+INSERT INTO [dbo].question VALUES (24, '6', NULL, '3!', 3);
+INSERT INTO [dbo].question VALUES (25, '24', NULL, '4!', 3);
+INSERT INTO [dbo].question VALUES (26, '120', NULL, '5!', 3);
+INSERT INTO [dbo].question VALUES (27, '720', NULL, '6!', 3);
 
 CREATE TABLE [dbo].stage_event (
 	id					INT				NOT NULL,

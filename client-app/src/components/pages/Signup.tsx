@@ -43,19 +43,19 @@ const Signup: React.FC = () => {
             <h3>Sign up</h3>
             <form onSubmit={onFormSubmit}>
                 <div>
-                    <TextField name="fname" required label="First name" value={formState.fname} placeholder="First name" type="text" onChange={onFormChange} />
+                    <TextField name="fname" required sx={{ m: 1, width: '25ch' }} label="First name" value={formState.fname} placeholder="First name" type="text" onChange={onFormChange} />
                 </div>
                 <br/>
                 <div>
-                    <TextField name="lname" required label="Last name" value={formState.lname} placeholder="Last name" type="text" onChange={onFormChange} />
+                    <TextField name="lname" required sx={{ m: 1, width: '25ch' }} label="Last name" value={formState.lname} placeholder="Last name" type="text" onChange={onFormChange} />
                 </div>
                 <br/>
                 <div>
-                    <TextField name="email" required label="Email" value={formState.email} placeholder="Email" type="email" onChange={onFormChange} />
+                    <TextField name="email" required sx={{ m: 1, width: '25ch' }} label="Email" value={formState.email} placeholder="Email" type="email" onChange={onFormChange} />
                 </div>
                 <br/>
                 <div>
-                    <TextField name="username" required label="Username" value={formState.username} placeholder="Username" type="text" onChange={onFormChange} />
+                    <TextField name="username" sx={{ m: 1, width: '25ch' }} required label="Username" value={formState.username} placeholder="Username" type="text" onChange={onFormChange} />
                 </div>
                 <br/>
                 <div>                

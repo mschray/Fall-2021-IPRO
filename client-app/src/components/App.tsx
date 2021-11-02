@@ -12,6 +12,7 @@ import Options from "components/pages/Options";
 import Login from "components/pages/Login";
 import Signup from "components/pages/Signup";
 import Play from "components/pages/Play";
+import StudentLogin from "./pages/StudentLogin";
 
 const App: React.FC = () => {
     return (
@@ -30,6 +31,9 @@ const App: React.FC = () => {
                 <Route path="/play">
                     <Play />
                 </Route>
+                <Route path="/studentLogin">
+                    <StudentLogin />
+                </Route>               
                 <Route path="/">
                     <Home />
                 </Route>
