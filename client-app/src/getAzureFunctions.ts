@@ -12,7 +12,8 @@ const azureFunctionsDevelopment = {
     PublishStatisticForStage: "http://localhost:7071/api/PublishStatisticForStage",
     RemoveQuestion: "http://localhost:7071/api/RemoveQuestion",
     SetUserIsOnline: "http://localhost:7071/api/SetUserIsOnline",
-    UserSignIn: "http://localhost:7071/api/UserSignIn"
+    UserSignIn: "http://localhost:7071/api/UserSignIn",
+    UserSignOut: "http://localhost:7071/api/UserSignOut"
 }
 
 const azureFunctionsProduction = {
@@ -29,7 +30,8 @@ const azureFunctionsProduction = {
     PublishStatisticForStage: "https://jebrafunctions.azurewebsites.net/api/PublishStatisticForStage?code=2vdm6tw60sMRJ5lkl5W/zbBaUN/hXQaQGuRuMGoZ3yaz52thBH8GRw==",
     RemoveQuestion: "https://jebrafunctions.azurewebsites.net/api/RemoveQuestion?code=guS3rbHgda5otaHCGdbQHC9SAga9mWRHaLxSSSaq70XxHv98aPCc2w==",
     SetUserIsOnline: "https://jebrafunctions.azurewebsites.net/api/SetUserIsOnline?code=/TqclO2QBFSinPDiv4okCZ8GzO2ka7aQZwSWZgiPZqw0U6NLtb8glA==",
-    UserSignIn: "https://jebrafunctions.azurewebsites.net/api/UserSignIn?code=fD2DKcEP56EYetQJXIsuZNMeH0qIPTvUAWOd9YmayT1haBfD02yprA=="
+    UserSignIn: "https://jebrafunctions.azurewebsites.net/api/UserSignIn?code=fD2DKcEP56EYetQJXIsuZNMeH0qIPTvUAWOd9YmayT1haBfD02yprA==",
+    UserSignOut: "https://jebrafunctions.azurewebsites.net/api/UserSignOut?code=CbJQOhRTcgw7JoDMKH2y62ZZYe6AW3P18vkZX5iYACrhSwHYePBvlw=="
 };
 
 const getAzureFunctions = () => (process.env.NODE_ENV === "development") ? azureFunctionsDevelopment : azureFunctionsProduction;
