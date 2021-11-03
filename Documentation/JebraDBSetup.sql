@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS [dbo].subject;
 CREATE TABLE [dbo].app_user (
 	id					INT				NOT NULL,
 	email				VARCHAR(255)	NOT NULL,
-	is_online			CHAR(5)			NOT NULL,
+	is_online			BIT				NOT NULL,
 	PRIMARY KEY (id)
 );
 
@@ -132,7 +132,7 @@ INSERT INTO [dbo].question VALUES (27, '720', NULL, '6!', 3);
 CREATE TABLE [dbo].stage_event (
 	id					INT				NOT NULL,
 	inflicted_hp		INT,
-	was_correct			CHAR(5)			NOT NULL,
+	was_correct			BIT				NOT NULL,
 	event_time			DATETIME		NOT NULL,
 	PRIMARY KEY (id)
 );
