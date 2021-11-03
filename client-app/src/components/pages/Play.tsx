@@ -87,7 +87,7 @@ const Game: React.FC<{subjectName: string}> = (props) => {
                     <ProgressBar alpha={1 - questionIndex / fetchResult.payload.length}/>
                     <p>Question #{questionIndex + 1}:</p>
                     <Question
-                        id={fetchResult.payload[questionIndex].id}
+                        questionData={fetchResult.payload[questionIndex]}
                         onSolve={() => {setQuestionIndex((questionIndex) => questionIndex + 1);}}
                     />
                 </>
@@ -108,7 +108,7 @@ const Game: React.FC<{subjectName: string}> = (props) => {
     } else if (fetchResult.status === FetchStatus.Failure) {
         // Notify user that the questions couldn't be fetched
         return (
-            <p>Could not fetch questions!</p>
+            <p>Could not fetch questions! Reason: {fetchResult.reason}</p>
         )
     } else {
         // Notify user that the questions are currently being fetched
