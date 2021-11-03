@@ -11,21 +11,31 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using JebraAzureFunctions.Models;
+using System.Collections.Generic;
 
 namespace JebraAzureFunctions
 {
+    /// <summary>
+    /// Will return new stage id if monster is defeated.
+    /// </summary>
     public static class GetEvents
     {
         [FunctionName("GetEvents")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "Event Requests" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
-        [OpenApiParameter(name: "stage", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **stage** parameter")]
+        [OpenApiParameter(name: "stage", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **stage id** parameter")]
         [OpenApiParameter(name: "course_code", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **course** parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
+            /*
+             * If monster health = 0, reply with the new stage ID instead.
+             * 
+             */
+
             //log.LogInformation("C# HTTP trigger function processed a request.");
 
             string courseCode = req.Query["course_code"];
@@ -34,6 +44,14 @@ namespace JebraAzureFunctions
             ///string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             ///dynamic data = JsonConvert.DeserializeObject(requestBody);
             ///name = name ?? data?.name;
+            ///   
+
+            string subjectIdString = Tools.ExecuteQueryAsync($"SELECT max_hp FROM stage WHERE id={stage}").GetAwaiter().GetResult();
+            //[{"id":2}]
+            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length - 2);
+            //{"id":2}
+            dynamic data = JsonConvert.DeserializeObject(subjectIdString);
+            int maxHp = data?.id;
 
             string command = @$"
             SELECT stage_event.inflicted_hp, stage_event.was_correct, stage_event.event_time FROM stage_event
@@ -42,8 +60,20 @@ namespace JebraAzureFunctions
             WHERE stage_event_join.course_id = course.id AND stage_event_join.stage_id = {stage}
             ";
 
-            string responseMessage = Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult();
+            dynamic responseMessage = Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult();
 
+            List<StageEventModel> events = Tools.JsonEventsToModelArray(responseMessage);
+
+            int currentHp = maxHp;
+            foreach(StageEventModel e in events)
+            {
+                currentHp -= e.inflicted_hp;
+            }
+
+            if(currentHp <= 0)
+            {
+                responseMessage = "{'EndOfStage': true}";
+            }
             return new OkObjectResult(responseMessage);
         }
     }

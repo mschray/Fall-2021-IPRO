@@ -6,6 +6,7 @@ using System.Data;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Collections;
+using JebraAzureFunctions.Models;
 
 namespace JebraAzureFunctions
 {
@@ -105,6 +106,33 @@ namespace JebraAzureFunctions
                 q.id = obj?.id;
                 q.subject_id = obj?.subject_id;
                 ret.Add(q);
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Converts a list of events from a request body into a List<StageEventModel> 
+        /// </summary>
+        /// <param name="questionList"></param>
+        /// <returns></returns>
+        public static List<StageEventModel> JsonEventsToModelArray(dynamic questionList)
+        {
+            List<StageEventModel> ret = new List<StageEventModel>() { };
+            foreach (var obj in questionList)
+            {
+                StageEventModel e = new StageEventModel();
+                //q.answer_a = obj?.answer_a;
+                //q.answer_b = obj?.answer_b;
+                //q.question = obj?.question;
+                //q.id = obj?.id;
+                //q.subject_id = obj?.subject_id;
+
+                e.id = obj?.id;
+                e.inflicted_hp = obj?.inflicted_hp;
+                e.was_correct = obj?.was_correct;
+                e.event_time = obj?.event_time;
+
+                ret.Add(e);
             }
             return ret;
         }
@@ -219,7 +247,7 @@ namespace JebraAzureFunctions
             dynamic data = JsonConvert.DeserializeObject(subjectIdString);
             return data?.id;
         }
-
+        
         /// <summary>
         /// ex: 4^2 = 16
         /// </summary>
