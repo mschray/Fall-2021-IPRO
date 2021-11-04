@@ -45,18 +45,22 @@ namespace JebraAzureFunctions
         public static async Task<bool> ExecuteNonQueryAsync(string command)
         {
             var str = Environment.GetEnvironmentVariable("SqlConnectionString");
-            using (SqlConnection conn = new SqlConnection(str))
+            try
             {
-                conn.Open();
-
-                using (SqlCommand cmd = new SqlCommand(command, conn))
+                using (SqlConnection conn = new SqlConnection(str))
                 {
-                    int exeTask = await cmd.ExecuteNonQueryAsync();
-                }
+                    conn.Open();
 
-                await conn.DisposeAsync();
+                    using (SqlCommand cmd = new SqlCommand(command, conn))
+                    {
+                        int exeTask = await cmd.ExecuteNonQueryAsync();
+                    }
+
+                    await conn.DisposeAsync();
+                    return true;
+                }
             }
-            return true;
+            catch { return false; }
         }
 
         /// <summary>
