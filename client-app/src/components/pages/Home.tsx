@@ -17,10 +17,10 @@ const Home: React.FC = () => {
                 <div className={styles.container}>
                     <h1>Available Subjects</h1>
                 </div>
-                <ul className={styles.container}>
-                    <li className={homeStyles.createButton} ><Button href="/login" startIcon={<CreateIcon />}>Create a game</Button></li>
-                    <li className={homeStyles.joinButton} > <Button href="/studentlogin" startIcon={<AddIcon />}>Join a game</Button></li>
-                </ul>
+                <div className={homeStyles.buttonContainer}>
+                    <Button className={homeStyles.createButton} href="/login" variant="contained" color="primary" startIcon={<CreateIcon />}>Create a game</Button>
+                    <Button className={homeStyles.joinButton} href="/studentlogin" variant="contained" color="success" startIcon={<AddIcon />}>Join a game</Button>
+                </div>
             </div>
         </div>
     );

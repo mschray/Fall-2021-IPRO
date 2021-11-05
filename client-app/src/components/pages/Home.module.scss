@@ -32,14 +32,14 @@
     padding: 0;
     margin: 0;
     list-style: none;
-    color: $light-grey;
+    border-radius: 15px;
 }
 
 .createButton {
     background-color: $blue;
     border-radius: 15px;
-    color: $light-grey;
     flex-grow: 1;
+    color: $light-grey;
 }
 
 .joinButton {
