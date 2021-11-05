@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Page.module.scss";
 import homeStyles from "./Home.module.scss";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import CreateIcon from "@mui/icons-material/Create";
 
 const Home: React.FC = () => {
     return (
@@ -15,8 +18,8 @@ const Home: React.FC = () => {
                     <h1>Available Subjects</h1>
                 </div>
                 <ul className={styles.container}>
-                    <li><Link to="/studentlogin">Student login</Link></li>
-                    <li><Link to="/login">Instructor login</Link></li>
+                    <li className={homeStyles.createButton} ><Button href="/login" startIcon={<CreateIcon />}>Create a game</Button></li>
+                    <li className={homeStyles.joinButton} > <Button href="/studentlogin" startIcon={<AddIcon />}>Join a game</Button></li>
                 </ul>
             </div>
         </div>

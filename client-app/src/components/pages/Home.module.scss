@@ -24,3 +24,27 @@
     margin: 0;
     list-style: none;
 }
+
+.buttonContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    color: $light-grey;
+}
+
+.createButton {
+    background-color: $blue;
+    border-radius: 15px;
+    color: $light-grey;
+    flex-grow: 1;
+}
+
+.joinButton {
+    background-color: $green;
+    border-radius: 15px;
+    color: $light-grey;
+    flex-grow: 1;
+}
