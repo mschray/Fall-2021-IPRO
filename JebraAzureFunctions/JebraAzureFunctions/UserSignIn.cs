@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using JebraAzureFunctions.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -21,7 +22,7 @@ namespace JebraAzureFunctions
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "courseCode", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Course code.")]
         [OpenApiParameter(name: "userEmail", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The user's email.")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(UserSignInResponseModel), Description = "The OK response")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "put", Route = null)] HttpRequest req,
             ILogger log)
@@ -73,10 +74,26 @@ namespace JebraAzureFunctions
 
             //Console.WriteLine($"courseId:{courseId}, userId:{userId}, instructorId:{instructorId}");
 
+            //Get stage.id
+            int stageId = -1;
+            string stageIdS = Tools.ExecuteQueryAsync($@"
+                SELECT stage_event_join.stage_id
+                FROM stage_event_join 
+                INNER JOIN course ON stage_event_join.course_id = course.id
+                WHERE course.code = {courseCode}
+            ").GetAwaiter().GetResult();
+            data = JsonConvert.DeserializeObject(stageIdS.Substring(1, stageIdS.Length - 2));//Removes [] from ends.
+            stageId = data?.stage_id;
+
             await Tools.ExecuteNonQueryAsync($"INSERT INTO course_assignment (user_id, course_id, instructor_id) VALUES({userId},{courseId},{instructorId})");
 
-            string responseMessage = $"User Signed-in: courseId: { courseId}, userId: { userId}, instructorId: { instructorId}";
-            return new OkObjectResult(responseMessage);
+            UserSignInResponseModel res = new UserSignInResponseModel();
+            res.courseId = courseId;
+            res.userId = userId;
+            res.instructorId = instructorId;
+            res.stageId = stageId;
+       
+            return new OkObjectResult(res);
         }
     }
 }
