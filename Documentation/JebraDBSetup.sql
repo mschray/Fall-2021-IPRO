@@ -15,14 +15,14 @@ DROP TABLE IF EXISTS [dbo].stage;
 DROP TABLE IF EXISTS [dbo].subject;
 
 CREATE TABLE [dbo].app_user (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	email				VARCHAR(255)	NOT NULL,
-	is_online			CHAR(5)			NOT NULL,
+	is_online			BIT				NOT NULL,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE [dbo].instructor (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	fname				VARCHAR(50)		NOT NULL,
 	lname				VARCHAR(50)		NOT NULL,
 	username			VARCHAR(35)		NOT NULL,
@@ -30,9 +30,11 @@ CREATE TABLE [dbo].instructor (
 	email				VARCHAR(255)	NOT NULL,
 	PRIMARY KEY (id)
 );
+-- Sample instructor
+INSERT INTO [dbo].instructor VALUES ('Al', 'Jebra', 'aj', 'password', 'aj@jebra.com');
 
 CREATE TABLE [dbo].statistic (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	first_time_correct	INT,
 	total_retries		INT,
 	score				FLOAT,
@@ -40,35 +42,41 @@ CREATE TABLE [dbo].statistic (
 );
 
 CREATE TABLE [dbo].subject (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	subject_name		VARCHAR(50)		NOT NULL,
 	PRIMARY KEY (id)
 );
 -- Sample subjects
-INSERT INTO [dbo].subject VALUES (1, 'Simplify Exponents');
-INSERT INTO [dbo].subject VALUES (2, 'Simplify Square Roots');
-INSERT INTO [dbo].subject VALUES (3, 'Factorials');
+INSERT INTO [dbo].subject VALUES ('Simplify Exponents');
+INSERT INTO [dbo].subject VALUES ('Simplify Square Roots');
+INSERT INTO [dbo].subject VALUES ('Factorials');
 
 CREATE TABLE [dbo].stage (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	max_hp				INT				NOT NULL,
 	name				VARCHAR(50)		NOT NULL,
 	subject_id			INT				NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (subject_id) REFERENCES [dbo].subject(id)
 );
+-- Sample stage
+INSERT INTO [dbo].stage VALUES (100, 'Monster 1', 1);
+INSERT INTO [dbo].stage VALUES (100, 'Monster 2', 2);
+INSERT INTO [dbo].stage VALUES (100, 'Monster 3', 3);
 
 CREATE TABLE [dbo].course (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	cname				VARCHAR(30)		NOT NULL,
 	code				VARCHAR(9),
 	stage_id			INT,
 	PRIMARY KEY (id),
 	FOREIGN KEY (stage_id) REFERENCES [dbo].stage(id)
 );
+-- Sample course
+INSERT INTO [dbo].course VALUES ('Algebra 1', 'JEBRA', 1);
 
 CREATE TABLE [dbo].course_assignment (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	user_id				INT,
 	instructor_id		INT				NOT NULL,
 	course_id			INT				NOT NULL,
@@ -77,9 +85,11 @@ CREATE TABLE [dbo].course_assignment (
 	FOREIGN KEY (instructor_id) REFERENCES [dbo].instructor(id),
 	FOREIGN KEY (course_id) REFERENCES [dbo].course(id)
 );
+-- Assign sample instructor to sample course
+INSERT INTO [dbo].course_assignment VALUES (NULL, 1, 1);
 
 CREATE TABLE [dbo].statistic_join (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	user_id				INT				NOT NULL,
 	course_id			INT				NOT NULL,
 	stage_id			INT				NOT NULL,
@@ -92,7 +102,7 @@ CREATE TABLE [dbo].statistic_join (
 );
 
 CREATE TABLE [dbo].question (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	answer_a			VARCHAR(255)	NOT NULL,
 	answer_b			VARCHAR(255),
 	question			VARCHAR(255)	NOT NULL,
@@ -101,44 +111,44 @@ CREATE TABLE [dbo].question (
 	FOREIGN KEY (subject_id) REFERENCES [dbo].subject(id)
 );
 -- Sample questions
-INSERT INTO [dbo].question VALUES (1, '1', NULL, '1^2', 1);
-INSERT INTO [dbo].question VALUES (2, '4', NULL, '2^2', 1);
-INSERT INTO [dbo].question VALUES (3, '9', NULL, '3^2', 1);
-INSERT INTO [dbo].question VALUES (4, '16', NULL, '4^2', 1);
-INSERT INTO [dbo].question VALUES (5, '25', NULL, '5^2', 1);
-INSERT INTO [dbo].question VALUES (6, '36', NULL, '6^2', 1);
-INSERT INTO [dbo].question VALUES (7, '49', NULL, '7^2', 1);
-INSERT INTO [dbo].question VALUES (8, '64', NULL, '8^2', 1);
-INSERT INTO [dbo].question VALUES (9, '81', NULL, '9^2', 1);
-INSERT INTO [dbo].question VALUES (10, '100', NULL, '10^2', 1);
-INSERT INTO [dbo].question VALUES (11, '1', '-1', 'sqrt(1)', 2);
-INSERT INTO [dbo].question VALUES (12, '2', '-2', 'sqrt(4)', 2);
-INSERT INTO [dbo].question VALUES (13, '3', '-3', 'sqrt(9)', 2);
-INSERT INTO [dbo].question VALUES (14, '4', '-4', 'sqrt(16)', 2);
-INSERT INTO [dbo].question VALUES (15, '5', '-5', 'sqrt(25)', 2);
-INSERT INTO [dbo].question VALUES (16, '6', '-6', 'sqrt(36)', 2);
-INSERT INTO [dbo].question VALUES (17, '7', '-7', 'sqrt(49)', 2);
-INSERT INTO [dbo].question VALUES (18, '8', '-8', 'sqrt(64)', 2);
-INSERT INTO [dbo].question VALUES (19, '9', '-9', 'sqrt(81)', 2);
-INSERT INTO [dbo].question VALUES (20, '10', '-10', 'sqrt(100)', 2);
-INSERT INTO [dbo].question VALUES (21, '1', NULL, '0!', 3);
-INSERT INTO [dbo].question VALUES (22, '1', NULL, '1!', 3);
-INSERT INTO [dbo].question VALUES (23, '2', NULL, '2!', 3);
-INSERT INTO [dbo].question VALUES (24, '6', NULL, '3!', 3);
-INSERT INTO [dbo].question VALUES (25, '24', NULL, '4!', 3);
-INSERT INTO [dbo].question VALUES (26, '120', NULL, '5!', 3);
-INSERT INTO [dbo].question VALUES (27, '720', NULL, '6!', 3);
+INSERT INTO [dbo].question VALUES ('1', NULL, '1^2', 1);
+INSERT INTO [dbo].question VALUES ('4', NULL, '2^2', 1);
+INSERT INTO [dbo].question VALUES ('9', NULL, '3^2', 1);
+INSERT INTO [dbo].question VALUES ('16', NULL, '4^2', 1);
+INSERT INTO [dbo].question VALUES ('25', NULL, '5^2', 1);
+INSERT INTO [dbo].question VALUES ('36', NULL, '6^2', 1);
+INSERT INTO [dbo].question VALUES ('49', NULL, '7^2', 1);
+INSERT INTO [dbo].question VALUES ('64', NULL, '8^2', 1);
+INSERT INTO [dbo].question VALUES ('81', NULL, '9^2', 1);
+INSERT INTO [dbo].question VALUES ('100', NULL, '10^2', 1);
+INSERT INTO [dbo].question VALUES ('1', '-1', 'sqrt(1)', 2);
+INSERT INTO [dbo].question VALUES ('2', '-2', 'sqrt(4)', 2);
+INSERT INTO [dbo].question VALUES ('3', '-3', 'sqrt(9)', 2);
+INSERT INTO [dbo].question VALUES ('4', '-4', 'sqrt(16)', 2);
+INSERT INTO [dbo].question VALUES ('5', '-5', 'sqrt(25)', 2);
+INSERT INTO [dbo].question VALUES ('6', '-6', 'sqrt(36)', 2);
+INSERT INTO [dbo].question VALUES ('7', '-7', 'sqrt(49)', 2);
+INSERT INTO [dbo].question VALUES ('8', '-8', 'sqrt(64)', 2);
+INSERT INTO [dbo].question VALUES ('9', '-9', 'sqrt(81)', 2);
+INSERT INTO [dbo].question VALUES ('10', '-10', 'sqrt(100)', 2);
+INSERT INTO [dbo].question VALUES ('1', NULL, '0!', 3);
+INSERT INTO [dbo].question VALUES ('1', NULL, '1!', 3);
+INSERT INTO [dbo].question VALUES ('2', NULL, '2!', 3);
+INSERT INTO [dbo].question VALUES ('6', NULL, '3!', 3);
+INSERT INTO [dbo].question VALUES ('24', NULL, '4!', 3);
+INSERT INTO [dbo].question VALUES ('120', NULL, '5!', 3);
+INSERT INTO [dbo].question VALUES ('720', NULL, '6!', 3);
 
 CREATE TABLE [dbo].stage_event (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	inflicted_hp		INT,
-	was_correct			CHAR(5)			NOT NULL,
+	was_correct			BIT				NOT NULL,
 	event_time			DATETIME		NOT NULL,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE [dbo].stage_event_join (
-	id					INT				NOT NULL,
+	id					INT				NOT NULL	IDENTITY,
 	stage_id			INT				NOT NULL,
 	course_id			INT				NOT NULL,
 	origin_user_id		INT				NOT NULL,
