@@ -77,11 +77,12 @@ namespace JebraAzureFunctions
             //Get stage.id
             int stageId = -1;
             string stageIdS = Tools.ExecuteQueryAsync($@"
-                SELECT stage_event_join.stage_id
+                SELECT TOP 1 stage_event_join.stage_id
                 FROM stage_event_join 
                 INNER JOIN course ON stage_event_join.course_id = course.id
-                WHERE course.code = {courseCode}
+                WHERE course.code = {courseCode};
             ").GetAwaiter().GetResult();
+            Console.WriteLine(stageIdS);
             data = JsonConvert.DeserializeObject(stageIdS.Substring(1, stageIdS.Length - 2));//Removes [] from ends.
             stageId = data?.stage_id;
 
