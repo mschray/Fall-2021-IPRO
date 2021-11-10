@@ -40,11 +40,11 @@ namespace JebraAzureFunctions
 
             /*
              * Inputs: An email and corse code.
-             * 1. Get course id from course code. *
-             * 2. Get user id from email. *
-             * 3. Get instructor id from course id. *?
-             * 4. Insert into course_assignment.
-             * 5. Set user online.
+             * 1. Get course id from course code. 
+             * 2. Get user id from email. 
+             * 3. Get instructor id from course id. 
+             * 4. Get stage id.
+             * 5. Insert into course_assignment.
              */
 
             string courseIdS = Tools.ExecuteQueryAsync($"SELECT id FROM course WHERE code='{courseCode}'").GetAwaiter().GetResult();
