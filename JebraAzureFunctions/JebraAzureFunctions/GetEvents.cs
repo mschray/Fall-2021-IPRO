@@ -46,11 +46,11 @@ namespace JebraAzureFunctions
             ///name = name ?? data?.name;
             ///   
 
-            string subjectIdString = Tools.ExecuteQueryAsync($"SELECT max_hp FROM stage WHERE id={stage}").GetAwaiter().GetResult();
+            string hpIdString = Tools.ExecuteQueryAsync($"SELECT max_hp FROM stage WHERE id={stage}").GetAwaiter().GetResult();
             //[{"id":2}]
-            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length - 2);
+            hpIdString = hpIdString.Substring(1, hpIdString.Length - 2);
             //{"id":2}
-            dynamic data = JsonConvert.DeserializeObject(subjectIdString);
+            dynamic data = JsonConvert.DeserializeObject(hpIdString);
             int maxHp = data?.id;
 
             string command = @$"
@@ -59,6 +59,13 @@ namespace JebraAzureFunctions
             INNER JOIN course ON course.code = {courseCode}
             WHERE stage_event_join.course_id = course.id AND stage_event_join.stage_id = {stage}
             ";
+
+            string subjectIdString = Tools.ExecuteQueryAsync($"SELECT subject_id FROM stage WHERE id={stage}").GetAwaiter().GetResult();
+            //[{"id":2}]
+            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length - 2);
+            //{"id":2}
+            data = JsonConvert.DeserializeObject(subjectIdString);
+            int subjectId = data?.id;
 
             dynamic responseMessage = Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult();
 
@@ -72,7 +79,21 @@ namespace JebraAzureFunctions
 
             if(currentHp <= 0)
             {
-                responseMessage = "{'EndOfStage': true}";
+                /*
+                 * - Delete current stage
+                 * - Create new stage
+                 * - Ret new stage_id
+                 */
+                Tools.ExecuteNonQueryAsync($"DELETE FROM stage WHERE id={stage}").GetAwaiter().GetResult();
+
+                string newStageIdString = Tools.ExecuteQueryAsync($@"INSERT INTO stage OUTPUT INSERTED.id VALUES(100, 'punisher',{subjectId})").GetAwaiter().GetResult();
+                //[{"id":2}]
+                newStageIdString = newStageIdString.Substring(1, subjectIdString.Length - 2);
+                //{"id":2}
+                data = JsonConvert.DeserializeObject(newStageIdString);
+                int newStageId = data?.id;
+
+                responseMessage = "{'EndOfStage': true, 'NewStage': " + newStageId + "}";
             }
             return new OkObjectResult(responseMessage);
         }
