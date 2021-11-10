@@ -29,7 +29,7 @@
 - [Suggestion] Add labels to stories to show which Sprint/Week they were assigned to, in order to know if stories are taking too long to close
 - Comment: Yes, we will be doing that.
 - [Suggestion] Everyone on the team should be writing / editing stories, and committing changes/pull requests. If you don't know how, then have someone help but everyone should be doing the basics
-- Comment: During out meeting, we have discussed about this problem and everyone now has known how to do the basics.
+- Comment: During our meeting, we have discussed about this problem and everyone now has known how to do the basics.
 
 ## Week 11 ##
  - SCRUM Lead: Nam Cong Nguyen
@@ -37,7 +37,7 @@
  - I liked that you are doing Retros and they seem meaningful; keep it up!
  - I liked that you were able to meet face to face and got a lot done "in person"
  - [Suggestion] does your backlog contain all you need to do to complete the project?  
- - Commment: Yes and we are still willing to make adjustments which can improve the completion of the project.  
+ - Comment: Yes and we are still willing to make adjustments which can improve the completion of the project.  
 
 ## Week 12 ##
 
