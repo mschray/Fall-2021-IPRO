@@ -36,7 +36,7 @@ const StudentLogin: React.FC = () => {
                 </div>
                 <br/>
                 <div>                
-                <TextField name="course_id" required sx={{ m: 1, width: '25ch' }} label="Course ID" value={formState.course_id} placeholder="Course ID" type="text" onChange={onFormChange} />
+                <TextField name="course_id" required sx={{ m: 1, width: '25ch' }} label="course_id" value={formState.course_id} placeholder="First name" type="text" onChange={onFormChange} />
                 </div>
                 <br/>
                 <button name="Join class">Join Class</button>
