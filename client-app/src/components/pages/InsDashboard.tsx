@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Page.module.scss";
 
 interface InstructorState {
     email: string,
@@ -9,9 +10,9 @@ const InsDashboard: React.FC = () => {
         email: "",
         courses: []
     }
-    
+
     return (
-        <div>
+        <div className={styles.content}>
             Hello instructor
         </div>
     );
