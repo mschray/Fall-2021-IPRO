@@ -8,6 +8,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Link } from "react-router-dom";
 
 interface LoginFormState {
     email: string,
@@ -38,6 +39,13 @@ const Login: React.FC = () => {
         loginUserCallback,
         initialState
     );
+
+    <Link
+to={{
+    pathname: "/InsDashboard",
+    state: {email: formState.email} // your data array of objects
+  }}
+></Link>
 
     return (
         <div className={styles.content}>
