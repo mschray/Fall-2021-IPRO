@@ -2,8 +2,12 @@ import React, { useState } from "react";
 
 import styles from "./Page.module.scss"
 import useForm from "hooks/useForm";
-import {IconButton, InputAdornment, TextField } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 interface LoginFormState {
     email: string,
@@ -19,7 +23,10 @@ const Login: React.FC = () => {
     // a submit function that will execute upon form submission
     async function loginUserCallback() {
         // send "values" to database
-        alert('You have submitted the form.')
+        fetch(window.location.href)
+            .then(resp => {
+                window.location.href = "/InsDashboard";
+            })
     }
 
     const [visible, setVisible] = useState(false);
@@ -42,17 +49,18 @@ const Login: React.FC = () => {
                 <br/>
                 <div>                
                     <TextField name="password" required label="Password" value={formState.password} placeholder="Password" onChange={onFormChange}
-                    type={visible ? 'text' : 'password'} 
-                    sx={{ m: 1, width: '25ch' }}
-                    InputProps={{
-                        endAdornment: (
-                         <InputAdornment position="end">
-                          <IconButton onClick={toggleVisibility}>
-                           {visible ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                         </InputAdornment>
-                        )
-                       }}/>
+                        type={visible ? 'text' : 'password'} 
+                        sx={{ m: 1, width: '25ch' }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton onClick={toggleVisibility}>
+                                        {visible ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }}
+                    />
                 </div>
                 <br/>
                 <input type="submit" value="Submit" />

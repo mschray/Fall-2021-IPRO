@@ -2,8 +2,12 @@ import React, { useState } from "react";
 
 import pageStyles from "./Page.module.scss"
 import useForm from "hooks/useForm";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 interface SignupFormState {
     fname: string,
@@ -60,17 +64,18 @@ const Signup: React.FC = () => {
                 <br/>
                 <div>                
                     <TextField name="password" required margin="normal" label="Password" value={formState.password} placeholder="Password" onChange={onFormChange}
-                    type={visible ? 'text' : 'password'} 
-                    sx={{ m: 1, width: '25ch' }}
-                    InputProps={{
-                        endAdornment: (
-                         <InputAdornment position="end">
-                          <IconButton onClick={toggleVisibility}>
-                           {visible ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                         </InputAdornment>
-                        )
-                       }}/>
+                        type={visible ? 'text' : 'password'} 
+                        sx={{ m: 1, width: '25ch' }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton onClick={toggleVisibility}>
+                                        {visible ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }}
+                    />
                 </div>
                 <br/>
                 <input type="submit" value="Submit" />

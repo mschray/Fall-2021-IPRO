@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Data;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Collections;
+using JebraAzureFunctions.Models;
 
 namespace JebraAzureFunctions
 {
@@ -43,18 +45,22 @@ namespace JebraAzureFunctions
         public static async Task<bool> ExecuteNonQueryAsync(string command)
         {
             var str = Environment.GetEnvironmentVariable("SqlConnectionString");
-            using (SqlConnection conn = new SqlConnection(str))
+            try
             {
-                conn.Open();
-
-                using (SqlCommand cmd = new SqlCommand(command, conn))
+                using (SqlConnection conn = new SqlConnection(str))
                 {
-                    int exeTask = await cmd.ExecuteNonQueryAsync();
-                }
+                    conn.Open();
 
-                await conn.DisposeAsync();
+                    using (SqlCommand cmd = new SqlCommand(command, conn))
+                    {
+                        int exeTask = await cmd.ExecuteNonQueryAsync();
+                    }
+
+                    await conn.DisposeAsync();
+                    return true;
+                }
             }
-            return true;
+            catch { return false; }
         }
 
         /// <summary>
@@ -88,6 +94,165 @@ namespace JebraAzureFunctions
         }
 
         /// <summary>
+        /// Converts a list of questions from a request body into a List<QuestionModel>
+        /// </summary>
+        /// <param name="questionList"></param>
+        /// <returns>List of QuestionModel</returns>
+        public static List<QuestionModel> JsonQuestionsToModelArray(dynamic questionList)
+        {
+            List <QuestionModel> ret = new List<QuestionModel>() { };
+            foreach (var obj in questionList)
+            {
+                QuestionModel q = new QuestionModel();
+                q.answer_a = obj?.answer_a;
+                q.answer_b = obj?.answer_b;
+                q.question = obj?.question;
+                q.id = obj?.id;
+                q.subject_id = obj?.subject_id;
+                ret.Add(q);
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Converts a list of events from a request body into a List<StageEventModel> 
+        /// </summary>
+        /// <param name="questionList"></param>
+        /// <returns></returns>
+        public static List<StageEventModel> JsonEventsToModelArray(dynamic questionList)
+        {
+            List<StageEventModel> ret = new List<StageEventModel>() { };
+            foreach (var obj in questionList)
+            {
+                StageEventModel e = new StageEventModel();
+                //q.answer_a = obj?.answer_a;
+                //q.answer_b = obj?.answer_b;
+                //q.question = obj?.question;
+                //q.id = obj?.id;
+                //q.subject_id = obj?.subject_id;
+
+                e.id = obj?.id;
+                e.inflicted_hp = obj?.inflicted_hp;
+                e.was_correct = obj?.was_correct;
+                e.event_time = obj?.event_time;
+
+                ret.Add(e);
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Tests if a question has been entered into the database already.
+        /// </summary>
+        /// <param name="question"></param>
+        /// <param name="questionList"></param>
+        /// <returns>True if the question is unique.</returns>
+        public static Boolean UniqueQuestion(QuestionModel question, List<QuestionModel> questionList)
+        {
+            foreach (QuestionModel obj in questionList)
+            {
+                //Console.WriteLine(obj.address);
+                Console.WriteLine($"Q:{obj?.question}");
+                if (question.question.Equals((string)obj.question))
+                {
+                    //Console.WriteLine("MATCH");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Takes a List of QuestionModels and inserts them into the database. 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static async Task<bool> InsertQuestionsAsync(List<QuestionModel> list)
+        {
+            try
+            {
+                string command = InsertQuestionsSQLCommandGenerator(list);
+                await ExecuteNonQueryAsync(command);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Generates a list of questions which are not already in the database.
+        /// </summary>
+        /// <param name="QuestionGeneratorFunct">Base function used to generate the question.</param>
+        /// <param name="amount">Amount of questions to generate.</param>
+        /// <param name="subjectId">Subject id of the questions to be generated.</param>
+        /// <returns></returns>
+        public static List<QuestionModel> GenerateUniqueQuestions(Func<QuestionModel> QuestionGeneratorFunct, int amount, int subjectId)
+        {
+            string questionsS = Tools.ExecuteQueryAsync($"SELECT * FROM question WHERE subject_id='{subjectId}'").GetAwaiter().GetResult();
+            dynamic questionListD = JsonConvert.DeserializeObject(questionsS);
+            List<QuestionModel> questionList = Tools.JsonQuestionsToModelArray(questionListD);
+            List<QuestionModel> ret = new List<QuestionModel>() { };
+
+            int maxAttempts = 100; //Maximum attempts to generate a unique question
+
+            for (int i = 0; i < amount; i++)
+            {
+                QuestionModel question = QuestionGeneratorFunct();
+                int count = 0;
+                while (Tools.UniqueQuestion(question, questionList) == false && count < maxAttempts)
+                {
+                    question = QuestionGeneratorFunct();
+                    count++;
+                }
+                if (count < maxAttempts)
+                {
+                    ret.Add(question);
+                    questionList.Add(question);
+                    //command += $"INSERT INTO question VALUES('{question.answer_a}', null, '{question.question}', {subjectId}) \n";
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Given a list of QuestionModels, will generate a sql command to insert them into a database. 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static string InsertQuestionsSQLCommandGenerator(List<QuestionModel> list)
+        {
+            string command = "";
+            foreach(QuestionModel question in list)
+            {
+                command += $"INSERT INTO question VALUES('{question.answer_a}', {question.answer_b}, '{question.question}', {question.subject_id}) \n";
+            }
+            return command;
+        }
+
+        /// <summary>
+        /// Retreive the subject_id based on the subject_name field.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <returns>The subject's subject_id</returns>
+        public static int GetSubjectIdFromString(string subject)
+        {
+            string subjectIdString = Tools.ExecuteQueryAsync($"SELECT id FROM subject WHERE subject_name='{subject}'").GetAwaiter().GetResult();
+            //[{"id":2}]
+            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length - 2);
+            //{"id":2}
+            dynamic data = JsonConvert.DeserializeObject(subjectIdString);
+            return data?.id;
+        }
+        
+        /// <summary>
         /// ex: 4^2 = 16
         /// </summary>
         /// <returns>A QuestionModel</returns>
@@ -100,13 +265,18 @@ namespace JebraAzureFunctions
 
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = square.ToString();
+            questionModel.answer_b = "null";
             questionModel.question = num + "^2";
+            questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents");
             return questionModel;
         }
 
         //Result = Math.Pow(Number1, Number2);
 
-        //ex: 4^4 = 256
+        /// <summary>
+        /// ex: 4^4 = 256
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
         public static QuestionModel SimplifyExponents2()
         {
             Random r = new Random();
@@ -116,11 +286,17 @@ namespace JebraAzureFunctions
 
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = exponential.ToString();
+            questionModel.answer_b = "null";
             questionModel.question = num + "^" + exp;
+
+            questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents 2");
             return questionModel;
         }
 
-        //ex: sqrt(16) = 4
+        /// <summary>
+        /// ex: sqrt(16) = 4
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
         public static QuestionModel SimplifySquareRoots()
         {
             Random r = new Random();
@@ -131,10 +307,14 @@ namespace JebraAzureFunctions
             questionModel.answer_a = num.ToString();
             questionModel.answer_b = (0 - num).ToString();
             questionModel.question = "sqrt(" + square + ")";
+            questionModel.subject_id = GetSubjectIdFromString("Simplify Square Roots");
             return questionModel;
         }
 
-        //ex: 4! = 24
+        /// <summary>
+        /// ex: 4! = 24
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
         public static QuestionModel Factorials()
         {
             Random r = new Random();
@@ -151,11 +331,16 @@ namespace JebraAzureFunctions
 
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = factorial.ToString();
+            questionModel.answer_b = "null";
             questionModel.question = num + "!";
+            questionModel.subject_id = GetSubjectIdFromString("Factorials");
             return questionModel;
         }
 
-        //ex: (-2,3) is in quadrant II
+        /// <summary>
+        /// ex: (-2,3) is in quadrant II
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
         public static QuestionModel CartesianCoordinates()
         {
             Random r = new Random();
@@ -168,38 +353,37 @@ namespace JebraAzureFunctions
                 y = r.Next(-10, -11);
             }
 
+            QuestionModel questionModel = new QuestionModel();
+            questionModel.subject_id = GetSubjectIdFromString("Cartesian Coordinates");
+
             if (x > 0 && y > 0)
             {
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = "1";
-                questionModel.question = "(" + x + "," + y + ")";
-                return questionModel;
+                questionModel.question = "(" + x + "," + y + ")";            
             }
             else if (x < 0 && y > 0)
             {
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = "2";
                 questionModel.question = "(" + x + "," + y + ")";
-                return questionModel;
             }
             else if (x < 0 && y < 0)
             {
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = "3";
                 questionModel.question = "(" + x + "," + y + ")";
-                return questionModel;
             }
             else
             {
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = "4";
                 questionModel.question = "(" + x + "," + y + ")";
-                return questionModel;
             }
-
+            questionModel.answer_b = "null";
+            return questionModel;
         }
 
-        //ex: 3x - 5 = 10 -> x = 5
+        /// <summary>
+        /// ex: 3x - 5 = 10 -> x = 5
+        /// </summary>
+        /// <returns>A QuestionModel</returns>
         public static QuestionModel SingleVariable()
         {
             Random r = new Random();
@@ -226,24 +410,29 @@ namespace JebraAzureFunctions
             int factor = possibleFactors[r.Next(0, possibleFactors.Count - 1)];
             int x = (eNum - sumNum) / factor;
 
+            QuestionModel questionModel = new QuestionModel();
+
             if (sumNum < 0)
             {
-                int sumNumB = sumNum * -1;
-                QuestionModel questionModel = new QuestionModel();
+                int sumNumB = sumNum * -1;             
                 questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "-" + sumNumB + "=" + eNum;
-                return questionModel;
+                
             }
             else
             {
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "+" + sumNum + "=" + eNum;
-                return questionModel;
             }
+            questionModel.subject_id = GetSubjectIdFromString("Single Variable");
+            questionModel.answer_b = "null";
+            return questionModel;
         }
 
-        //ex: x + 4 = 3x - 6 -> x = 5
+        /// <summary>
+        /// ex: x + 4 = 3x - 6 -> x = 5
+        /// </summary>
+        /// <returns></returns>
         public static QuestionModel SystemOfEquations()
         {
             Random r = new Random();
@@ -272,24 +461,26 @@ namespace JebraAzureFunctions
             int factor1 = factor - r.Next(1, factor);
             int factor2 = factor - factor1;
 
+            QuestionModel questionModel = new QuestionModel();
 
             if (sumNum < 0)
             {
                 int sumNumB = sumNum * -1;
-                QuestionModel questionModel = new QuestionModel();
                 questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "-" + sumNum + "=" + factor2 + x + "+" + eNum;
-                return questionModel;
+                
                 //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor1}x - {sumNum} = {factor2}x + {eNum}')";
             }
             else
-            {
-                QuestionModel questionModel = new QuestionModel();
+            {  
                 questionModel.answer_a = x.ToString();
                 questionModel.question = factor + x + "+" + sumNum + "=" + factor2 + x + "+" + eNum;
-                return questionModel;
                 //command = $"INSERT INTO question(answer_a, answer_b, question) VALUES({x},null,'{factor1}x + {sumNum} = {factor2}x + {eNum}')";
             }
+
+            questionModel.subject_id = GetSubjectIdFromString("System Of Equations");
+            questionModel.answer_b = "null";
+            return questionModel;
         }
 
         //answer type is string, wont work currently
