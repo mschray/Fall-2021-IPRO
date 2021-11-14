@@ -23,7 +23,10 @@ const Login: React.FC = () => {
     // a submit function that will execute upon form submission
     async function loginUserCallback() {
         // send "values" to database
-        alert('You have submitted the form.')
+        fetch(window.location.href)
+            .then(resp => {
+                window.location.href = "/InsDashboard";
+            })
     }
 
     const [visible, setVisible] = useState(false);
