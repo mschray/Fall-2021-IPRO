@@ -6,6 +6,8 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import CreateIcon from "@mui/icons-material/Create";
 
+import squareSubject from "assets/subjectIcons/SquaresSymbol.png";
+
 import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 import { isSubjectModel } from "models/SubjectModel";
@@ -26,7 +28,12 @@ const SubjectSelector: React.FC<{ callback: (name: string) => void }> = (props) 
 
     if (fetchResult.status === FetchStatus.Success) {
         const subjectListItems = fetchResult.payload.map((subject) => (
-            <ul key={subject.id} className={homeStyles.columnContainer}>
+            <ul key={subject.id} className={homeStyles.subjectContainer}>
+                <img
+                    className={homeStyles.png}
+                    src={squareSubject}
+                    alt="An icon to demonstrate the subject."
+                />
                 <h2>{subject.subject_name}</h2>
             </ul>
         ))

@@ -35,6 +35,13 @@
     border-radius: 15px;
 }
 
+.subjectContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    border-radius: 15px;
+}
+
 .createButton {
     background-color: $blue;
     border-radius: 15px;
@@ -47,4 +54,9 @@
     border-radius: 15px;
     color: $light-grey;
     flex-grow: 1;
+}
+
+.png {
+    width: 10;
+    height: 20%;
 }
