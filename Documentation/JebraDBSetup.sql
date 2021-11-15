@@ -67,13 +67,13 @@ INSERT INTO [dbo].stage VALUES (100, 'Monster 3', 3);
 CREATE TABLE [dbo].course (
 	id					INT				NOT NULL	IDENTITY,
 	cname				VARCHAR(30)		NOT NULL,
-	code				VARCHAR(9),
+	code				INT,
 	stage_id			INT,
 	PRIMARY KEY (id),
 	FOREIGN KEY (stage_id) REFERENCES [dbo].stage(id)
 );
 -- Sample course
-INSERT INTO [dbo].course VALUES ('Algebra 1', 'JEBRA', 1);
+INSERT INTO [dbo].course VALUES ('Algebra 1', 12345, 1);
 
 CREATE TABLE [dbo].course_assignment (
 	id					INT				NOT NULL	IDENTITY,
