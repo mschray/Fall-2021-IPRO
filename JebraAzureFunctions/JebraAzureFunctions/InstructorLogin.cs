@@ -21,10 +21,10 @@ namespace JebraAzureFunctions
          * 
          * ONLY username AND pass FIELDS ARE REQUIRED!
          * 
-         * If login was correct/instructor exists, the response will be the instructors entry in the instructor table. Else, the response will be 'null'
+         * If login was correct/instructor exists, the response will be the instructors entry in the instructor table. Else, the response will be "[{"Column1":-1}]"
          */
 
-        
+
         [FunctionName("InstructorLogin")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "Instructor Requests" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
