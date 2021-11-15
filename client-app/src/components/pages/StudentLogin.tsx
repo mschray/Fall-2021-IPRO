@@ -29,6 +29,8 @@ const StudentLogin: React.FC = () => {
             .then(response => response.text())
             .then(text => {console.log(text)})
             .catch(err => {console.error(err)});
+        
+        
     }
 
     // getting the event handlers from our custom hook
