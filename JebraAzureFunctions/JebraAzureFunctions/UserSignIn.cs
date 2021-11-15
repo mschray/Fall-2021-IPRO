@@ -48,8 +48,8 @@ namespace JebraAzureFunctions
              */
 
             string courseIdS = Tools.ExecuteQueryAsync($"SELECT id FROM course WHERE code='{courseCode}'").GetAwaiter().GetResult();
-            dynamic data = JsonConvert.DeserializeObject(courseIdS.Substring(1, courseIdS.Length - 2));//Removes [] from ends.
-            int courseId = data?.id;
+            //dynamic data = JsonConvert.DeserializeObject(courseIdS.Substring(1, courseIdS.Length - 2));//Removes [] from ends.
+            int courseId = Tools.GetIdFromResponse(courseIdS);
 
             //string userIdS = Tools.ExecuteQueryAsync($"SELECT id FROM app_user WHERE email='{userEmail}'").GetAwaiter().GetResult();
             string userIdS = Tools.ExecuteQueryAsync($@"
@@ -65,12 +65,14 @@ namespace JebraAzureFunctions
                 
                 SELECT id FROM app_user WHERE email='{userEmail}'
             ").GetAwaiter().GetResult();
-            data = JsonConvert.DeserializeObject(userIdS.Substring(1, userIdS.Length - 2));//Removes [] from ends.
-            int userId = data?.id;
+            //data = JsonConvert.DeserializeObject(userIdS.Substring(1, userIdS.Length - 2));//Removes [] from ends.
+            //int userId = data?.id;
+            int userId = Tools.GetIdFromResponse(userIdS);
 
             string instructorIds = Tools.ExecuteQueryAsync($"SELECT instructor_id FROM course_assignment WHERE course_id={courseId} AND user_id IS NULL").GetAwaiter().GetResult();
-            data = JsonConvert.DeserializeObject(instructorIds.Substring(1, instructorIds.Length - 2));//Removes [] from ends.
-            int instructorId = data?.instructor_id;
+            //data = JsonConvert.DeserializeObject(instructorIds.Substring(1, instructorIds.Length - 2));//Removes [] from ends.
+            //int instructorId = data?.instructor_id;
+            int instructorId = Tools.GetIdFromResponse(instructorIds);
 
             //Console.WriteLine($"courseId:{courseId}, userId:{userId}, instructorId:{instructorId}");
 
@@ -83,8 +85,9 @@ namespace JebraAzureFunctions
                 WHERE course.code = {courseCode};
             ").GetAwaiter().GetResult();
             Console.WriteLine(stageIdS);
-            data = JsonConvert.DeserializeObject(stageIdS.Substring(1, stageIdS.Length - 2));//Removes [] from ends.
-            stageId = data?.stage_id;
+            //data = JsonConvert.DeserializeObject(stageIdS.Substring(1, stageIdS.Length - 2));//Removes [] from ends.
+            //stageId = data?.stage_id;
+            stageId = Tools.GetIdFromResponse(stageIdS);
 
             await Tools.ExecuteNonQueryAsync($"INSERT INTO course_assignment (user_id, course_id, instructor_id) VALUES({userId},{courseId},{instructorId})");
 
