@@ -1,19 +1,19 @@
+import React, { useState, useEffect } from "react";
+
 import styles from "./Header.module.scss"
 import { ReactComponent as JebraSVG } from "assets/JebraLogov2Dark.svg";
 
 import MenuIcon from '@mui/icons-material/Menu';
-import React, { useState, useEffect } from "react";
 
-import {
-    AppBar,
-    Toolbar,
-    makeStyles,
-    Button,
-    IconButton,
-    Drawer,
-    Link,
-    MenuItem,
-  } from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import Link from "@material-ui/core/Link";
+import MenuItem from "@material-ui/core/MenuItem";
+import Toolbar from "@material-ui/core/Toolbar";
+
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { Link as RouterLink } from "react-router-dom";
 
