@@ -63,8 +63,13 @@ namespace JebraAzureFunctions
             //Generate course code
             //int courseCode = Tools.GetRandomIntInRange(100000000,999999999);//9 digits long //BROKEN
             //Random didnt want to generate a 9 digit random. :(
-  
-            int courseCode = 555444333;
+            Random r = new Random();
+            string a = r.Next(1000, 9999).ToString();
+            string b = r.Next(10000, 99999).ToString();
+            string courseCodeS = a + b;
+            int courseCode = int.Parse(courseCodeS);
+            Console.WriteLine(courseCode);
+            //int courseCode = 555444333;
 
             //Insert course
             int courseId = Tools.GetIdFromResponse(Tools.ExecuteQueryAsync($"INSERT INTO course (cname, code) OUTPUT INSERTED.id VALUES ('{courseName}', {courseCode})").GetAwaiter().GetResult());
