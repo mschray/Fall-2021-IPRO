@@ -92,6 +92,14 @@ namespace JebraAzureFunctions
                 }
             }
         }
+        
+        public static int GetIdFromResponse(string s)
+        {
+            //Console.WriteLine(s.Substring(1, s.Length - 2));
+            dynamic data = JsonConvert.DeserializeObject(s.Substring(1, s.Length - 2));//Removes [] from ends.
+            //Console.WriteLine($"ID: {data?.id}");
+            return data?.id;
+        }
 
         /// <summary>
         /// Converts a list of questions from a request body into a List<QuestionModel>
