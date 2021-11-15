@@ -9,14 +9,6 @@
             Will return new stage id if monster is defeated.
             </summary>
         </member>
-        <member name="M:JebraAzureFunctions.InstructorLogin.Run(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
-            <summary>
-            HI DAN
-            </summary>
-            <param name="req"></param>
-            <param name="log"></param>
-            <returns></returns>
-        </member>
         <member name="T:JebraAzureFunctions.PublishStatisticForStage">
             <summary>
             When calling this function, you are required to provide values for each column asked of in the model.
