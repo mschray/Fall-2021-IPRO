@@ -35,21 +35,16 @@ namespace JebraAzureFunctions
             int stageHp = int.Parse(req.Query["stageHp"]);
             string stageName = req.Query["stageName"];
 
-            Console.WriteLine("0");
-
             //Two lines for readability
             string instructorIdS = Tools.ExecuteQueryAsync($"SELECT id FROM instructor WHERE email = '{instructorEmail}'").GetAwaiter().GetResult(); 
             int instructorId = Tools.GetIdFromResponse(instructorIdS);
 
-            Console.WriteLine("0.5");
 
             string subjectIdS = Tools.ExecuteQueryAsync($"SELECT id FROM subject WHERE subject_name = '{subjectName}'").GetAwaiter().GetResult();
 
-            Console.WriteLine(subjectIdS);
 
             int subjectId = Tools.GetIdFromResponse(subjectIdS);
 
-            Console.WriteLine("1");
 
             /*
              * TODO:
@@ -68,14 +63,11 @@ namespace JebraAzureFunctions
             string b = r.Next(10000, 99999).ToString();
             string courseCodeS = a + b;
             int courseCode = int.Parse(courseCodeS);
-            Console.WriteLine(courseCode);
             //int courseCode = 555444333;
 
             //Insert course
             int courseId = Tools.GetIdFromResponse(Tools.ExecuteQueryAsync($"INSERT INTO course (cname, code) OUTPUT INSERTED.id VALUES ('{courseName}', {courseCode})").GetAwaiter().GetResult());
 
-
-            Console.WriteLine("2");
 
             //Insert stage 
             int stageId = Tools.GetIdFromResponse(Tools.ExecuteQueryAsync($@"
@@ -84,18 +76,12 @@ namespace JebraAzureFunctions
             VALUES ({stageHp}, '{stageName}', {subjectId})").GetAwaiter().GetResult());
 
 
-            Console.WriteLine("3");
-
             //Add stage_id to course
             bool status = Tools.ExecuteNonQueryAsync($@"UPDATE course SET stage_id = {stageId} WHERE id = {courseId}").GetAwaiter().GetResult();
-
-            Console.WriteLine("4");
 
             //Course assignment
             status = Tools.ExecuteNonQueryAsync($@"INSERT INTO course_assignment(instructor_id, course_id) VALUES ({instructorId}, {courseId})").GetAwaiter().GetResult();
 
-
-            Console.WriteLine("5");
 
             string responseMessage = Tools.ExecuteQueryAsync($@"
             SELECT course.id AS course_id, course.cname, course.code, course.stage_id, stage.max_hp, stage.name, stage.subject_id, subject.subject_name
