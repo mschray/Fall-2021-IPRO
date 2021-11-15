@@ -27,7 +27,7 @@ namespace JebraAzureFunctions
         [OpenApiParameter(name: "stageId", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "The **stage.id** parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "put", Route = null)] HttpRequest req,
             ILogger log)
         {
             int courseId = int.Parse(req.Query["courseId"]);
