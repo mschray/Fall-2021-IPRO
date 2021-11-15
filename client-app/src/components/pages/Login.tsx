@@ -29,11 +29,6 @@ const Login: React.FC = () => {
     async function loginUserCallback() {
         // send "values" to database
         setSignedIn(!signedIn)
-        //redirect to Instructor dashboard
-        // fetch(window.location.href)
-        //     .then(resp => {
-        //         window.location.href = "/InsDashboard";
-        //     })
     }
 
     const toggleVisibility = () => {
