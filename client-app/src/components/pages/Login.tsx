@@ -8,6 +8,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 import InsDashboard from "./InsDashboard";
 
 interface LoginFormState {
@@ -68,17 +69,17 @@ const Login: React.FC = () => {
                     <br/>
                     <input type="submit" value="Submit" />
                 </form>
-                <p> New to Jebra? <a href="/Signup">Create an account</a></p>
+                <p>New to Jebra? <a href="/Signup">Create an account</a></p>
             </div>
         );}
     else {
         return (
             <div className={styles.content}>
                 <InsDashboard email={formState.email} courses={[]}/>
-                <button onClick ={handleSignOut}>Logout</button>
+                <button onClick={handleSignOut}>Logout</button>
             </div>
         );
     }
-    };
+};
 
 export default Login;
