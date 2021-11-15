@@ -54,7 +54,9 @@ namespace JebraAzureFunctions
 
             //Generate course code
             //int courseCode = Tools.GetRandomIntInRange(100000000,999999999);//9 digits long //BROKEN
-            int courseCode = 555444333;
+            var rnd = new Random(DateTime.Now.Millisecond);
+            int courseCode = rnd.Next(100000001, 999999999);
+            //int courseCode = 555444333;
    
             //Insert course
             int courseId = Tools.GetIdFromResponse(Tools.ExecuteQueryAsync($"INSERT INTO course (cname, code) OUTPUT INSERTED.id VALUES ('{courseName}', {courseCode})").GetAwaiter().GetResult());
@@ -72,7 +74,7 @@ namespace JebraAzureFunctions
             status = Tools.ExecuteNonQueryAsync($@"INSERT INTO course_assignment(instructor_id, course_id) VALUES ({instructorId}, {courseId})").GetAwaiter().GetResult();
             
             string responseMessage = Tools.ExecuteQueryAsync($@"
-            SELECT course.cname, course.code, course.stage_id, stage.max_hp, stage.name, stage.subject_id, subject.subject_name
+            SELECT course.id, course.cname, course.code, course.stage_id, stage.max_hp, stage.name, stage.subject_id, subject.subject_name
             FROM course     
             INNER JOIN stage ON course.stage_id = stage.id
             INNER JOIN subject ON subject.id = {subjectId}
