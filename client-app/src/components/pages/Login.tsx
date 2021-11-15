@@ -13,14 +13,12 @@ import InsDashboard from "./InsDashboard";
 interface LoginFormState {
     email: string,
     password: string,
-    signedIn: boolean
 };
 
 const Login: React.FC = () => {
     const initialState: LoginFormState = {
         email: "",
         password: "",
-        signedIn: false
     };
     const [signedIn, setSignedIn] = useState(false);
     const [visible, setVisible] = useState(false);
