@@ -4,7 +4,7 @@
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\School\Ipro\Fall-2021-IPRO\JebraAzureFunctions\JebraAzureFunctions\JebraAzureFunctions.xml</DocumentationFile>
+    <DocumentationFile>JebraAzureFunctions.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.15.0" />
