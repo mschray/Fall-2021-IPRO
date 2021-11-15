@@ -1,31 +1,31 @@
-import Button from "@mui/material/Button";
 import React from "react";
-import styles from "./Page.module.scss";
 
 interface InstructorState {
     email: string,
     courses: Array<String>
 }
 
-const InsDashboard: React.FC = () => {
+const InsDashboard: React.FC<InstructorState> = (props) => {
     const initialState: InstructorState ={
         email: "",
         courses: []
     }
 
     initialState.courses = ["algebra1", "algebra2"]
+
     const menuButtons = initialState.courses.map(course => (
         <ul>
             <li>
-            <Button>
+            <button>
                 {course}
-            </Button>
+            </button>
             </li>
         </ul>
     ));
+
     return (
-        <div className={styles.content}>
-            <h3>Hello instructor</h3>
+        <div>
+            <h3>Hello {props.email}</h3>
             <p>
                 Courses
                 {menuButtons}

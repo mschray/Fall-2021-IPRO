@@ -15,7 +15,6 @@ import Play from "components/pages/Play";
 import StudentLogin from "./pages/StudentLogin";
 
 import styles from "./App.module.scss";
-import InsDashboard from "./pages/InsDashboard";
 
 const App: React.FC = () => {
     return (
@@ -38,9 +37,6 @@ const App: React.FC = () => {
                     <Route path="/studentLogin">
                         <StudentLogin />
                     </Route>
-                    <Route path="/InsDashboard">
-                        <InsDashboard />
-                    </Route>         
                     <Route path="/">
                         <Home />
                     </Route>
