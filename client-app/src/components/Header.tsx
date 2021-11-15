@@ -1,16 +1,12 @@
 import styles from "./Header.module.scss"
 import { ReactComponent as JebraSVG } from "assets/JebraLogov2Dark.svg";
 
-
-import { StyledEngineProvider } from "@mui/material/styles"
-import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import React, { useState, useEffect } from "react";
 
 import {
     AppBar,
     Toolbar,
-    Typography,
     makeStyles,
     Button,
     IconButton,
@@ -18,8 +14,8 @@ import {
     Link,
     MenuItem,
   } from "@material-ui/core";
-  import { Link as RouterLink } from "react-router-dom";
-import { height, margin } from "@mui/system";
+
+import { Link as RouterLink } from "react-router-dom";
 
   const headersData = [
     {
