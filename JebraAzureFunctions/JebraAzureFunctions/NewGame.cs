@@ -17,7 +17,7 @@ namespace JebraAzureFunctions
     public static class NewGame
     {
         [FunctionName("NewGame")]
-        [OpenApiOperation(operationId: "Run", tags: new[] { "General Request" })]
+        [OpenApiOperation(operationId: "Run", tags: new[] { "Game Requests" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "subjectName", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **subjectName** parameter")]
         [OpenApiParameter(name: "courseName", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The **courseName** parameter")]
@@ -35,13 +35,21 @@ namespace JebraAzureFunctions
             int stageHp = int.Parse(req.Query["stageHp"]);
             string stageName = req.Query["stageName"];
 
-            
+            Console.WriteLine("0");
+
             //Two lines for readability
             string instructorIdS = Tools.ExecuteQueryAsync($"SELECT id FROM instructor WHERE email = '{instructorEmail}'").GetAwaiter().GetResult(); 
             int instructorId = Tools.GetIdFromResponse(instructorIdS);
-      
+
+            Console.WriteLine("0.5");
+
             string subjectIdS = Tools.ExecuteQueryAsync($"SELECT id FROM subject WHERE subject_name = '{subjectName}'").GetAwaiter().GetResult();
+
+            Console.WriteLine(subjectIdS);
+
             int subjectId = Tools.GetIdFromResponse(subjectIdS);
+
+            Console.WriteLine("1");
 
             /*
              * TODO:
@@ -54,12 +62,15 @@ namespace JebraAzureFunctions
 
             //Generate course code
             //int courseCode = Tools.GetRandomIntInRange(100000000,999999999);//9 digits long //BROKEN
-            var rnd = new Random(DateTime.Now.Millisecond);
-            int courseCode = rnd.Next(100000001, 999999999);
-            //int courseCode = 555444333;
-   
+            //Random didnt want to generate a 9 digit random. :(
+  
+            int courseCode = 555444333;
+
             //Insert course
             int courseId = Tools.GetIdFromResponse(Tools.ExecuteQueryAsync($"INSERT INTO course (cname, code) OUTPUT INSERTED.id VALUES ('{courseName}', {courseCode})").GetAwaiter().GetResult());
+
+
+            Console.WriteLine("2");
 
             //Insert stage 
             int stageId = Tools.GetIdFromResponse(Tools.ExecuteQueryAsync($@"
@@ -67,14 +78,22 @@ namespace JebraAzureFunctions
             OUTPUT INSERTED.id 
             VALUES ({stageHp}, '{stageName}', {subjectId})").GetAwaiter().GetResult());
 
+
+            Console.WriteLine("3");
+
             //Add stage_id to course
             bool status = Tools.ExecuteNonQueryAsync($@"UPDATE course SET stage_id = {stageId} WHERE id = {courseId}").GetAwaiter().GetResult();
 
+            Console.WriteLine("4");
+
             //Course assignment
             status = Tools.ExecuteNonQueryAsync($@"INSERT INTO course_assignment(instructor_id, course_id) VALUES ({instructorId}, {courseId})").GetAwaiter().GetResult();
-            
+
+
+            Console.WriteLine("5");
+
             string responseMessage = Tools.ExecuteQueryAsync($@"
-            SELECT course.id, course.cname, course.code, course.stage_id, stage.max_hp, stage.name, stage.subject_id, subject.subject_name
+            SELECT course.id AS course_id, course.cname, course.code, course.stage_id, stage.max_hp, stage.name, stage.subject_id, subject.subject_name
             FROM course     
             INNER JOIN stage ON course.stage_id = stage.id
             INNER JOIN subject ON subject.id = {subjectId}
