@@ -190,6 +190,11 @@ namespace JebraAzureFunctions
             }
         }
 
+        public static int GetRandomIntInRange(int minNumber, int maxNumber)
+        {
+            return new Random().Next() * (maxNumber - minNumber) + minNumber;
+        }
+
         /// <summary>
         /// Generates a list of questions which are not already in the database.
         /// </summary>
