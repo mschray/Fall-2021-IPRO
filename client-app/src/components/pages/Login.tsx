@@ -24,6 +24,8 @@ const Login: React.FC = () => {
     // a submit function that will execute upon form submission
     async function loginUserCallback() {
         // send "values" to database
+
+        // redirect to Instructor dashboard
         fetch(window.location.href)
             .then(resp => {
                 window.location.href = "/InsDashboard";
