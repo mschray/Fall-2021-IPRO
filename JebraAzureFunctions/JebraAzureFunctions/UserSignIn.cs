@@ -47,7 +47,7 @@ namespace JebraAzureFunctions
              * 5. Insert into course_assignment.
              */
 
-            string courseIdS = Tools.ExecuteQueryAsync($"SELECT id FROM course WHERE code='{courseCode}'").GetAwaiter().GetResult();
+            string courseIdS = Tools.ExecuteQueryAsync($"SELECT id FROM course WHERE code={courseCode}").GetAwaiter().GetResult();
             //dynamic data = JsonConvert.DeserializeObject(courseIdS.Substring(1, courseIdS.Length - 2));//Removes [] from ends.
             int courseId = Tools.GetIdFromResponse(courseIdS);
 
