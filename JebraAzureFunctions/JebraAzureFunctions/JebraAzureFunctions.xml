@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JebraAzureFunctions</name>
+    </assembly>
+    <members>
+        <member name="T:JebraAzureFunctions.GetEvents">
+            <summary>
+            Will return new stage id if monster is defeated.
+            </summary>
+        </member>
+        <member name="T:JebraAzureFunctions.PublishStatisticForStage">
+            <summary>
+            When calling this function, you are required to provide values for each column asked of in the model.
+            This means that in order to update one field, such a score, you must first retrieve the existing values
+            of the other fields, first_time_correct and total_retries, in order to not overwrite the existing values.
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.PrintDebug(System.String)">
+            <summary>
+            Prints to Visual Studio debug console.
+            </summary>
+            <param name="s">String to print.</param>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SqlDatoToJson(System.Data.SqlClient.SqlDataReader)">
+            <summary>
+            Coverts a SqlDataReader into a JSON object representing the query results.
+            </summary>
+            <param name="dataReader"></param>
+            <returns>A JSON string representing the query results.</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.ExecuteNonQueryAsync(System.String)">
+            <summary>
+            Executes an async non-query command on the Azure sql database.
+            </summary>
+            <param name="command"></param>
+            <returns>True if the command was sent.</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.ExecuteQueryAsync(System.String)">
+            <summary>
+            Executes a query on the remote database.
+            To retrieve the result, you must do .GetAwaiter().GetResult();
+            See below example from the GetQuestion function.
+            EX: responseMessage = Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult();
+            </summary>
+            <param name="command">Command to be executed.</param>
+            <returns>A json string representing the query result.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:JebraAzureFunctions.Tools.JsonQuestionsToModelArray(System.Object)" -->
+        <!-- Badly formed XML comment ignored for member "M:JebraAzureFunctions.Tools.JsonEventsToModelArray(System.Object)" -->
+        <member name="M:JebraAzureFunctions.Tools.UniqueQuestion(JebraAzureFunctions.QuestionModel,System.Collections.Generic.List{JebraAzureFunctions.QuestionModel})">
+            <summary>
+            Tests if a question has been entered into the database already.
+            </summary>
+            <param name="question"></param>
+            <param name="questionList"></param>
+            <returns>True if the question is unique.</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.InsertQuestionsAsync(System.Collections.Generic.List{JebraAzureFunctions.QuestionModel})">
+            <summary>
+            Takes a List of QuestionModels and inserts them into the database. 
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.GenerateUniqueQuestions(System.Func{JebraAzureFunctions.QuestionModel},System.Int32,System.Int32)">
+            <summary>
+            Generates a list of questions which are not already in the database.
+            </summary>
+            <param name="QuestionGeneratorFunct">Base function used to generate the question.</param>
+            <param name="amount">Amount of questions to generate.</param>
+            <param name="subjectId">Subject id of the questions to be generated.</param>
+            <returns></returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.InsertQuestionsSQLCommandGenerator(System.Collections.Generic.List{JebraAzureFunctions.QuestionModel})">
+            <summary>
+            Given a list of QuestionModels, will generate a sql command to insert them into a database. 
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.GetSubjectIdFromString(System.String)">
+            <summary>
+            Retreive the subject_id based on the subject_name field.
+            </summary>
+            <param name="subject"></param>
+            <returns>The subject's subject_id</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SimplifyExponents">
+            <summary>
+            ex: 4^2 = 16
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SimplifyExponents2">
+            <summary>
+            ex: 4^4 = 256
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SimplifySquareRoots">
+            <summary>
+            ex: sqrt(16) = 4
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.Factorials">
+            <summary>
+            ex: 4! = 24
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.CartesianCoordinates">
+            <summary>
+            ex: (-2,3) is in quadrant II
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SingleVariable">
+            <summary>
+            ex: 3x - 5 = 10 -> x = 5
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SystemOfEquations">
+            <summary>
+            ex: x + 4 = 3x - 6 -> x = 5
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
