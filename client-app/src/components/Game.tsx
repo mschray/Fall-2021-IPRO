@@ -7,19 +7,20 @@ import monsterGif from "assets/monster_havoc.gif"
 import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 
+import GameModel from "models/GameModel";
 import { isQuestionModel } from "models/QuestionModel";
 
 import Question from "components/Question";
 import ProgressBar from "components/ProgressBar";
 
 interface GameProps {
-    subjectName: string
+    game: GameModel
 }
 
 const Game: React.FC<GameProps> = (props) => {
     // Fetch the questions
     const url = new URL(getAzureFunctions().GetQuestionsBySubject);
-    url.searchParams.append("subject", props.subjectName);
+    url.searchParams.append("subject", props.game.subject_name);
     const fetchResult = useFetch(
         url.toString(),
         (data) => {
@@ -29,7 +30,7 @@ const Game: React.FC<GameProps> = (props) => {
             }
             return undefined;
         },
-        [props.subjectName]
+        [props.game.subject_name]
     );
 
     // Current question number as a state variable

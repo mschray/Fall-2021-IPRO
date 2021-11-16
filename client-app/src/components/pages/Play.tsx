@@ -21,7 +21,7 @@ const Play: React.FC<PlayProps> = props => {
         url.toString(),
         (data) => {
             if (isGameModel(data)) {
-                return data.subject_name;
+                return data;
             }
             return undefined;
         },
@@ -32,7 +32,7 @@ const Play: React.FC<PlayProps> = props => {
 
     if (gameFetchResult.status === FetchStatus.Success) {
         contents = (
-            <Game subjectName={gameFetchResult.payload} />
+            <Game game={gameFetchResult.payload} />
         );
     } else if (gameFetchResult.status === FetchStatus.InProgress) {
         contents = (
