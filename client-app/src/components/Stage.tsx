@@ -98,9 +98,9 @@ const Stage: React.FC<StageProps> = (props) => {
             <img
                 className={styles.gif}
                 src={monsterGif}
-                alt="This evil monster is destroying Jebraville! Solve math questions to kill the monster."
+                alt="This evil monster is destroying Jebraville! Solve math questions to defeat the monster."
             />
-            <p>This evil monster is destroying Jebraville! Solve math questions to kill the monster.</p>
+            <p>This evil monster is destroying Jebraville! Solve math questions to defeat the monster.</p>
             <ProgressBar alpha={hp / props.max_hp}/>
         </>
     );
