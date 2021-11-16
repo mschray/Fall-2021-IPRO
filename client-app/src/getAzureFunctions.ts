@@ -1,6 +1,7 @@
 const azureFunctionsDevelopment = {
     AddQuestion: "http://localhost:7071/api/AddQuestion",
     AddUser: "http://localhost:7071/api/AddUser",
+    EndGame: "http://localhost:7071/api/EndGame",
     GenerateTestingQuestions: "http://localhost:7071/api/GenerateTestingQuestions",
     GetAllQuestions: "http://localhost:7071/api/GetAllQuestions",
     GetEvents: "http://localhost:7071/api/GetEvents",
@@ -23,6 +24,7 @@ const azureFunctionsDevelopment = {
 const azureFunctionsProduction = {
     AddQuestion: "https://jebrafunctions.azurewebsites.net/api/AddQuestion?code=qjDhpMaj6zWVgmPL54qIbN1jT/XacApyaaIz8u3Z7huXYk8vt/Lqpw==",
     AddUser: "https://jebrafunctions.azurewebsites.net/api/AddUser?code=ef8tHLZ8gfW1YoOLG10eJncjdr8cYRnl50ANFwXH8LRlKYf9qktUzA==",
+    EndGame: "https://jebrafunctions.azurewebsites.net/api/EndGame?code=AmU6uvxdrUeHndlyLSQmbe9CttfgelWYUZMvoZP4mRlBYxwtocrS9Q==",
     GenerateTestingQuestions: "https://jebrafunctions.azurewebsites.net/api/GenerateTestingQuestions?code=lnw959e/IjlDWfcKzGiSarmNE4CQE4oNSjIyzzgZbKacqghoyQVbYQ==",
     GetAllQuestions: "https://jebrafunctions.azurewebsites.net/api/GetAllQuestions?code=SpE3YBRP8mI3O3gy0/jLVOEaLTbUphO3Ck4qPimW3sOk9gnnsN8hMg==",
     GetEvents: "https://jebrafunctions.azurewebsites.net/api/GetEvents?code=4JeZHIcmGyIvq60BDLWtjGUqRa8vawVMwcrL23ZEk6W/tExLrufgYQ==",
