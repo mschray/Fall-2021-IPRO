@@ -83,7 +83,7 @@ CREATE TABLE [dbo].course_assignment (
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES [dbo].app_user(id),
 	FOREIGN KEY (instructor_id) REFERENCES [dbo].instructor(id),
-	FOREIGN KEY (course_id) REFERENCES [dbo].course(id)
+	FOREIGN KEY (course_id) REFERENCES [dbo].course(id) ON DELETE CASCADE
 );
 -- Assign sample instructor to sample course
 INSERT INTO [dbo].course_assignment VALUES (NULL, 1, 1);
