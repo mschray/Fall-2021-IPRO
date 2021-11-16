@@ -5,7 +5,7 @@ import styles from "./Page.module.scss";
 import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 
-import { isSubjectNameModel } from "models/SubjectNameModel";
+import { isGameModel } from "models/GameModel";
 import UserSignInResponseModel from "models/UserSignInResponseModel";
 
 import Game from "components/Game";
@@ -17,10 +17,10 @@ interface PlayProps {
 const Play: React.FC<PlayProps> = props => {
     const url = new URL(getAzureFunctions().GetSubjectNameFromStageId);
     url.searchParams.append("stage_id", props.userData.stageId.toString());
-    const subjectNameFetchResult = useFetch(
+    const gameFetchResult = useFetch(
         url.toString(),
         (data) => {
-            if (isSubjectNameModel(data)) {
+            if (isGameModel(data)) {
                 return data.subject_name;
             }
             return undefined;
@@ -30,17 +30,17 @@ const Play: React.FC<PlayProps> = props => {
 
     let contents: JSX.Element;
 
-    if (subjectNameFetchResult.status === FetchStatus.Success) {
+    if (gameFetchResult.status === FetchStatus.Success) {
         contents = (
-            <Game subjectName={subjectNameFetchResult.payload} />
+            <Game subjectName={gameFetchResult.payload} />
         );
-    } else if (subjectNameFetchResult.status === FetchStatus.InProgress) {
+    } else if (gameFetchResult.status === FetchStatus.InProgress) {
         contents = (
             <p>Fetching subject name from stage ID...</p>
         );
     } else {
         contents = (
-            <p>Failed to fetch subject name from stage ID! Reason: {subjectNameFetchResult.reason}</p>
+            <p>Failed to fetch subject name from stage ID! Reason: {gameFetchResult.reason}</p>
         );
     }
 
