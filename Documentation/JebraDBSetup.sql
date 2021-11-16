@@ -155,8 +155,8 @@ CREATE TABLE [dbo].stage_event_join (
 	question_id			INT				NOT NULL,
 	stage_event_id		INT				NOT NULL,
 	PRIMARY KEY (id),
-	CONSTRAINT stage_id_fk_on_stage_event_join FOREIGN KEY (stage_id) REFERENCES [dbo].stage(id),
-	CONSTRAINT course_id_fk_on_stage_event_join FOREIGN KEY (course_id) REFERENCES [dbo].course(id),
+	CONSTRAINT stage_id_fk_on_stage_event_join FOREIGN KEY (stage_id) REFERENCES [dbo].stage(id) ON DELETE CASCADE,
+	CONSTRAINT course_id_fk_on_stage_event_join FOREIGN KEY (course_id) REFERENCES [dbo].course(id) ON DELETE CASCADE,
 	CONSTRAINT user_id_fk_on_stage_event_join FOREIGN KEY (origin_user_id) REFERENCES [dbo].app_user(id),
 	CONSTRAINT question_id_fk_on_stage_event_join FOREIGN KEY (question_id) REFERENCES [dbo].question(id),
 	CONSTRAINT stage_event_id_fk_on_stage_event_join FOREIGN KEY (stage_event_id) REFERENCES [dbo].stage_event(id)
