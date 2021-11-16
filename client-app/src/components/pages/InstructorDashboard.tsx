@@ -5,7 +5,7 @@ interface InstructorDashboardProps {
     courses: Array<String>
 }
 
-const InsDashboard: React.FC<InstructorDashboardProps> = (props) => {
+const InstructorDashboard: React.FC<InstructorDashboardProps> = (props) => {
     const initialState: InstructorDashboardProps ={
         email: "",
         courses: []
@@ -34,4 +34,4 @@ const InsDashboard: React.FC<InstructorDashboardProps> = (props) => {
     );
 };
 
-export default InsDashboard;
+export default InstructorDashboard;

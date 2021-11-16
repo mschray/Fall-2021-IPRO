@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import InsDashboard from "./InsDashboard";
+import InstructorDashboard from "./InstructorDashboard";
 
 interface LoginFormState {
     email: string,
@@ -75,7 +75,7 @@ const Login: React.FC = () => {
     else {
         return (
             <div className={styles.content}>
-                <InsDashboard email={formState.email} courses={[]}/>
+                <InstructorDashboard email={formState.email} courses={[]}/>
                 <button onClick={handleSignOut}>Logout</button>
             </div>
         );
