@@ -1,12 +1,12 @@
 import React from "react";
 
-interface InstructorState {
+interface InstructorDashboardProps {
     email: string,
     courses: Array<String>
 }
 
-const InsDashboard: React.FC<InstructorState> = (props) => {
-    const initialState: InstructorState ={
+const InsDashboard: React.FC<InstructorDashboardProps> = (props) => {
+    const initialState: InstructorDashboardProps ={
         email: "",
         courses: []
     }
