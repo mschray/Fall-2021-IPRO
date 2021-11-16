@@ -58,6 +58,13 @@ namespace JebraAzureFunctions
             currentStageString = currentStageString.Substring(1, currentStageString.Length - 2);
             dynamic currentStageData = JsonConvert.DeserializeObject(currentStageString);
 
+            // If the id is null, then that means we couldn't find a course or stage for the corresponding courseCode.
+            // In this case, we inform the client that the course has ended.
+            if (currentStageData?.id == null)
+            {
+                return new OkObjectResult("{\"end_of_course\": true}");
+            }
+
             int currentStageId = currentStageData?.id;
             int maxHp = currentStageData?.max_hp;
             string stageName = currentStageData?.name;
