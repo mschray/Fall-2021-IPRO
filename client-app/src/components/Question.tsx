@@ -54,7 +54,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
             <form onSubmit={onFormSubmit}>
                 <label>
                     Enter answer: 
-                    <input name="answer" value={formState.answer} type="text" placeholder="Answer" onChange={onFormChange} />
+                    <input name="answer" value={formState.answer} type="text" placeholder="Answer" autoComplete="off" onChange={onFormChange} />
                     <input type="submit" />
                 </label>
             </form>
