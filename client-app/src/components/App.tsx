@@ -9,9 +9,9 @@ import Header from "components/Header";
 
 import Home from "components/pages/Home";
 import Options from "components/pages/Options";
-import InstructorLogin from "components/pages/InstructorLogin";
+import InstructorPortal from "components/pages/InstructorPortal";
 import Signup from "components/pages/Signup";
-import StudentPortal from "./pages/StudentPortal";
+import StudentPortal from "components/pages/StudentPortal";
 
 import styles from "./App.module.scss";
 
@@ -25,7 +25,7 @@ const App: React.FC = () => {
                         <Options />
                     </Route>
                     <Route path="/instructor">
-                        <InstructorLogin />
+                        <InstructorPortal />
                     </Route>
                     <Route path="/signup">
                         <Signup />

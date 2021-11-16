@@ -1,37 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
-interface InstructorDashboardProps {
-    email: string,
-    courses: Array<String>
-}
+import InstructorLogin from "components/pages/InstructorLogin";
+import InstructorModel from "models/InstructorModel"; 
 
-const InstructorPortal: React.FC<InstructorDashboardProps> = (props) => {
-    const initialState: InstructorDashboardProps ={
-        email: "",
-        courses: []
+const InstructorPortal: React.FC = () => {
+    const [loginResult, setLoginResult] = useState<InstructorModel | undefined>(undefined);
+
+    if (loginResult === undefined) {
+        return (
+            <InstructorLogin
+                onLogin={
+                    (data) => {
+                        setLoginResult(data);
+                    }
+                }
+            />
+        );
+    } else {
+        return (
+            <p>Logged in!</p>
+        );
     }
-
-    initialState.courses = ["algebra1", "algebra2"]
-
-    const menuButtons = initialState.courses.map(course => (
-        <ul>
-            <li>
-            <button>
-                {course}
-            </button>
-            </li>
-        </ul>
-    ));
-
-    return (
-        <div>
-            <h3>Hello {props.email}</h3>
-            <p>
-                Courses
-                {menuButtons}
-            </p>
-        </div>
-    );
 };
 
 export default InstructorPortal;

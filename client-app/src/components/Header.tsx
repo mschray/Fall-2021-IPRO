@@ -27,11 +27,11 @@ const headersData = [
         href: "/options",
     },
     {
-        label: "Login",
-        href: "/login",
+        label: "Start Game",
+        href: "/instructor",
     },
     {
-        label: "Play",
+        label: "Join Game",
         href: "/student",
     },
 ];
