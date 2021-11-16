@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import InstructorLogin from "components/pages/InstructorLogin";
 import InstructorModel from "models/InstructorModel"; 
+import CourseMonitor from "./CourseMonitor";
 
 const InstructorPortal: React.FC = () => {
     const [loginResult, setLoginResult] = useState<InstructorModel | undefined>(undefined);
@@ -18,7 +19,7 @@ const InstructorPortal: React.FC = () => {
         );
     } else {
         return (
-            <p>Logged in!</p>
+            <CourseMonitor />
         );
     }
 };
