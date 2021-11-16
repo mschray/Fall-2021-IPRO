@@ -8,51 +8,13 @@ import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 
 import { isQuestionModel } from "models/QuestionModel";
-import { isSubjectModel } from "models/SubjectModel";
 import UserSignInResponseModel from "models/UserSignInResponseModel";
 
 import Question from "components/Question";
 import ProgressBar from "components/ProgressBar";
+import SubjectSelector from "components/SubjectSelector";
 
 const NQUESTIONS = 5;
-
-const SubjectSelector: React.FC<{callback: (name: string) => void}> = (props) => {
-    // Fetch the subjects
-    const fetchResult = useFetch(
-        getAzureFunctions().GetSubjects,
-        (data) => {
-            // The Azure function should return the data as an array of SubjectModels
-            if (Array.isArray(data) && data.every(isSubjectModel)) {
-                return data;
-            }
-            return undefined;
-        },
-        []
-    );
-
-    if (fetchResult.status === FetchStatus.Success) {
-        const subjectListItems = fetchResult.payload.map((subject) => (
-            <li key={subject.id}>
-                <button onClick={() => {props.callback(subject.subject_name)}}>{subject.subject_name}</button>
-            </li>
-        ))
-        return (
-            <ul>
-                {subjectListItems}
-            </ul>
-        );
-    } else if (fetchResult.status === FetchStatus.Failure) {
-        // Notify user that the subjects list couldn't be fetched
-        return (
-            <p>Could not fetch subjects! Reason: {fetchResult.reason}</p>
-        )
-    } else {
-        // Notify user that the subjects list is currently being fetched
-        return (
-            <p>Fetching subjects list...</p>
-        )
-    }
-}
 
 const Game: React.FC<{subjectName: string}> = (props) => {
     // Fetch the questions
@@ -132,7 +94,7 @@ const Play: React.FC<PlayProps> = props => {
             <h3>Play</h3>
             {
                 (subjectName === undefined)
-                    ? <SubjectSelector callback={setSubjectName} />
+                    ? <SubjectSelector onSelection={(subject) => {setSubjectName(subject.subject_name);}} />
                     : <Game subjectName={subjectName} />
             }
         </div>
