@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-type FormChangeCallback = (event: React.ChangeEvent<HTMLInputElement>) => void;
+type FormChangeCallback = (event: React.ChangeEvent<{ name: string, value: unknown }>) => void;
 type FormSubmitCallback = (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
 
 const useForm = function<StateType>(callback: (state: StateType) => Promise<void>, initialState: StateType): [StateType, FormChangeCallback, FormSubmitCallback] {
     const [formState, setFormState] = useState(initialState);
 
     // onChange
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (event: React.ChangeEvent<{ name: string, value: unknown }>) => {
         setFormState(formState => ({ ...formState, [event.target.name]: event.target.value }));
     };
 
