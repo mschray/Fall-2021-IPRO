@@ -46,25 +46,30 @@ namespace JebraAzureFunctions
             ///name = name ?? data?.name;
             ///   
 
-            // First, check if the course has a new stage!
-            string currentStageString = Tools.ExecuteQueryAsync($"SELECT TOP 1 stage_id FROM course WHERE code={courseCode};").GetAwaiter().GetResult();
+            // Fetch info about stage and subject
+            string currentStageCommand = $@"
+            SELECT TOP 1 stage.id, stage.max_hp, stage.name, stage.subject_id, subject.subject_name
+            FROM course
+            INNER JOIN stage ON course.stage_id = stage.id
+            INNER JOIN subject ON stage.subject_id = subject.id
+            WHERE course.code={courseCode};
+            ";
+            string currentStageString = Tools.ExecuteQueryAsync(currentStageCommand).GetAwaiter().GetResult();
             currentStageString = currentStageString.Substring(1, currentStageString.Length - 2);
             dynamic currentStageData = JsonConvert.DeserializeObject(currentStageString);
-            int currentStageId = currentStageData?.stage_id;
 
-            // If the course has a new stage, return an EndOfStage response
+            int currentStageId = currentStageData?.id;
+            int maxHp = currentStageData?.max_hp;
+            string stageName = currentStageData?.name;
+            int subjectId = currentStageData?.subject_id;
+            string subjectName = currentStageData?.subject_name;
+
+            // If the currentStageId does not match that of the the incoming request, that means that this client is stuck on an old stage.
+            // In this case, we respond with an EndOfStage message to let the client know to move to this new stage.
             if (currentStageId.ToString() != stage)
             {
-                return new OkObjectResult("{\"EndOfStage\": true, \"NewStage\": " + currentStageId.ToString() + "}");
+                return new OkObjectResult(ConstructEndOfStageMessage(currentStageId, maxHp, stageName, subjectId, subjectName));
             }
-
-            string stageInfoString = Tools.ExecuteQueryAsync($"SELECT max_hp, subject_id FROM stage WHERE id={stage}").GetAwaiter().GetResult();
-            //[{"id":2}]
-            stageInfoString = stageInfoString.Substring(1, stageInfoString.Length - 2);
-            //{"id":2}
-            dynamic data = JsonConvert.DeserializeObject(stageInfoString);
-            int maxHp = data?.max_hp;
-            int subjectId = data?.subject_id;
 
             string command = @$"
             SELECT stage_event.id, stage_event.inflicted_hp, stage_event.was_correct, stage_event.event_time FROM stage_event
@@ -89,22 +94,38 @@ namespace JebraAzureFunctions
                  * - Create new stage
                  * - Update course with new stage_id
                  * - Delete old stage
-                 * - Ret new stage_id
+                 * - Ret new stage_id, new max hp, new stage name, new subject id, new subject name
                  */
-                string newStageIdString = Tools.ExecuteQueryAsync($@"INSERT INTO stage OUTPUT INSERTED.id VALUES({maxHp}, 'punisher',{subjectId})").GetAwaiter().GetResult();
+                string newStageName = stageName + " - again!"; // Placeholder
+                string newStageIdString = Tools.ExecuteQueryAsync($@"INSERT INTO stage OUTPUT INSERTED.id VALUES({maxHp}, '{newStageName}', {subjectId})").GetAwaiter().GetResult();
                 //[{"id":2}]
                 newStageIdString = newStageIdString.Substring(1, newStageIdString.Length - 2);
                 //{"id":2}
-                data = JsonConvert.DeserializeObject(newStageIdString);
+                dynamic data = JsonConvert.DeserializeObject(newStageIdString);
                 int newStageId = data?.id;
 
                 Tools.ExecuteNonQueryAsync($"UPDATE course SET stage_id={newStageId} WHERE code={courseCode}").GetAwaiter().GetResult();
 
                 Tools.ExecuteNonQueryAsync($"DELETE FROM stage WHERE id={stage}").GetAwaiter().GetResult();
 
-                responseMessage = "{\"EndOfStage\": true, \"NewStage\": " + newStageId + "}";
+                responseMessage = ConstructEndOfStageMessage(newStageId, maxHp, newStageName, subjectId, subjectName);
             }
             return new OkObjectResult(responseMessage);
+        }
+
+        // Note: we should use a model for EndOfStage messages. For now, just making a static function for the sake of time
+        private static string ConstructEndOfStageMessage(int newStageId, int newMaxHp, string newStageName, int newSubjectId, string newSubjectName)
+        {
+            return $@"
+            {{
+                ""end_of_stage"": true,
+                ""new_stage_id"": {newStageId},
+                ""new_max_hp"": {newMaxHp},
+                ""new_stage_name"": ""{newStageName}"",
+                ""new_subject_id"": {newSubjectId},
+                ""new_subject_name"": ""{newSubjectName}""
+            }}
+            ";
         }
     }
 }
