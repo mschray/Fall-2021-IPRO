@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import StudentLogin from "components/pages/StudentLogin";
 import Play from "components/pages/Play";
@@ -6,15 +6,43 @@ import Play from "components/pages/Play";
 import UserSignInResponseModel from "models/UserSignInResponseModel";
 
 const StudentPortal: React.FC = () => {
-    const [userData, setUserData] = useState<UserSignInResponseModel | undefined>(undefined);
+    const [loginResult, setLoginResult] = useState<{userData: UserSignInResponseModel, courseCode: string} | undefined>(undefined);
 
-    if (userData === undefined) {
+    const onStageFinish = useCallback(
+        (newStageId: number) => {
+            setLoginResult(
+                oldLoginResult => ({
+                    userData: {
+                        courseId: oldLoginResult!.userData.courseId,
+                        userId: oldLoginResult!.userData.userId,
+                        instructorId: oldLoginResult!.userData.instructorId,
+                        stageId: newStageId
+                    },
+                    courseCode: oldLoginResult!.courseCode
+                })
+            );
+        },
+        [setLoginResult]
+    )
+
+    if (loginResult === undefined) {
         return (
-            <StudentLogin onLogin={setUserData}/>
+            <StudentLogin onLogin={
+                (newUserData, newCourseCode) => {
+                    setLoginResult({
+                        userData: newUserData,
+                        courseCode: newCourseCode
+                    });
+                }
+            }/>
         );
     } else {
         return (
-            <Play userData={userData} />
+            <Play
+                userData={loginResult.userData}
+                courseCode={loginResult.courseCode}
+                onStageFinish={onStageFinish}
+            />
         );
     }
 };

@@ -11,7 +11,9 @@ import UserSignInResponseModel from "models/UserSignInResponseModel";
 import Game from "components/Game";
 
 interface PlayProps {
-    userData: UserSignInResponseModel;
+    userData: UserSignInResponseModel,
+    courseCode: string,
+    onStageFinish: (newStage: number) => void
 }
 
 const Play: React.FC<PlayProps> = props => {
@@ -32,7 +34,12 @@ const Play: React.FC<PlayProps> = props => {
 
     if (gameFetchResult.status === FetchStatus.Success) {
         contents = (
-            <Game game={gameFetchResult.payload} userData={props.userData} />
+            <Game
+                game={gameFetchResult.payload}
+                userData={props.userData}
+                courseCode={props.courseCode}
+                onStageFinish={props.onStageFinish}
+            />
         );
     } else if (gameFetchResult.status === FetchStatus.InProgress) {
         contents = (

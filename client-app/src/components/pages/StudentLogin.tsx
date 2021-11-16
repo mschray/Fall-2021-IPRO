@@ -8,7 +8,7 @@ import getAzureFunctions from "getAzureFunctions";
 import UserSignInResponseModel, { isUserSignInResponseModel } from "models/UserSignInResponseModel";
 
 interface StudentLoginProps {
-    onLogin: (data: UserSignInResponseModel) => void
+    onLogin: (data: UserSignInResponseModel, courseCode: string) => void
 }
 
 interface StudentLoginFormState {
@@ -28,7 +28,9 @@ const StudentLogin: React.FC<StudentLoginProps> = props => {
     // a submit function that will execute upon form submission
     async function loginUserCallback(formState: StudentLoginFormState) {
         const url = new URL(getAzureFunctions().UserSignIn);
-        url.searchParams.append("courseCode", formState.courseCode);
+        // Store course code in a variable since we use it later (and it may change since it's after the PUT request)
+        const courseCode = formState.courseCode;
+        url.searchParams.append("courseCode", courseCode);
         url.searchParams.append("userEmail", formState.userEmail);
 
         const requestInfo: RequestInit = { method: "PUT" };
@@ -39,7 +41,7 @@ const StudentLogin: React.FC<StudentLoginProps> = props => {
                 console.log(json);
                 if (isUserSignInResponseModel(json)) {
                     // Fire onLogin callback with the UserSignInResponse model data
-                    props.onLogin(json);
+                    props.onLogin(json, courseCode);
                 } else {
                     // Data doesn't conform to UserSignInResponse model
                     setLoginErrorState("Unexpected data returned from backend. Check the console.");
