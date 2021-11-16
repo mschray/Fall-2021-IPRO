@@ -7,8 +7,8 @@ const Home: React.FC = () => {
         <div className={styles.content}>
             <h3>Home</h3>
             <ul className={styles.container}>
-                <li><Link to="/studentlogin">Student login</Link></li>
-                <li><Link to="/login">Instructor login</Link></li>
+                <li><Link to="/student">Student Portal</Link></li>
+                <li><Link to="/instructor">Instructor Portal</Link></li>
             </ul>
         </div>
     );
