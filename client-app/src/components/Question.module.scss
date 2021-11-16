@@ -1,0 +1,16 @@
+@import "styles/colors";
+
+.correct {
+    display: inline-block;
+    padding: 0.5em 1em 0.5em 1em;
+    background-color: $green;
+    border-radius: 0.5em;
+}
+
+.incorrect {
+    display: inline-block;
+    padding: 0.5em 1em 0.5em 1em;
+    background-color: $red;
+    color: $light-grey;
+    border-radius: 0.5em;
+}

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+
+import styles from "./Question.module.scss";
 
 import useForm from "hooks/useForm";
 import QuestionModel from "models/QuestionModel";
@@ -14,14 +16,23 @@ interface AnswerFormState {
     answer: string
 }
 
+enum AnswerResult {
+    Correct,
+    Incorrect,
+    NoAnswersYet
+}
+
 const Question: React.FC<QuestionProperties> = (props) => {
+    // Result of last question answered as a state variable
+    const [lastAnswerResult, setLastAnswerResult] = useState(AnswerResult.NoAnswersYet);
+
     // Callback to be fired when the Submit button is entered
     async function submitAnswerCallback(state: AnswerFormState) {
         if (state.answer === props.questionData.answer_a) {
-            alert("Correct!");
+            setLastAnswerResult(AnswerResult.Correct);
             props.onSolve(props.questionData);
         } else {
-            alert("Incorrect!");
+            setLastAnswerResult(AnswerResult.Incorrect);
         }
     }
     
@@ -47,6 +58,13 @@ const Question: React.FC<QuestionProperties> = (props) => {
                     <input type="submit" />
                 </label>
             </form>
+            {
+                (lastAnswerResult === AnswerResult.Correct)
+                    ? <p className={styles.correct}>That was correct!</p>
+                    : (lastAnswerResult === AnswerResult.Incorrect)
+                        ? <p className={styles.incorrect}>That was incorrect. Try again.</p>
+                        : null
+            }
         </div>
     )
 };
