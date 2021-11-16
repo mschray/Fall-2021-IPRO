@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import styles from "./Page.module.scss"
 
 import CourseCreationForm from "components/CourseCreationForm";
+import Stage from "components/Stage";
 
 import InstructorModel from "models/InstructorModel";
 import NewGameResponseModel from "models/NewGameResponseModel";
+import StageEndModel from "models/StageEndModel";
 
 interface CourseMonitorProps {
     instructorData: InstructorModel
@@ -13,6 +15,24 @@ interface CourseMonitorProps {
 
 const CourseMonitor: React.FC<CourseMonitorProps> = props => {
     const [gameData, setGameData] = useState<NewGameResponseModel | undefined>(undefined);
+
+    const onStageFinish = useCallback(
+        (data: StageEndModel) => {
+            setGameData(
+                oldGameData => ({
+                    course_id: oldGameData!.course_id,
+                    cname: oldGameData!.cname,
+                    code: oldGameData!.code,
+                    max_hp: data.new_max_hp,
+                    name: data.new_stage_name,
+                    stage_id: data.new_stage_id,
+                    subject_id: data.new_subject_id,
+                    subject_name: data.new_subject_name
+                })
+            );
+        },
+        [setGameData]
+    )
 
     let contents: JSX.Element;
 
@@ -22,7 +42,14 @@ const CourseMonitor: React.FC<CourseMonitorProps> = props => {
         );
     } else {
         contents = (
-            <p>Made game!</p>
+            <Stage
+                max_hp={gameData.max_hp}
+                stageId={gameData.stage_id}
+                stageName={gameData.name}
+                courseCode={gameData.code.toString()}
+                winMessage={"Your brilliant students have defeated the monster! Moving to next stage..."}
+                onStageFinish={onStageFinish}
+            />
         );
     }
 

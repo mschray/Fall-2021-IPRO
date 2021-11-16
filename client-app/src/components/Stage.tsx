@@ -6,17 +6,18 @@ import monsterGif from "assets/monster_havoc.gif"
 
 import getAzureFunctions from "getAzureFunctions";
 
-import { isStageEndModel } from "models/StageEndModel";
+import StageEndModel, { isStageEndModel } from "models/StageEndModel";
 import { isStageEventModel } from "models/StageEventModel";
 
 import ProgressBar from "components/ProgressBar";
 
 interface StageProps {
     max_hp: number,
+    stageName: string,
     stageId: number,
     courseCode: string,
     winMessage: string,
-    onStageFinish: (newStage: number) => void,
+    onStageFinish: (data: StageEndModel) => void,
     onHPUpdate?: (newHP: number) => void,
     hpOverride?: number
 }
@@ -56,7 +57,7 @@ const Stage: React.FC<StageProps> = (props) => {
                         }
                         setEventsErrorMessage(undefined);
                     } else if (isStageEndModel(json)) {
-                        onStageFinish(json.new_stage_id);
+                        onStageFinish(json);
                     } else {
                         setEventsErrorMessage("Received unexpected data from the backend. Check console.");
                     }
@@ -85,7 +86,21 @@ const Stage: React.FC<StageProps> = (props) => {
         [fetchStageEvents]
     );
 
-    const hp = (props.hpOverride !== undefined) ? props.hpOverride : monsterHP;
+    const hp = Math.max((props.hpOverride !== undefined) ? props.hpOverride : monsterHP, 0);
+
+    const contents = (
+        <>
+            <h4>Stage: {props.stageName}</h4>
+            <p>Course code: {props.courseCode}</p>
+            <img
+                className={styles.gif}
+                src={monsterGif}
+                alt="This evil monster is destroying Jebraville! Solve math questions to kill the monster."
+            />
+            <p>This evil monster is destroying Jebraville! Solve math questions to kill the monster.</p>
+            <ProgressBar alpha={hp / props.max_hp}/>
+        </>
+    );
 
     if (eventsErrorMessage !== undefined) {
         return (
@@ -94,24 +109,14 @@ const Stage: React.FC<StageProps> = (props) => {
     } else if (hp > 0) {
         return (
             <>
-                <img
-                    className={styles.gif}
-                    src={monsterGif}
-                    alt="Evil monster is destroying Jebraville! Solve math questions to kill the monster."
-                />
-                <ProgressBar alpha={hp / props.max_hp}/>
-                {props.children}
+                {contents}
+                {props.children} 
             </>
         );
     } else {
         return (
             <>
-                <img
-                    className={styles.gif}
-                    src={monsterGif}
-                    alt="Evil monster is destroying Jebraville! Solve math questions to kill the monster."
-                />
-                <ProgressBar alpha={0}/>
+                {contents}
                 <p>{props.winMessage}</p>
             </>
         );

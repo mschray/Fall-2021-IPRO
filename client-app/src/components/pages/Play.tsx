@@ -6,6 +6,7 @@ import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 
 import { isGameModel } from "models/GameModel";
+import StageEndModel from "models/StageEndModel";
 import UserSignInResponseModel from "models/UserSignInResponseModel";
 
 import Game from "components/Game";
@@ -13,7 +14,7 @@ import Game from "components/Game";
 interface PlayProps {
     userData: UserSignInResponseModel,
     courseCode: string,
-    onStageFinish: (newStage: number) => void
+    onStageFinish: (data: StageEndModel) => void
 }
 
 const Play: React.FC<PlayProps> = props => {

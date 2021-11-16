@@ -7,6 +7,7 @@ import useFetch, { FetchStatus } from "hooks/useFetch";
 import GameModel from "models/GameModel";
 import { publishStageEvent } from "models/PublishStageEventModel";
 import QuestionModel, { isQuestionModel } from "models/QuestionModel";
+import StageEndModel from "models/StageEndModel";
 import UserSignInResponseModel from "models/UserSignInResponseModel";
 
 import Question from "components/Question";
@@ -16,7 +17,7 @@ interface GameProps {
     game: GameModel,
     userData: UserSignInResponseModel,
     courseCode: string,
-    onStageFinish: (newStage: number) => void
+    onStageFinish: (data: StageEndModel) => void
 }
 
 // Amount of damage to deal per correct answer
@@ -74,6 +75,7 @@ const Game: React.FC<GameProps> = (props) => {
             return (
                 <Stage
                     max_hp={props.game.max_hp}
+                    stageName={props.game.stage_name}
                     stageId={props.userData.stageId}
                     courseCode={props.courseCode}
                     winMessage={"Congratulations! With the help of your classmates, you've defeated the monster!"}
