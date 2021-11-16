@@ -39,6 +39,12 @@ const Game: React.FC<GameProps> = (props) => {
         },
         [props.game.subject_name]
     );
+    
+    // Current question number as a state variable
+    const [questionIndex, setQuestionIndex] = useState(0);
+
+    // Current HP of monster as a state variable
+    const [monsterHP, setMonsterHP] = useState(props.game.max_hp);
 
     const onQuestionSolve = useCallback(
         (questionData: QuestionModel) => {
@@ -52,19 +58,20 @@ const Game: React.FC<GameProps> = (props) => {
                 event_time: new Date().toISOString().slice(0, 19).replace('T', ' ')
             });
             setQuestionIndex(questionIndex => questionIndex + 1);
+
+            // Immediately update monster HP so the client has quick feedback,
+            // instead of waiting until next backend update to reduce HP
+            setMonsterHP(currentMonsterHP => currentMonsterHP - INFLICTED_HP);
         },
         [props.userData.stageId, props.userData.courseId, props.userData.userId]
     );
-
-    // Current question number as a state variable
-    const [questionIndex, setQuestionIndex] = useState(0);
 
     if (fetchResult.status === FetchStatus.Success) {
         if (fetchResult.payload.length === 0) {
             return (
                 <p>No questions for this subject.</p>
             );
-        } else if (questionIndex < fetchResult.payload.length) {
+        } else if (monsterHP > 0) {
             return (
                 <>
                     <img
@@ -72,10 +79,10 @@ const Game: React.FC<GameProps> = (props) => {
                         src={monsterGif}
                         alt="Evil monster is destroying Jebraville! Solve math questions to kill the monster."
                     />
-                    <ProgressBar alpha={1 - questionIndex / fetchResult.payload.length}/>
+                    <ProgressBar alpha={monsterHP / props.game.max_hp}/>
                     <p>Question #{questionIndex + 1}:</p>
                     <Question
-                        questionData={fetchResult.payload[questionIndex]}
+                        questionData={fetchResult.payload[questionIndex % fetchResult.payload.length]}
                         onSolve={onQuestionSolve}
                     />
                 </>
