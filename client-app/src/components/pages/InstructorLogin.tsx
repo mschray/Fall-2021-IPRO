@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import InstructorDashboard from "./InstructorDashboard";
+import InstructorPortal from "./InstructorPortal";
 
 interface InstructorLoginFormState {
     email: string,
@@ -75,7 +75,7 @@ const InstructorLogin: React.FC = () => {
     else {
         return (
             <div className={styles.content}>
-                <InstructorDashboard email={formState.email} courses={[]}/>
+                <InstructorPortal email={formState.email} courses={[]}/>
                 <button onClick={handleSignOut}>Logout</button>
             </div>
         );
