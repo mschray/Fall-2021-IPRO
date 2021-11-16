@@ -32,7 +32,7 @@ const headersData = [
     },
     {
         label: "Play",
-        href: "/play",
+        href: "/student",
     },
 ];
   
