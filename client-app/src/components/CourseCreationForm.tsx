@@ -1,7 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
+
+import getAzureFunctions from "getAzureFunctions";
 
 import InstructorModel from "models/InstructorModel";
-import getAzureFunctions from "getAzureFunctions";
+import NewGameResponseModel, { isNewGameResponseModel } from "models/NewGameResponseModel";
 import { isSubjectModel } from "models/SubjectModel";
 
 import useFetch, { FetchStatus } from "hooks/useFetch";
@@ -12,7 +14,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
 interface CourseCreationFormProps {
-    instructorData: InstructorModel
+    instructorData: InstructorModel,
+    onCourseCreated: (data: NewGameResponseModel) => void
 }
 
 interface NewGameFormState {
@@ -43,11 +46,28 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
         stageName: ""
     };
 
+    // Course creation error message
+    const [newGameErrorMessage, setNewGameErrorMessage] = useState<string | undefined>(undefined);
+
     // Need to memo-ize the callback since it relies on subjectFetchResult
     const newGameRequest = useCallback(
         (formState: NewGameFormState) => {
-            if (subjectFetchResult.status !== FetchStatus.Success)
+            if (subjectFetchResult.status !== FetchStatus.Success) 
                 return;
+
+            if (formState.courseName.length < 1 || formState.courseName.length > 30) {
+                setNewGameErrorMessage("Course name must be between 1 and 30 characters");
+                return;
+            } else if (formState.stageName.length < 1 || formState.courseName.length > 50) {
+                setNewGameErrorMessage("Stage name must be between 1 and 50 characters");
+                return;
+            } else if (formState.stageHp <= 0) {
+                setNewGameErrorMessage("Stage HP must be positive");
+                return;
+            } else if (subjectFetchResult.payload[formState.subjectIndex] === undefined) {
+                setNewGameErrorMessage("Invalid subject index");
+                return;
+            }
             
             const url = new URL(getAzureFunctions().NewGame);
             url.searchParams.append("subjectName", subjectFetchResult.payload[formState.subjectIndex].subject_name);
@@ -62,12 +82,18 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
                 .then(response => response.json())
                 .then(json => {
                     console.log(json);
+                    if (Array.isArray(json) && json.length > 0 && isNewGameResponseModel(json[0])) {
+                        props.onCourseCreated(json[0]);
+                    } else {
+                        setNewGameErrorMessage("Received unexpected data from backend. Check console.");
+                    }
                 })
                 .catch(err => {
                     console.error(err);
+                    setNewGameErrorMessage("Error occurred while making NewGame request. Check console.");
                 });
         },
-        [subjectFetchResult, props.instructorData.email]
+        [subjectFetchResult, props]
     );
 
     // async callback simply calls memo-ized callback
@@ -144,6 +170,11 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
                     />
                 </div>
                 <br/>
+                {
+                    (newGameErrorMessage !== undefined)
+                        ? <p>{newGameErrorMessage}</p>
+                        : null
+                }
                 <button name="CreateCourse">Create Course</button>
             </form>
         );
