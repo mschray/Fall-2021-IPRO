@@ -31,7 +31,7 @@ CREATE TABLE [dbo].instructor (
 	PRIMARY KEY (id)
 );
 -- Sample instructor
-INSERT INTO [dbo].instructor VALUES ('Al', 'Jebra', 'aj', 'password', 'aj@jebra.com');
+INSERT INTO [dbo].instructor VALUES ('Al', 'Jebra', 'aj', 'jebraiscool123', 'aj@jebra.com');
 
 CREATE TABLE [dbo].statistic (
 	id					INT				NOT NULL	IDENTITY,
