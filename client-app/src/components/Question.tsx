@@ -6,7 +6,7 @@ import QuestionModel from "models/QuestionModel";
 // Properties for the Question React component
 interface QuestionProperties {
     questionData: QuestionModel,
-    onSolve: () => void
+    onSolve: (questionData: QuestionModel) => void
 }
 
 // Interface for answer form
@@ -19,7 +19,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
     async function submitAnswerCallback(state: AnswerFormState) {
         if (state.answer === props.questionData.answer_a) {
             alert("Correct!");
-            props.onSolve();
+            props.onSolve(props.questionData);
         } else {
             alert("Incorrect!");
         }
