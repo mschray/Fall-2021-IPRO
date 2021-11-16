@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import _ from "lodash";
 
 import styles from "./Game.module.scss";
 
@@ -12,8 +11,6 @@ import { isQuestionModel } from "models/QuestionModel";
 
 import Question from "components/Question";
 import ProgressBar from "components/ProgressBar";
-
-const NQUESTIONS = 5;
 
 interface GameProps {
     subjectName: string
@@ -28,7 +25,7 @@ const Game: React.FC<GameProps> = (props) => {
         (data) => {
             // The Azure function should return the data as an array of QuestionModels
             if (Array.isArray(data) && data.every(isQuestionModel)) {
-                return _.sampleSize(data, NQUESTIONS);
+                return data;
             }
             return undefined;
         },
