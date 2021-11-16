@@ -103,7 +103,7 @@ namespace JebraAzureFunctions
                  * - Delete old stage
                  * - Ret new stage_id, new max hp, new stage name, new subject id, new subject name
                  */
-                string newStageName = stageName + " - again!"; // Placeholder
+                string newStageName = stageName; // Placeholder
                 string newStageIdString = Tools.ExecuteQueryAsync($@"INSERT INTO stage OUTPUT INSERTED.id VALUES({maxHp}, '{newStageName}', {subjectId})").GetAwaiter().GetResult();
                 //[{"id":2}]
                 newStageIdString = newStageIdString.Substring(1, newStageIdString.Length - 2);
