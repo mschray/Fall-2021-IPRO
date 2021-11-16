@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/static/css/main.08c1852f.chunk.css",
-    "main.js": "/static/js/main.5f65e96a.chunk.js",
-    "main.js.map": "/static/js/main.5f65e96a.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.84ca9fc5.js",
-    "runtime-main.js.map": "/static/js/runtime-main.84ca9fc5.js.map",
-    "static/js/2.18f5150b.chunk.js": "/static/js/2.18f5150b.chunk.js",
-    "static/js/2.18f5150b.chunk.js.map": "/static/js/2.18f5150b.chunk.js.map",
-    "static/js/3.c7580ad0.chunk.js": "/static/js/3.c7580ad0.chunk.js",
-    "static/js/3.c7580ad0.chunk.js.map": "/static/js/3.c7580ad0.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.08c1852f.chunk.css.map": "/static/css/main.08c1852f.chunk.css.map",
-    "static/js/2.18f5150b.chunk.js.LICENSE.txt": "/static/js/2.18f5150b.chunk.js.LICENSE.txt",
-    "static/media/JebraLogov2Dark.e6a8863a.svg": "/static/media/JebraLogov2Dark.e6a8863a.svg",
-    "static/media/monster_havoc.fc84460f.gif": "/static/media/monster_havoc.fc84460f.gif"
+    "main.css": "/Fall-2021-IPRO/static/css/main.08c1852f.chunk.css",
+    "main.js": "/Fall-2021-IPRO/static/js/main.5f65e96a.chunk.js",
+    "main.js.map": "/Fall-2021-IPRO/static/js/main.5f65e96a.chunk.js.map",
+    "runtime-main.js": "/Fall-2021-IPRO/static/js/runtime-main.fc5c79a8.js",
+    "runtime-main.js.map": "/Fall-2021-IPRO/static/js/runtime-main.fc5c79a8.js.map",
+    "static/js/2.18f5150b.chunk.js": "/Fall-2021-IPRO/static/js/2.18f5150b.chunk.js",
+    "static/js/2.18f5150b.chunk.js.map": "/Fall-2021-IPRO/static/js/2.18f5150b.chunk.js.map",
+    "static/js/3.c7580ad0.chunk.js": "/Fall-2021-IPRO/static/js/3.c7580ad0.chunk.js",
+    "static/js/3.c7580ad0.chunk.js.map": "/Fall-2021-IPRO/static/js/3.c7580ad0.chunk.js.map",
+    "index.html": "/Fall-2021-IPRO/index.html",
+    "static/css/main.08c1852f.chunk.css.map": "/Fall-2021-IPRO/static/css/main.08c1852f.chunk.css.map",
+    "static/js/2.18f5150b.chunk.js.LICENSE.txt": "/Fall-2021-IPRO/static/js/2.18f5150b.chunk.js.LICENSE.txt",
+    "static/media/JebraLogov2Dark.e6a8863a.svg": "/Fall-2021-IPRO/static/media/JebraLogov2Dark.e6a8863a.svg",
+    "static/media/monster_havoc.fc84460f.gif": "/Fall-2021-IPRO/static/media/monster_havoc.fc84460f.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.84ca9fc5.js",
+    "static/js/runtime-main.fc5c79a8.js",
     "static/js/2.18f5150b.chunk.js",
     "static/css/main.08c1852f.chunk.css",
     "static/js/main.5f65e96a.chunk.js"
