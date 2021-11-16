@@ -27,7 +27,7 @@ namespace JebraAzureFunctions
             int stageId = int.Parse(req.Query["stage_id"]);
 
             string res = Tools.ExecuteQueryAsync($@"
-                SELECT TOP 1 subject.subject_name
+                SELECT TOP 1 subject.subject_name, stage.max_hp
                 FROM subject
                 INNER JOIN stage ON stage.id = {stageId}
                 WHERE stage.subject_id = subject.id;
