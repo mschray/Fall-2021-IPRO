@@ -9,6 +9,8 @@ import useFetch, { FetchStatus } from "hooks/useFetch";
 
 import { isQuestionModel } from "models/QuestionModel";
 import { isSubjectModel } from "models/SubjectModel";
+import UserSignInResponseModel from "models/UserSignInResponseModel";
+
 import Question from "components/Question";
 import ProgressBar from "components/ProgressBar";
 
@@ -118,7 +120,11 @@ const Game: React.FC<{subjectName: string}> = (props) => {
     }
 }
 
-const Play: React.FC = () => {
+interface PlayProps {
+    userData: UserSignInResponseModel;
+}
+
+const Play: React.FC<PlayProps> = props => {
     const [subjectName, setSubjectName] = useState<string | undefined>(undefined);
 
     return (

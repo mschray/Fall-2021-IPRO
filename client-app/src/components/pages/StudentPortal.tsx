@@ -14,7 +14,7 @@ const StudentPortal: React.FC = () => {
         );
     } else {
         return (
-            <Play />
+            <Play userData={userData} />
         );
     }
 };
