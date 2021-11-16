@@ -11,7 +11,7 @@ import { isStageEventModel } from "models/StageEventModel";
 
 import ProgressBar from "components/ProgressBar";
 
-interface GameProps {
+interface StageProps {
     max_hp: number,
     stageId: number,
     courseCode: string,
@@ -24,7 +24,7 @@ interface GameProps {
 // Time (in milliseconds) between each GetEvents request
 const EVENTS_INTERVAL = 2500;
 
-const Game: React.FC<GameProps> = (props) => {
+const Stage: React.FC<StageProps> = (props) => {
     // Current HP of monster as a state variable
     const [monsterHP, setMonsterHP] = useState(props.max_hp);
     const [eventsErrorMessage, setEventsErrorMessage] = useState<string | undefined>(undefined);
@@ -56,7 +56,7 @@ const Game: React.FC<GameProps> = (props) => {
                         }
                         setEventsErrorMessage(undefined);
                     } else if (isStageEndModel(json)) {
-                        onStageFinish(json.NewStage);
+                        onStageFinish(json.new_stage_id);
                     } else {
                         setEventsErrorMessage("Received unexpected data from the backend. Check console.");
                     }
@@ -118,4 +118,4 @@ const Game: React.FC<GameProps> = (props) => {
     }
 }
 
-export default Game;
+export default Stage;
