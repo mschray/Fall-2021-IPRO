@@ -78,7 +78,7 @@ const CourseMonitor: React.FC<CourseMonitorProps> = props => {
                     stageId={gameData.stage_id}
                     stageName={gameData.name}
                     courseCode={gameData.code.toString()}
-                    winMessage={"Your brilliant students have defeated the monster! Moving to next stage..."}
+                    winMessage={"Your brilliant students have defeated the monster! Moving onto next stage..."}
                     onStageFinish={onStageFinish}
                     onCourseFinish={onCourseFinish}
                 />

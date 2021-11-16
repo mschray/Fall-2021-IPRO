@@ -73,7 +73,7 @@ const Game: React.FC<GameProps> = (props) => {
                     stageName={props.game.stage_name}
                     stageId={props.userData.stageId}
                     courseCode={props.courseCode}
-                    winMessage={"Congratulations! With the help of your classmates, you've defeated the monster!"}
+                    winMessage={"Congratulations! With the help of your classmates, you've defeated the monster! Moving onto next stage..."}
                     onStageFinish={props.onStageFinish}
                     onCourseFinish={props.onCourseFinish}
                     forceFetchStageEvents={questionIndex}
