@@ -58,12 +58,13 @@ namespace JebraAzureFunctions
                 return new OkObjectResult("{\"EndOfStage\": true, \"NewStage\": " + currentStageId.ToString() + "}");
             }
 
-            string hpIdString = Tools.ExecuteQueryAsync($"SELECT max_hp FROM stage WHERE id={stage}").GetAwaiter().GetResult();
+            string stageInfoString = Tools.ExecuteQueryAsync($"SELECT max_hp, subject_id FROM stage WHERE id={stage}").GetAwaiter().GetResult();
             //[{"id":2}]
-            hpIdString = hpIdString.Substring(1, hpIdString.Length - 2);
+            stageInfoString = stageInfoString.Substring(1, stageInfoString.Length - 2);
             //{"id":2}
-            dynamic data = JsonConvert.DeserializeObject(hpIdString);
+            dynamic data = JsonConvert.DeserializeObject(stageInfoString);
             int maxHp = data?.max_hp;
+            int subjectId = data?.subject_id;
 
             string command = @$"
             SELECT stage_event.id, stage_event.inflicted_hp, stage_event.was_correct, stage_event.event_time FROM stage_event
@@ -71,13 +72,6 @@ namespace JebraAzureFunctions
             INNER JOIN course ON course.code = {courseCode}
             WHERE stage_event_join.course_id = course.id AND stage_event_join.stage_id = {stage}
             ";
-
-            string subjectIdString = Tools.ExecuteQueryAsync($"SELECT subject_id FROM stage WHERE id={stage}").GetAwaiter().GetResult();
-            //[{"id":2}]
-            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length - 2);
-            //{"id":2}
-            data = JsonConvert.DeserializeObject(subjectIdString);
-            int subjectId = data?.subject_id;
 
             dynamic responseMessage = JsonConvert.DeserializeObject(Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult());
 
