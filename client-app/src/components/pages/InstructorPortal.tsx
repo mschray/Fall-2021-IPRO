@@ -19,7 +19,7 @@ const InstructorPortal: React.FC = () => {
         );
     } else {
         return (
-            <CourseMonitor />
+            <CourseMonitor instructorData={loginResult} />
         );
     }
 };
