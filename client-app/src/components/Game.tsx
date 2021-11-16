@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import _ from "lodash";
 
 import styles from "./Game.module.scss";
 
@@ -32,7 +33,7 @@ const Game: React.FC<GameProps> = (props) => {
         (data) => {
             // The Azure function should return the data as an array of QuestionModels
             if (Array.isArray(data) && data.every(isQuestionModel)) {
-                return data;
+                return _.shuffle(data);
             }
             return undefined;
         },
