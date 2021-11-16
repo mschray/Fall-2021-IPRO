@@ -32,7 +32,7 @@ const Play: React.FC<PlayProps> = props => {
 
     if (gameFetchResult.status === FetchStatus.Success) {
         contents = (
-            <Game game={gameFetchResult.payload} />
+            <Game game={gameFetchResult.payload} userData={props.userData} />
         );
     } else if (gameFetchResult.status === FetchStatus.InProgress) {
         contents = (

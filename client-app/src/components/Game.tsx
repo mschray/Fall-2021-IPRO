@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import styles from "./Game.module.scss";
 
@@ -8,14 +8,20 @@ import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 
 import GameModel from "models/GameModel";
-import { isQuestionModel } from "models/QuestionModel";
+import { publishStageEvent } from "models/PublishStageEventModel";
+import QuestionModel, { isQuestionModel } from "models/QuestionModel";
+import UserSignInResponseModel from "models/UserSignInResponseModel";
 
 import Question from "components/Question";
 import ProgressBar from "components/ProgressBar";
 
 interface GameProps {
-    game: GameModel
+    game: GameModel,
+    userData: UserSignInResponseModel
 }
+
+// Amount of damage to deal per correct answer
+const INFLICTED_HP = 10;
 
 const Game: React.FC<GameProps> = (props) => {
     // Fetch the questions
@@ -31,6 +37,22 @@ const Game: React.FC<GameProps> = (props) => {
             return undefined;
         },
         [props.game.subject_name]
+    );
+
+    const onQuestionSolve = useCallback(
+        (questionData: QuestionModel) => {
+            publishStageEvent({
+                stage_id: props.userData.stageId,
+                course_id: props.userData.courseId,
+                origin_user_id: props.userData.userId,
+                question_id: questionData.id,
+                inflicted_hp: INFLICTED_HP,
+                was_correct: 1,
+                event_time: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            });
+            setQuestionIndex(questionIndex => questionIndex + 1);
+        },
+        [props.userData.stageId, props.userData.courseId, props.userData.userId]
     );
 
     // Current question number as a state variable
@@ -53,7 +75,7 @@ const Game: React.FC<GameProps> = (props) => {
                     <p>Question #{questionIndex + 1}:</p>
                     <Question
                         questionData={fetchResult.payload[questionIndex]}
-                        onSolve={() => {setQuestionIndex((questionIndex) => questionIndex + 1);}}
+                        onSolve={onQuestionSolve}
                     />
                 </>
             );
