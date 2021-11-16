@@ -43,33 +43,24 @@ namespace JebraAzureFunctions.Models
             //name = name ?? data?.name;
             //ALTER TABLE [dbo].[stage_event_join] NOCHECK CONSTRAINT user_id_fk_on_stage_event_join
 
-            string nocheckCommand = $@"
-            ALTER TABLE [dbo].[stage_event_join] NOCHECK CONSTRAINT user_id_fk_on_stage_event_join 
-            ALTER TABLE [dbo].[stage_event_join] NOCHECK CONSTRAINT course_id_fk_on_stage_event_join
-            ALTER TABLE [dbo].[stage_event_join] NOCHECK CONSTRAINT stage_id_fk_on_stage_event_join
-            ALTER TABLE [dbo].[stage_event_join] NOCHECK CONSTRAINT question_id_fk_on_stage_event_join
-            ALTER TABLE [dbo].[stage_event_join] NOCHECK CONSTRAINT stage_event_id_fk_on_stage_event_join
+            // Add new stage event in separate transaction to prevent deadlock
+            string newStageEventCommand = $@"
+            INSERT INTO stage_event
+            OUTPUT inserted.id
+            VALUES ({data?.inflicted_hp}, {data?.was_correct}, '{data?.event_time}');
             ";
-
-            await Tools.ExecuteNonQueryAsync(nocheckCommand);
+            string newStageEventResponse = Tools.ExecuteQueryAsync(newStageEventCommand).GetAwaiter().GetResult();
+            //[{"id":2}]
+            newStageEventResponse = newStageEventResponse.Substring(1, newStageEventResponse.Length - 2);
+            //{"id":2}
+            dynamic newStageEventData = JsonConvert.DeserializeObject(newStageEventResponse);
+            int newStageEventId = newStageEventData?.id;
 
             string command = $@"
-            INSERT INTO stage_event
-            OUTPUT {data?.stage_id}, {data?.course_id}, {data?.origin_user_id}, {data?.question_id}, inserted.id INTO stage_event_join(stage_id, course_id, origin_user_id, question_id, stage_event_id)
-            VALUES ({data?.inflicted_hp}, {data?.was_correct}, '{data?.event_time}')
+            INSERT INTO stage_event_join
+            VALUES ({data?.stage_id}, {data?.course_id}, {data?.origin_user_id}, {data?.question_id}, {newStageEventId});
             ";
-
             await Tools.ExecuteNonQueryAsync(command);
-
-            string checkCommand = $@"
-            ALTER TABLE [dbo].[stage_event_join] CHECK CONSTRAINT user_id_fk_on_stage_event_join
-            ALTER TABLE [dbo].[stage_event_join] CHECK CONSTRAINT course_id_fk_on_stage_event_join
-            ALTER TABLE [dbo].[stage_event_join] CHECK CONSTRAINT stage_id_fk_on_stage_event_join
-            ALTER TABLE [dbo].[stage_event_join] CHECK CONSTRAINT question_id_fk_on_stage_event_join
-            ALTER TABLE [dbo].[stage_event_join] CHECK CONSTRAINT stage_event_id_fk_on_stage_event_join
-            ";
-
-            await Tools.ExecuteNonQueryAsync(checkCommand);
 
             string responseMessage = "Request Sent";
 
