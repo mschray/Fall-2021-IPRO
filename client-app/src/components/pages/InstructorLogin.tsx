@@ -11,13 +11,13 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import InstructorDashboard from "./InstructorDashboard";
 
-interface LoginFormState {
+interface InstructorLoginFormState {
     email: string,
     password: string,
 };
 
-const Login: React.FC = () => {
-    const initialState: LoginFormState = {
+const InstructorLogin: React.FC = () => {
+    const initialState: InstructorLoginFormState = {
         email: "",
         password: "",
     };
@@ -82,4 +82,4 @@ const Login: React.FC = () => {
     }
 };
 
-export default Login;
+export default InstructorLogin;
