@@ -9,10 +9,9 @@ import Header from "components/Header";
 
 import Home from "components/pages/Home";
 import Options from "components/pages/Options";
-import Login from "components/pages/Login";
+import InstructorPortal from "components/pages/InstructorPortal";
 import Signup from "components/pages/Signup";
-import Play from "components/pages/Play";
-import StudentLogin from "./pages/StudentLogin";
+import StudentPortal from "components/pages/StudentPortal";
 
 import styles from "./App.module.scss";
 
@@ -25,17 +24,14 @@ const App: React.FC = () => {
                     <Route path="/options">
                         <Options />
                     </Route>
-                    <Route path="/login">
-                        <Login />
+                    <Route path="/instructor">
+                        <InstructorPortal />
                     </Route>
                     <Route path="/signup">
                         <Signup />
                     </Route>
-                    <Route path="/play">
-                        <Play />
-                    </Route>
-                    <Route path="/studentLogin">
-                        <StudentLogin />
+                    <Route path="/student">
+                        <StudentPortal />
                     </Route>
                     <Route path="/">
                         <Home />

@@ -46,28 +46,46 @@ namespace JebraAzureFunctions
             ///name = name ?? data?.name;
             ///   
 
-            string hpIdString = Tools.ExecuteQueryAsync($"SELECT max_hp FROM stage WHERE id={stage}").GetAwaiter().GetResult();
-            //[{"id":2}]
-            hpIdString = hpIdString.Substring(1, hpIdString.Length - 2);
-            //{"id":2}
-            dynamic data = JsonConvert.DeserializeObject(hpIdString);
-            int maxHp = data?.id;
+            // Fetch info about stage and subject
+            string currentStageCommand = $@"
+            SELECT TOP 1 stage.id, stage.max_hp, stage.name, stage.subject_id, subject.subject_name
+            FROM course
+            INNER JOIN stage ON course.stage_id = stage.id
+            INNER JOIN subject ON stage.subject_id = subject.id
+            WHERE course.code={courseCode};
+            ";
+            string currentStageString = Tools.ExecuteQueryAsync(currentStageCommand).GetAwaiter().GetResult();
+            currentStageString = currentStageString.Substring(1, currentStageString.Length - 2);
+            dynamic currentStageData = JsonConvert.DeserializeObject(currentStageString);
+
+            // If the id is null, then that means we couldn't find a course or stage for the corresponding courseCode.
+            // In this case, we inform the client that the course has ended.
+            if (currentStageData?.id == null)
+            {
+                return new OkObjectResult("{\"end_of_course\": true}");
+            }
+
+            int currentStageId = currentStageData?.id;
+            int maxHp = currentStageData?.max_hp;
+            string stageName = currentStageData?.name;
+            int subjectId = currentStageData?.subject_id;
+            string subjectName = currentStageData?.subject_name;
+
+            // If the currentStageId does not match that of the the incoming request, that means that this client is stuck on an old stage.
+            // In this case, we respond with an EndOfStage message to let the client know to move to this new stage.
+            if (currentStageId.ToString() != stage)
+            {
+                return new OkObjectResult(ConstructEndOfStageMessage(currentStageId, maxHp, stageName, subjectId, subjectName));
+            }
 
             string command = @$"
-            SELECT stage_event.inflicted_hp, stage_event.was_correct, stage_event.event_time FROM stage_event
+            SELECT stage_event.id, stage_event.inflicted_hp, stage_event.was_correct, stage_event.event_time FROM stage_event
             INNER JOIN stage_event_join ON stage_event.id = stage_event_join.stage_event_id
             INNER JOIN course ON course.code = {courseCode}
             WHERE stage_event_join.course_id = course.id AND stage_event_join.stage_id = {stage}
             ";
 
-            string subjectIdString = Tools.ExecuteQueryAsync($"SELECT subject_id FROM stage WHERE id={stage}").GetAwaiter().GetResult();
-            //[{"id":2}]
-            subjectIdString = subjectIdString.Substring(1, subjectIdString.Length - 2);
-            //{"id":2}
-            data = JsonConvert.DeserializeObject(subjectIdString);
-            int subjectId = data?.id;
-
-            dynamic responseMessage = Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult();
+            dynamic responseMessage = JsonConvert.DeserializeObject(Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult());
 
             List<StageEventModel> events = Tools.JsonEventsToModelArray(responseMessage);
 
@@ -80,22 +98,41 @@ namespace JebraAzureFunctions
             if(currentHp <= 0)
             {
                 /*
-                 * - Delete current stage
                  * - Create new stage
-                 * - Ret new stage_id
+                 * - Update course with new stage_id
+                 * - Delete old stage
+                 * - Ret new stage_id, new max hp, new stage name, new subject id, new subject name
                  */
-                Tools.ExecuteNonQueryAsync($"DELETE FROM stage WHERE id={stage}").GetAwaiter().GetResult();
-
-                string newStageIdString = Tools.ExecuteQueryAsync($@"INSERT INTO stage OUTPUT INSERTED.id VALUES(100, 'punisher',{subjectId})").GetAwaiter().GetResult();
+                string newStageName = stageName; // Placeholder
+                string newStageIdString = Tools.ExecuteQueryAsync($@"INSERT INTO stage OUTPUT INSERTED.id VALUES({maxHp}, '{newStageName}', {subjectId})").GetAwaiter().GetResult();
                 //[{"id":2}]
-                newStageIdString = newStageIdString.Substring(1, subjectIdString.Length - 2);
+                newStageIdString = newStageIdString.Substring(1, newStageIdString.Length - 2);
                 //{"id":2}
-                data = JsonConvert.DeserializeObject(newStageIdString);
+                dynamic data = JsonConvert.DeserializeObject(newStageIdString);
                 int newStageId = data?.id;
 
-                responseMessage = "{'EndOfStage': true, 'NewStage': " + newStageId + "}";
+                Tools.ExecuteNonQueryAsync($"UPDATE course SET stage_id={newStageId} WHERE code={courseCode}").GetAwaiter().GetResult();
+
+                Tools.ExecuteNonQueryAsync($"DELETE FROM stage WHERE id={stage}").GetAwaiter().GetResult();
+
+                responseMessage = ConstructEndOfStageMessage(newStageId, maxHp, newStageName, subjectId, subjectName);
             }
             return new OkObjectResult(responseMessage);
+        }
+
+        // Note: we should use a model for EndOfStage messages. For now, just making a static function for the sake of time
+        private static string ConstructEndOfStageMessage(int newStageId, int newMaxHp, string newStageName, int newSubjectId, string newSubjectName)
+        {
+            return $@"
+            {{
+                ""end_of_stage"": true,
+                ""new_stage_id"": {newStageId},
+                ""new_max_hp"": {newMaxHp},
+                ""new_stage_name"": ""{newStageName}"",
+                ""new_subject_id"": {newSubjectId},
+                ""new_subject_name"": ""{newSubjectName}""
+            }}
+            ";
         }
     }
 }
