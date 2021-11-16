@@ -45,7 +45,7 @@ namespace JebraAzureFunctions.Models
 
             // Add new stage event in separate transaction to prevent deadlock
             string newStageEventCommand = $@"
-            INSERT INTO stage_event
+            INSERT INTO stage_event(inflicted_hp, was_correct, event_time)
             OUTPUT inserted.id
             VALUES ({data?.inflicted_hp}, {data?.was_correct}, '{data?.event_time}');
             ";
@@ -57,7 +57,7 @@ namespace JebraAzureFunctions.Models
             int newStageEventId = newStageEventData?.id;
 
             string command = $@"
-            INSERT INTO stage_event_join
+            INSERT INTO stage_event_join(stage_id, course_id, origin_user_id, question_id, stage_event_id)
             VALUES ({data?.stage_id}, {data?.course_id}, {data?.origin_user_id}, {data?.question_id}, {newStageEventId});
             ";
             await Tools.ExecuteNonQueryAsync(command);
