@@ -6,6 +6,10 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import CreateIcon from "@mui/icons-material/Create";
 
+import equationSubject from "assets/subjectIcons/EquationsSymbol.png";
+import linearSubject from "assets/subjectIcons/LinearSymbol.png";
+import polynomialSubject from "assets/subjectIcons/PolynomialSymbol.png";
+import quadraticSubject from "assets/subjectIcons/QuadraticSymbol.png";
 import squareSubject from "assets/subjectIcons/SquaresSymbol.png";
 
 import getAzureFunctions from "getAzureFunctions";
@@ -31,7 +35,7 @@ const SubjectSelector: React.FC<{ callback: (name: string) => void }> = (props) 
             <ul key={subject.id} className={homeStyles.subjectContainer}>
                 <img
                     className={homeStyles.png}
-                    src={squareSubject}
+                    src={equationSubject}
                     alt="An icon to demonstrate the subject."
                 />
                 <h2>{subject.subject_name}</h2>
@@ -39,6 +43,7 @@ const SubjectSelector: React.FC<{ callback: (name: string) => void }> = (props) 
         ))
         return (
             <ul>
+                <h2>Available Subjects</h2>
                 {subjectListItems}
             </ul>
         );
