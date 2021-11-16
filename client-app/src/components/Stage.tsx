@@ -6,6 +6,7 @@ import monsterGif from "assets/monster_havoc.gif"
 
 import getAzureFunctions from "getAzureFunctions";
 
+import { isCourseEndModel } from "models/CourseEndModel";
 import StageEndModel, { isStageEndModel } from "models/StageEndModel";
 import { isStageEventModel } from "models/StageEventModel";
 
@@ -18,8 +19,8 @@ interface StageProps {
     courseCode: string,
     winMessage: string,
     onStageFinish: (data: StageEndModel) => void,
-    onHPUpdate?: (newHP: number) => void,
-    hpOverride?: number
+    onCourseFinish: () => void,
+    forceFetchStageEvents?: number                  // Used to force Stage to re-fetch stage events when set to a new number (hacky!)
 }
 
 // Time (in milliseconds) between each GetEvents request
@@ -28,15 +29,19 @@ const EVENTS_INTERVAL = 2500;
 const Stage: React.FC<StageProps> = (props) => {
     // Current HP of monster as a state variable
     const [monsterHP, setMonsterHP] = useState(props.max_hp);
+    // Error message string
     const [eventsErrorMessage, setEventsErrorMessage] = useState<string | undefined>(undefined);
 
     // need to destructure function props since React doesn't like having them in dependency arrays
     const onStageFinish = props.onStageFinish;
-    const onHPUpdate = props.onHPUpdate;
+    const onCourseFinish = props.onCourseFinish;
 
     // Callback to fetch stage events
     const fetchStageEvents = useCallback(
         () => {
+            if (props.forceFetchStageEvents !== undefined)
+                console.log(`Re-fetch force number: ${props.forceFetchStageEvents}`);
+
             const url = new URL(getAzureFunctions().GetEvents);
             url.searchParams.append("stage", props.stageId.toString());
             url.searchParams.append("course_code", props.courseCode);
@@ -47,17 +52,15 @@ const Stage: React.FC<StageProps> = (props) => {
                     if (Array.isArray(json) && json.every(isStageEventModel)) {
                         if (json.length > 0) {
                             const newHP = props.max_hp - json.map(stageEvent => stageEvent.inflicted_hp).reduce((hp1, hp2) => hp1 + hp2);
-                            if (onHPUpdate !== undefined)
-                                onHPUpdate(newHP);
                             setMonsterHP(newHP);
                         } else {
-                            if (onHPUpdate !== undefined)
-                                onHPUpdate(props.max_hp);
                             setMonsterHP(props.max_hp);
                         }
                         setEventsErrorMessage(undefined);
                     } else if (isStageEndModel(json)) {
                         onStageFinish(json);
+                    } else if (isCourseEndModel(json)) {
+                        onCourseFinish();
                     } else {
                         setEventsErrorMessage("Received unexpected data from the backend. Check console.");
                     }
@@ -67,7 +70,7 @@ const Stage: React.FC<StageProps> = (props) => {
                     setEventsErrorMessage("Unexpected error occured while fetching stage events. Check console.");
                 });
         },
-        [setEventsErrorMessage, setMonsterHP, props.stageId, props.courseCode, props.max_hp, onStageFinish, onHPUpdate]
+        [setEventsErrorMessage, setMonsterHP, props.stageId, props.courseCode, props.max_hp, onStageFinish, onCourseFinish, props.forceFetchStageEvents]
     );
 
     // Periodically update HP based on stage events
@@ -86,7 +89,7 @@ const Stage: React.FC<StageProps> = (props) => {
         [fetchStageEvents]
     );
 
-    const hp = Math.max((props.hpOverride !== undefined) ? props.hpOverride : monsterHP, 0);
+    const hp = Math.max(monsterHP, 0);
 
     const contents = (
         <>

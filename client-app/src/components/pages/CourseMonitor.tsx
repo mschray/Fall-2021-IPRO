@@ -34,7 +34,14 @@ const CourseMonitor: React.FC<CourseMonitorProps> = props => {
             );
         },
         [setGameData]
-    )
+    );
+
+    const onCourseFinish = useCallback(
+        () => {
+            setGameData(undefined);
+        },
+        [setGameData]
+    );
 
     const endGameRequest = useCallback(
         () => {
@@ -51,6 +58,8 @@ const CourseMonitor: React.FC<CourseMonitorProps> = props => {
                 .then(response => response.text())
                 .then(text => {console.log(text);})
                 .catch(err => {console.error(err);});
+            
+            setGameData(undefined);
         },
         [gameData]
     )
@@ -71,6 +80,7 @@ const CourseMonitor: React.FC<CourseMonitorProps> = props => {
                     courseCode={gameData.code.toString()}
                     winMessage={"Your brilliant students have defeated the monster! Moving to next stage..."}
                     onStageFinish={onStageFinish}
+                    onCourseFinish={onCourseFinish}
                 />
                 <button onClick={endGameRequest}>End Game</button>
             </>

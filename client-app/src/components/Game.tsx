@@ -17,7 +17,8 @@ interface GameProps {
     game: GameModel,
     userData: UserSignInResponseModel,
     courseCode: string,
-    onStageFinish: (data: StageEndModel) => void
+    onStageFinish: (data: StageEndModel) => void,
+    onCourseFinish: () => void
 }
 
 // Amount of damage to deal per correct answer
@@ -42,9 +43,6 @@ const Game: React.FC<GameProps> = (props) => {
     // Current question number as a state variable
     const [questionIndex, setQuestionIndex] = useState(0);
 
-    // HP that this client has inflicted so far
-    const [hpOverride, setHPOverride] = useState(props.game.max_hp);
-
     // Callback when question is solved correctly
     const onQuestionSolve = useCallback(
         (questionData: QuestionModel) => {
@@ -56,14 +54,11 @@ const Game: React.FC<GameProps> = (props) => {
                 inflicted_hp: INFLICTED_HP,
                 was_correct: 1,
                 event_time: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            }).then(() => {
+                setQuestionIndex(questionIndex => questionIndex + 1);
             });
-            setQuestionIndex(questionIndex => questionIndex + 1);
-
-            // Immediately update monster HP override so the client has quick feedback,
-            // instead of waiting until next backend update to reduce HP
-            setHPOverride(hp => hp - INFLICTED_HP);
         },
-        [props.userData.stageId, props.userData.courseId, props.userData.userId, setQuestionIndex, setHPOverride]
+        [props.userData.stageId, props.userData.courseId, props.userData.userId, setQuestionIndex]
     );
 
     if (fetchResult.status === FetchStatus.Success) {
@@ -80,8 +75,8 @@ const Game: React.FC<GameProps> = (props) => {
                     courseCode={props.courseCode}
                     winMessage={"Congratulations! With the help of your classmates, you've defeated the monster!"}
                     onStageFinish={props.onStageFinish}
-                    hpOverride={hpOverride}
-                    onHPUpdate={setHPOverride}
+                    onCourseFinish={props.onCourseFinish}
+                    forceFetchStageEvents={questionIndex}
                 >
                     <p>Question #{questionIndex + 1}:</p>
                     <Question

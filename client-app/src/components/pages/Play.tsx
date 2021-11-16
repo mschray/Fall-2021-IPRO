@@ -14,7 +14,8 @@ import Game from "components/Game";
 interface PlayProps {
     userData: UserSignInResponseModel,
     courseCode: string,
-    onStageFinish: (data: StageEndModel) => void
+    onStageFinish: (data: StageEndModel) => void,
+    onCourseFinish: () => void
 }
 
 const Play: React.FC<PlayProps> = props => {
@@ -40,6 +41,7 @@ const Play: React.FC<PlayProps> = props => {
                 userData={props.userData}
                 courseCode={props.courseCode}
                 onStageFinish={props.onStageFinish}
+                onCourseFinish={props.onCourseFinish}
             />
         );
     } else if (gameFetchResult.status === FetchStatus.InProgress) {

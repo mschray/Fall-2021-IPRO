@@ -24,7 +24,14 @@ const StudentPortal: React.FC = () => {
             );
         },
         [setLoginResult]
-    )
+    );
+
+    const onCourseFinish = useCallback(
+        () => {
+            setLoginResult(undefined);
+        },
+        [setLoginResult]
+    );
 
     if (loginResult === undefined) {
         return (
@@ -43,6 +50,7 @@ const StudentPortal: React.FC = () => {
                 userData={loginResult.userData}
                 courseCode={loginResult.courseCode}
                 onStageFinish={onStageFinish}
+                onCourseFinish={onCourseFinish}
             />
         );
     }
