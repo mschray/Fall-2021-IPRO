@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using JebraAzureFunctions.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -21,16 +22,15 @@ namespace JebraAzureFunctions
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "courseCode", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Course code.")]
         [OpenApiParameter(name: "userEmail", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The user's email.")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(UserSignInResponseModel), Description = "The OK response")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "put", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string courseCode = req.Query["courseCode"];
+            int courseCode = int.Parse(req.Query["courseCode"]);
             string userEmail = req.Query["userEmail"];
-
             /*
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
@@ -39,18 +39,17 @@ namespace JebraAzureFunctions
 
             /*
              * Inputs: An email and corse code.
-             * 1. Get course id from course code. *
-             * 2. Get user id from email. *
-             * 3. Get instructor id from course id. *?
-             * 4. Insert into course_assignment.
-             * 5. Set user online.
+             * 1. Get course id from course code. 
+             * 2. Get user id from email. 
+             * 3. Get instructor id from course id. 
+             * 4. Get stage id.
+             * 5. Insert into course_assignment.
              */
 
-            string courseIdS = Tools.ExecuteQueryAsync($"SELECT id FROM course WHERE code='{courseCode}'").GetAwaiter().GetResult();
-            dynamic data = JsonConvert.DeserializeObject(courseIdS.Substring(1, courseIdS.Length - 2));//Removes [] from ends.
-            int courseId = data?.id;
+            string courseIdS = Tools.ExecuteQueryAsync($"SELECT id FROM course WHERE code={courseCode}").GetAwaiter().GetResult();
 
-            //string userIdS = Tools.ExecuteQueryAsync($"SELECT id FROM app_user WHERE email='{userEmail}'").GetAwaiter().GetResult();
+            int courseId = Tools.GetIdFromResponse(courseIdS);
+
             string userIdS = Tools.ExecuteQueryAsync($@"
                 IF EXISTS
                 (
@@ -64,19 +63,38 @@ namespace JebraAzureFunctions
                 
                 SELECT id FROM app_user WHERE email='{userEmail}'
             ").GetAwaiter().GetResult();
-            data = JsonConvert.DeserializeObject(userIdS.Substring(1, userIdS.Length - 2));//Removes [] from ends.
-            int userId = data?.id;
 
-            string instructorIds = Tools.ExecuteQueryAsync($"SELECT instructor_id FROM course_assignment WHERE course_id={courseId} AND user_id IS NULL").GetAwaiter().GetResult();
-            data = JsonConvert.DeserializeObject(instructorIds.Substring(1, instructorIds.Length - 2));//Removes [] from ends.
-            int instructorId = data?.instructor_id;
+            int userId = Tools.GetIdFromResponse(userIdS);
 
-            //Console.WriteLine($"courseId:{courseId}, userId:{userId}, instructorId:{instructorId}");
+            string instructorIds = Tools.ExecuteQueryAsync($"SELECT instructor_id AS id FROM course_assignment WHERE course_id={courseId} AND user_id IS NULL").GetAwaiter().GetResult();
+            int instructorId = Tools.GetIdFromResponse(instructorIds);
 
-            await Tools.ExecuteNonQueryAsync($"INSERT INTO course_assignment (user_id, course_id, instructor_id) VALUES({userId},{courseId},{instructorId})");
+            //Get stage.id
+            int stageId = -1;
+            /* //IDK what I was thinking
+            string stageIdS = Tools.ExecuteQueryAsync($@"
+                SELECT TOP 1 stage_event_join.stage_id AS id
+                FROM stage_event_join 
+                INNER JOIN course ON stage_event_join.course_id = course.id
+                WHERE course.code = {courseCode};
+            ").GetAwaiter().GetResult();
+            */
+            string stageIdS = Tools.ExecuteQueryAsync($@"
+                SELECT stage_id AS id
+                FROM course 
+                WHERE id = {courseId};
+            ").GetAwaiter().GetResult();
 
-            string responseMessage = $"User Signed-in: courseId: { courseId}, userId: { userId}, instructorId: { instructorId}";
-            return new OkObjectResult(responseMessage);
+            stageId = Tools.GetIdFromResponse(stageIdS);
+            bool status = Tools.ExecuteNonQueryAsync($"INSERT INTO course_assignment (user_id, course_id, instructor_id) VALUES({userId},{courseId},{instructorId})").GetAwaiter().GetResult();
+
+            UserSignInResponseModel res = new UserSignInResponseModel();
+            res.courseId = courseId;
+            res.userId = userId;
+            res.instructorId = instructorId;
+            res.stageId = stageId;
+
+            return new OkObjectResult(res);
         }
     }
 }
