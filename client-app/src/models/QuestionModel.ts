@@ -8,7 +8,6 @@ export default interface QuestionModel {
 }
 
 // Type guard for validating that data returned from the backend contains the expected fields
-// Calling this function with the returned JSON object will subsequently typecheck the JSON as a QuestionData, woo!
 export function isQuestionModel(data: any): data is QuestionModel {
     if (typeof data !== "object" || Array.isArray(data) || data === null) {
         return false;

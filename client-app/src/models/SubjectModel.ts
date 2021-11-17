@@ -5,7 +5,6 @@ export default interface SubjectModel {
 }
 
 // Type guard for validating that data returned from the backend contains the expected fields
-// Calling this function with the returned JSON object will subsequently typecheck the JSON as a SubjectModel, woo!
 export function isSubjectModel(data: any): data is SubjectModel {
     if (typeof data !== "object" || Array.isArray(data) || data === null) {
         return false;

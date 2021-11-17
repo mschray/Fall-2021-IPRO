@@ -60,6 +60,20 @@ namespace JebraAzureFunctions
                     return true;
                 }
             }
+            catch (SqlException ex) {
+                // Catch SQL Exceptions and print them to console for debug purposes
+                StringBuilder errorMessages = new StringBuilder();
+                for (int i = 0; i < ex.Errors.Count; i++)
+                {
+                    errorMessages.Append("Index #" + i + "\n" +
+                        "Message: " + ex.Errors[i].Message + "\n" +
+                        "LineNumber: " + ex.Errors[i].LineNumber + "\n" +
+                        "Source: " + ex.Errors[i].Source + "\n" +
+                        "Procedure: " + ex.Errors[i].Procedure + "\n");
+                }
+                Console.WriteLine(errorMessages.ToString());
+                return false;
+            }
             catch { return false; }
         }
 

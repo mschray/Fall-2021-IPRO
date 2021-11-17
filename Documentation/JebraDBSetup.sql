@@ -31,7 +31,7 @@ CREATE TABLE [dbo].instructor (
 	PRIMARY KEY (id)
 );
 -- Sample instructor
-INSERT INTO [dbo].instructor VALUES ('Al', 'Jebra', 'aj', 'password', 'aj@jebra.com');
+INSERT INTO [dbo].instructor VALUES ('Al', 'Jebra', 'aj', 'jebraiscool123', 'aj@jebra.com');
 
 CREATE TABLE [dbo].statistic (
 	id					INT				NOT NULL	IDENTITY,
@@ -67,13 +67,13 @@ INSERT INTO [dbo].stage VALUES (100, 'Monster 3', 3);
 CREATE TABLE [dbo].course (
 	id					INT				NOT NULL	IDENTITY,
 	cname				VARCHAR(30)		NOT NULL,
-	code				VARCHAR(9),
+	code				INT,
 	stage_id			INT,
 	PRIMARY KEY (id),
 	FOREIGN KEY (stage_id) REFERENCES [dbo].stage(id)
 );
 -- Sample course
-INSERT INTO [dbo].course VALUES ('Algebra 1', 'JEBRA', 1);
+INSERT INTO [dbo].course VALUES ('Algebra 1', 12345, 1);
 
 CREATE TABLE [dbo].course_assignment (
 	id					INT				NOT NULL	IDENTITY,
@@ -83,7 +83,7 @@ CREATE TABLE [dbo].course_assignment (
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES [dbo].app_user(id),
 	FOREIGN KEY (instructor_id) REFERENCES [dbo].instructor(id),
-	FOREIGN KEY (course_id) REFERENCES [dbo].course(id)
+	FOREIGN KEY (course_id) REFERENCES [dbo].course(id) ON DELETE CASCADE
 );
 -- Assign sample instructor to sample course
 INSERT INTO [dbo].course_assignment VALUES (NULL, 1, 1);
@@ -155,9 +155,9 @@ CREATE TABLE [dbo].stage_event_join (
 	question_id			INT				NOT NULL,
 	stage_event_id		INT				NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY (stage_id) REFERENCES [dbo].stage(id),
-	FOREIGN KEY (course_id) REFERENCES [dbo].course(id),
-	FOREIGN KEY (origin_user_id) REFERENCES [dbo].app_user(id),
-	FOREIGN KEY (question_id) REFERENCES [dbo].question(id),
-	FOREIGN KEY (stage_event_id) REFERENCES [dbo].stage_event(id)
+	CONSTRAINT stage_id_fk_on_stage_event_join FOREIGN KEY (stage_id) REFERENCES [dbo].stage(id) ON DELETE CASCADE,
+	CONSTRAINT course_id_fk_on_stage_event_join FOREIGN KEY (course_id) REFERENCES [dbo].course(id) ON DELETE CASCADE,
+	CONSTRAINT user_id_fk_on_stage_event_join FOREIGN KEY (origin_user_id) REFERENCES [dbo].app_user(id),
+	CONSTRAINT question_id_fk_on_stage_event_join FOREIGN KEY (question_id) REFERENCES [dbo].question(id),
+	CONSTRAINT stage_event_id_fk_on_stage_event_join FOREIGN KEY (stage_event_id) REFERENCES [dbo].stage_event(id)
 );
