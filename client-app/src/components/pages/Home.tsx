@@ -74,8 +74,8 @@ const Home: React.FC = () => {
                         <SubjectSelector callback={setSubjectName}/>
                     </div>
                     <div className={homeStyles.buttonContainer}>
-                        <Button className={homeStyles.createButton} href="/instructor" variant="contained" color="primary" startIcon={<CreateIcon />}>Instructor Portal</Button>
-                        <Button className={homeStyles.joinButton} href="/student" variant="contained" color="success" startIcon={<AddIcon />}>Student Portal</Button>
+                        <Button className={homeStyles.createButton} component={Link} to="/instructor" variant="contained" color="primary" startIcon={<CreateIcon />}>Instructor Portal</Button>
+                        <Button className={homeStyles.joinButton} component={Link} to="/student" variant="contained" color="success" startIcon={<AddIcon />}>Student Portal</Button>
                     </div>
                 </div>
             </div>
