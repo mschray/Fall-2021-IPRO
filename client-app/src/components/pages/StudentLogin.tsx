@@ -74,7 +74,7 @@ const StudentLogin: React.FC<StudentLoginProps> = props => {
                 <br/>
                 {
                     loginErrorState !== undefined
-                        ? <p>{loginErrorState}</p>
+                        ? <p className={styles.error}>{loginErrorState}</p>
                         : null
                 }
                 <button name="Join class">Join Class</button>

@@ -99,7 +99,7 @@ const InstructorLogin: React.FC<InstructorLoginProps> = props => {
                 <br/>
                 {
                     loginErrorState !== undefined
-                        ? <p>{loginErrorState}</p>
+                        ? <p className={styles.error}>{loginErrorState}</p>
                         : null
                 }
                 <input type="submit" value="Submit" />
