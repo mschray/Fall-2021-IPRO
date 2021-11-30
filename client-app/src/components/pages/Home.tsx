@@ -32,14 +32,14 @@ const SubjectSelector: React.FC<{ callback: (name: string) => void }> = (props) 
 
     if (fetchResult.status === FetchStatus.Success) {
         const subjectListItems = fetchResult.payload.map((subject) => (
-            <ul key={subject.id} className={homeStyles.subjectContainer}>
+            <li key={subject.id} className={homeStyles.subjectContainer}>
                 <img
                     className={homeStyles.png}
                     src={equationSubject}
                     alt="An icon to demonstrate the subject."
                 />
                 <h2>{subject.subject_name}</h2>
-            </ul>
+            </li>
         ))
         return (
             <ul>
