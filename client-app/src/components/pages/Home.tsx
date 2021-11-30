@@ -45,7 +45,7 @@ const SubjectList: React.FC = () => {
         ))
         return (
             <>
-                <h4>Available Subjects</h4>
+                <h4 className={homeStyles.subjectsHeading}>Available Subjects</h4>
                 <ul className={homeStyles.subjectsList}>
                     {subjectListItems}
                 </ul>

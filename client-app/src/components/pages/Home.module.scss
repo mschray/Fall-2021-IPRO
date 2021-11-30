@@ -25,12 +25,16 @@
     gap: 15px;
 }
 
+.subjectsHeading {
+    margin: 0;
+}
+
 .subjectContainer {
     display: flex;
     flex-flow: row wrap;
     justify-content: start;
     border-radius: 15px;
-    gap: 15px;
+    gap: 1em;
     
     height: 4em;
     line-height: 4em;
@@ -48,7 +52,10 @@
     width: fit-content;
     display: flex;
     flex-flow: column nowrap;
+    max-height: 50vh;
+    overflow: scroll;
     align-items: stretch;
+    gap: 0.5em;
     padding: 0;
 }
 
