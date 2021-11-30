@@ -53,7 +53,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
 
     return (
         <div>
-            <Latex>{`Solve: $${props.questionData.question}$`}</Latex>
+            <Latex>{`Solve: ${props.questionData.question}`}</Latex>
             <p>Subject: {props.questionData.subject_name}</p>
             <form onSubmit={onFormSubmit}>
                 <label>
