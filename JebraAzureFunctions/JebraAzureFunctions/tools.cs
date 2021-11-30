@@ -317,7 +317,7 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = exponential.ToString();
             questionModel.answer_b = "null";
-            questionModel.question = "$" + num + "^{" + exp + "}" + "$";
+            questionModel.question = "$" + num + "^{" + exp + "}$";
 
             questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents 2");
             return questionModel;
