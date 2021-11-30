@@ -11,6 +11,8 @@ import StageEndModel from "models/StageEndModel";
 
 import getAzureFunctions from "getAzureFunctions";
 
+import Fade from '@mui/material/Fade';
+
 interface CourseMonitorProps {
     instructorData: InstructorModel
 }
@@ -88,10 +90,12 @@ const CourseMonitor: React.FC<CourseMonitorProps> = props => {
     }
 
     return (
-        <div className={styles.content}>
-            <h3>Course Monitor - {props.instructorData.fname} {props.instructorData.lname}</h3>
-            {contents}
-        </div>
+        <Fade in={true} timeout={500}>
+            <div className={styles.content}>
+                <h3>Course Monitor - {props.instructorData.fname} {props.instructorData.lname}</h3>
+                {contents}
+            </div>
+        </Fade>
     );
 }
 
