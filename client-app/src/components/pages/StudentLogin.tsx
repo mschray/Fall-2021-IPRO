@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styles from "./Page.module.scss"
 import useForm from "hooks/useForm";
 import TextField from "@mui/material/TextField";
-
+import Fade from '@mui/material/Fade';
 import getAzureFunctions from "getAzureFunctions";
 import UserSignInResponseModel, { isUserSignInResponseModel } from "models/UserSignInResponseModel";
 
@@ -61,25 +61,27 @@ const StudentLogin: React.FC<StudentLoginProps> = props => {
     );
 
     return (
-        <div className={styles.content}>
-            <h3>Student Log In</h3>
-            <form onSubmit={onFormSubmit}>
-                <div>
-                    <TextField name="userEmail" sx={{ m: 1, width: '25ch' }} required label="Email" value={formState.userEmail} placeholder="Email" type="email" onChange={onFormChange} />
-                </div>
-                <br/>
-                <div>                
-                    <TextField name="courseCode" required sx={{ m: 1, width: '25ch' }} label="Course Code" value={formState.courseCode} placeholder="Course Code" type="text" onChange={onFormChange} />
-                </div>
-                <br/>
-                {
-                    loginErrorState !== undefined
-                        ? <p className={styles.error}>{loginErrorState}</p>
-                        : null
-                }
-                <button name="Join class">Join Class</button>
-            </form>
-        </div>
+        <Fade in={true} timeout={500}>
+            <div className={styles.content}>
+                <h3>Student Log In</h3>
+                <form onSubmit={onFormSubmit}>
+                    <div>
+                        <TextField name="userEmail" sx={{ m: 1, width: '25ch' }} required label="Email" value={formState.userEmail} placeholder="Email" type="email" onChange={onFormChange} />
+                    </div>
+                    <br/>
+                    <div>                
+                        <TextField name="courseCode" required sx={{ m: 1, width: '25ch' }} label="Course Code" value={formState.courseCode} placeholder="Course Code" type="text" onChange={onFormChange} />
+                    </div>
+                    <br/>
+                    {
+                        loginErrorState !== undefined
+                            ? <p className={styles.error}>{loginErrorState}</p>
+                            : null
+                    }
+                    <button name="Join class">Join Class</button>
+                </form>
+            </div>
+        </Fade>
     );
 };
 

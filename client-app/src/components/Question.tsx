@@ -28,9 +28,11 @@ const Question: React.FC<QuestionProperties> = (props) => {
 
     // Callback to be fired when the Submit button is entered
     async function submitAnswerCallback(state: AnswerFormState) {
-        if (state.answer === props.questionData.answer_a) {
+        if (state.answer === props.questionData.answer_a || state.answer === props.questionData.answer_b) {
             setLastAnswerResult(AnswerResult.Correct);
             props.onSolve(props.questionData);
+            // Clear input field
+            setFormState({ answer: "" });
         } else {
             setLastAnswerResult(AnswerResult.Incorrect);
         }
@@ -42,7 +44,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
     }
     
     // Create a Form state using the answer submission callback and the default state above
-    const [formState, onFormChange, onFormSubmit] = useForm(
+    const [formState, onFormChange, onFormSubmit, setFormState] = useForm(
         submitAnswerCallback,
         initialState
     );
