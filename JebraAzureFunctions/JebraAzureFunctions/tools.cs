@@ -296,7 +296,7 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = square.ToString();
             questionModel.answer_b = "null";
-            questionModel.question = num + "^2";
+            questionModel.question = "$" + num + "^{2}$";
             questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents");
             return questionModel;
         }
@@ -317,7 +317,7 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = exponential.ToString();
             questionModel.answer_b = "null";
-            questionModel.question = num + "^" + exp;
+            questionModel.question = "$" + num + "^{" + exp + "}$";
 
             questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents 2");
             return questionModel;
@@ -336,7 +336,7 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = num.ToString();
             questionModel.answer_b = (0 - num).ToString();
-            questionModel.question = "sqrt(" + square + ")";
+            questionModel.question = "$\\sqrt{" + square + "}$";
             questionModel.subject_id = GetSubjectIdFromString("Simplify Square Roots");
             return questionModel;
         }
