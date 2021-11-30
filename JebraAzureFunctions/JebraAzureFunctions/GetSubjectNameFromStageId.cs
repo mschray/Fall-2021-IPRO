@@ -15,6 +15,13 @@ namespace JebraAzureFunctions
 {
     public static class GetSubjectNameFromStageId
     {
+        /// <summary>
+        /// Also returns stage.max_hp, stage.name as stage_name instead of just the subject name. Fix this later. Done by Tommy.
+        /// --Dan Tiberi
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
         [FunctionName("GetSubjectNameFromStageId")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "Stage Requests" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
