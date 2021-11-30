@@ -48,6 +48,7 @@ CREATE TABLE [dbo].subject (
 );
 -- Sample subjects
 INSERT INTO [dbo].subject VALUES ('Simplify Exponents');
+INSERT INTO [dbo].subject VALUES ('Simplify Exponents 2');
 INSERT INTO [dbo].subject VALUES ('Simplify Square Roots');
 INSERT INTO [dbo].subject VALUES ('Factorials');
 
@@ -121,23 +122,23 @@ INSERT INTO [dbo].question VALUES ('49', NULL, '7^2', 1);
 INSERT INTO [dbo].question VALUES ('64', NULL, '8^2', 1);
 INSERT INTO [dbo].question VALUES ('81', NULL, '9^2', 1);
 INSERT INTO [dbo].question VALUES ('100', NULL, '10^2', 1);
-INSERT INTO [dbo].question VALUES ('1', '-1', 'sqrt(1)', 2);
-INSERT INTO [dbo].question VALUES ('2', '-2', 'sqrt(4)', 2);
-INSERT INTO [dbo].question VALUES ('3', '-3', 'sqrt(9)', 2);
-INSERT INTO [dbo].question VALUES ('4', '-4', 'sqrt(16)', 2);
-INSERT INTO [dbo].question VALUES ('5', '-5', 'sqrt(25)', 2);
-INSERT INTO [dbo].question VALUES ('6', '-6', 'sqrt(36)', 2);
-INSERT INTO [dbo].question VALUES ('7', '-7', 'sqrt(49)', 2);
-INSERT INTO [dbo].question VALUES ('8', '-8', 'sqrt(64)', 2);
-INSERT INTO [dbo].question VALUES ('9', '-9', 'sqrt(81)', 2);
-INSERT INTO [dbo].question VALUES ('10', '-10', 'sqrt(100)', 2);
-INSERT INTO [dbo].question VALUES ('1', NULL, '0!', 3);
-INSERT INTO [dbo].question VALUES ('1', NULL, '1!', 3);
-INSERT INTO [dbo].question VALUES ('2', NULL, '2!', 3);
-INSERT INTO [dbo].question VALUES ('6', NULL, '3!', 3);
-INSERT INTO [dbo].question VALUES ('24', NULL, '4!', 3);
-INSERT INTO [dbo].question VALUES ('120', NULL, '5!', 3);
-INSERT INTO [dbo].question VALUES ('720', NULL, '6!', 3);
+INSERT INTO [dbo].question VALUES ('1', '-1', '\sqrt(1)', 3);
+INSERT INTO [dbo].question VALUES ('2', '-2', '\sqrt(4)', 3);
+INSERT INTO [dbo].question VALUES ('3', '-3', '\sqrt(9)', 3);
+INSERT INTO [dbo].question VALUES ('4', '-4', '\sqrt(16)', 3);
+INSERT INTO [dbo].question VALUES ('5', '-5', '\sqrt(25)', 3);
+INSERT INTO [dbo].question VALUES ('6', '-6', '\sqrt(36)', 3);
+INSERT INTO [dbo].question VALUES ('7', '-7', '\sqrt(49)', 3);
+INSERT INTO [dbo].question VALUES ('8', '-8', '\sqrt(64)', 3);
+INSERT INTO [dbo].question VALUES ('9', '-9', '\sqrt(81)', 3);
+INSERT INTO [dbo].question VALUES ('10', '-10', '\sqrt(100)', 3);
+INSERT INTO [dbo].question VALUES ('1', NULL, '0!', 4);
+INSERT INTO [dbo].question VALUES ('1', NULL, '1!', 4);
+INSERT INTO [dbo].question VALUES ('2', NULL, '2!', 4);
+INSERT INTO [dbo].question VALUES ('6', NULL, '3!', 4);
+INSERT INTO [dbo].question VALUES ('24', NULL, '4!', 4);
+INSERT INTO [dbo].question VALUES ('120', NULL, '5!', 4);
+INSERT INTO [dbo].question VALUES ('720', NULL, '6!', 4);
 
 CREATE TABLE [dbo].stage_event (
 	id					INT				NOT NULL	IDENTITY,
