@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 type FormChangeCallback = (event: React.ChangeEvent<{ name: string, value: unknown }>) => void;
 type FormSubmitCallback = (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
 
-const useForm = function<StateType>(callback: (state: StateType) => Promise<void>, initialState: StateType): [StateType, FormChangeCallback, FormSubmitCallback] {
+const useForm = function<StateType>(callback: (state: StateType) => Promise<void>, initialState: StateType): [StateType, FormChangeCallback, FormSubmitCallback, React.Dispatch<React.SetStateAction<StateType>>] {
     const [formState, setFormState] = useState(initialState);
 
     // onChange
@@ -21,7 +21,8 @@ const useForm = function<StateType>(callback: (state: StateType) => Promise<void
     return [
         formState,
         onChange,
-        onSubmit
+        onSubmit,
+        setFormState
     ];
 }
 

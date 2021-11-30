@@ -1,0 +1,66 @@
+@import "styles/colors";
+
+.content {
+    text-align: center;
+    background-color: $light-grey;
+    border-radius: 15px;
+    filter: drop-shadow(4px 4px 1px rgba(0, 0, 0, 0.25));
+
+    padding-bottom: 20px;
+}
+
+.gif {
+    width: 20%;
+}
+
+.columnContainer {
+    display: flex;
+    
+    flex-flow: column wrap;
+    
+    justify-content: space-around;
+    
+    padding: 15px;
+    gap: 10px;
+    margin: 0;
+    list-style: none;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-radius: 15px;
+    gap: 15px;
+}
+
+.subjectContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    border-radius: 15px;
+    gap: 15px;
+}
+
+.createButton {
+    background-color: $blue;
+    border-radius: 15px;
+    flex-grow: 1;
+    color: $light-grey;
+    padding: 10px;
+}
+
+.joinButton {
+    background-color: $green;
+    border-radius: 15px;
+    color: $light-grey;
+    flex-grow: 1;
+}
+
+.png {
+    width: 5;
+    height: 10%;
+}
