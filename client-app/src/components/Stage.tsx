@@ -27,7 +27,7 @@ interface StageProps {
 // Time (in milliseconds) between each GetEvents request
 const EVENTS_INTERVAL = 2500;
 // Time (in milliseconds) between ending a stage and moving on to the next stage
-const BETWEEN_STAGE_TIMEOUT = 5000;
+const BETWEEN_STAGE_TIMEOUT = 8000;
 
 const Stage: React.FC<StageProps> = (props) => {
     // Current HP of monster as a state variable
