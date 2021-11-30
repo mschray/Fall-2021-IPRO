@@ -10,6 +10,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Fade from '@mui/material/Fade';
 
 import InstructorModel, { isInstructorModel } from "models/InstructorModel"; 
 
@@ -74,38 +75,40 @@ const InstructorLogin: React.FC<InstructorLoginProps> = props => {
     );
 
     return (
-        <div className={styles.content}>
-            <h3>Instructor Log In</h3>
-            <form onSubmit={onFormSubmit}>
-                <div>
-                    <TextField name="username" sx={{ m: 1, width: '25ch' }} required label="Username" value={formState.username} placeholder="Username" type="text" onChange={onFormChange} />
-                </div>
-                <br/>
-                <div>                
-                    <TextField name="password" required label="Password" value={formState.password} placeholder="Password" onChange={onFormChange}
-                        type={visible ? 'text' : 'password'} 
-                        sx={{ m: 1, width: '25ch' }}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton onClick={toggleVisibility}>
-                                        {visible ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            )
-                        }}
-                    />
-                </div>
-                <br/>
-                {
-                    loginErrorState !== undefined
-                        ? <p>{loginErrorState}</p>
-                        : null
-                }
-                <input type="submit" value="Submit" />
-            </form>
-            <p>New to Jebra? <a href="/Signup">Create an account</a></p>
-        </div>
+        <Fade in={true} timeout={500}>
+            <div className={styles.content}>
+                <h3>Instructor Log In</h3>
+                <form onSubmit={onFormSubmit}>
+                    <div>
+                        <TextField name="username" sx={{ m: 1, width: '25ch' }} required label="Username" value={formState.username} placeholder="Username" type="text" onChange={onFormChange} />
+                    </div>
+                    <br/>
+                    <div>                
+                        <TextField name="password" required label="Password" value={formState.password} placeholder="Password" onChange={onFormChange}
+                            type={visible ? 'text' : 'password'} 
+                            sx={{ m: 1, width: '25ch' }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={toggleVisibility}>
+                                            {visible ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                    </div>
+                    <br/>
+                    {
+                        loginErrorState !== undefined
+                            ? <p>{loginErrorState}</p>
+                            : null
+                    }
+                    <input type="submit" value="Submit" />
+                </form>
+                <p>New to Jebra? <a href="/Signup">Create an account</a></p>
+            </div>
+        </Fade>
     );
 };
 

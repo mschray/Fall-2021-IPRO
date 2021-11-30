@@ -15,6 +15,8 @@ import squareSubject from "assets/subjectIcons/SquaresSymbol.png";
 import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 import { isSubjectModel } from "models/SubjectModel";
+import Fade from '@mui/material/Fade';
+
 
 const SubjectSelector: React.FC<{ callback: (name: string) => void }> = (props) => {
     // Fetch the subjects
@@ -64,18 +66,20 @@ const Home: React.FC = () => {
     const [subjectName, setSubjectName] = useState<string | undefined>(undefined);
 
     return (
-        <div className={styles.content}>
-            <h3>Home</h3>
-            <div className={homeStyles.columnContainer}>
-                <div>
-                    <SubjectSelector callback={setSubjectName}/>
-                </div>
-                <div className={homeStyles.buttonContainer}>
-                    <Button className={homeStyles.createButton} href="/instructor" variant="contained" color="primary" startIcon={<CreateIcon />}>Instructor Portal</Button>
-                    <Button className={homeStyles.joinButton} href="/student" variant="contained" color="success" startIcon={<AddIcon />}>Student Portal</Button>
+        <Fade in={true} timeout={500}>
+            <div className={styles.content}>
+                <h3>Home</h3>
+                <div className={homeStyles.columnContainer}>
+                    <div>
+                        <SubjectSelector callback={setSubjectName}/>
+                    </div>
+                    <div className={homeStyles.buttonContainer}>
+                        <Button className={homeStyles.createButton} href="/instructor" variant="contained" color="primary" startIcon={<CreateIcon />}>Instructor Portal</Button>
+                        <Button className={homeStyles.joinButton} href="/student" variant="contained" color="success" startIcon={<AddIcon />}>Student Portal</Button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </ Fade>
     );
 };
 
