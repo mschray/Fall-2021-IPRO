@@ -31,11 +31,11 @@ const Question: React.FC<QuestionProperties> = (props) => {
         if (state.answer === props.questionData.answer_a || state.answer === props.questionData.answer_b) {
             setLastAnswerResult(AnswerResult.Correct);
             props.onSolve(props.questionData);
+            // Clear input field
+            setFormState({ answer: "" });
         } else {
             setLastAnswerResult(AnswerResult.Incorrect);
-            //Clear input field 
         }
-        state.answer = "";
     }
     
     // Default state for the Answer form
@@ -44,7 +44,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
     }
     
     // Create a Form state using the answer submission callback and the default state above
-    const [formState, onFormChange, onFormSubmit] = useForm(
+    const [formState, onFormChange, onFormSubmit, setFormState] = useForm(
         submitAnswerCallback,
         initialState
     );
