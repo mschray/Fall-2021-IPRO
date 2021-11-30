@@ -4,7 +4,7 @@ import styles from "./Page.module.scss";
 
 import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
-
+import Fade from '@mui/material/Fade';
 import { isGameModel } from "models/GameModel";
 import StageEndModel from "models/StageEndModel";
 import UserSignInResponseModel from "models/UserSignInResponseModel";
@@ -55,10 +55,12 @@ const Play: React.FC<PlayProps> = props => {
     }
 
     return (
-        <div className={styles.content}>
-            <h3>Play</h3>
-            {contents}
-        </div>
+        <Fade in={true} timeout={500}>
+            <div className={styles.content}>
+                <h3>Play</h3>
+                {contents}
+            </div>
+        </Fade>
     );
 };
 
