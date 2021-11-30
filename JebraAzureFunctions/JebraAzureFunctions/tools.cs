@@ -336,7 +336,7 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = num.ToString();
             questionModel.answer_b = (0 - num).ToString();
-            questionModel.question = "$" + "sqrt{" + square + "}" + "$";
+            questionModel.question = "$\\sqrt{" + square + "}$";
             questionModel.subject_id = GetSubjectIdFromString("Simplify Square Roots");
             return questionModel;
         }
