@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import styles from "./Game.module.scss";
 
-import monsterGif from "assets/monster_havoc.gif"
+import monsterHavocGif from "assets/monster_havoc.gif";
+import monsterDefeatGif from "assets/monster_defeat_no_loop.gif";
 
 import getAzureFunctions from "getAzureFunctions";
 
@@ -26,7 +27,7 @@ interface StageProps {
 // Time (in milliseconds) between each GetEvents request
 const EVENTS_INTERVAL = 2500;
 // Time (in milliseconds) between ending a stage and moving on to the next stage
-const BETWEEN_STAGE_TIMEOUT = 5000;
+const BETWEEN_STAGE_TIMEOUT = 8000;
 
 const Stage: React.FC<StageProps> = (props) => {
     // Current HP of monster as a state variable
@@ -106,7 +107,7 @@ const Stage: React.FC<StageProps> = (props) => {
             <p>Course code: {props.courseCode}</p>
             <img
                 className={styles.gif}
-                src={monsterGif}
+                src={(hp > 0) ? monsterHavocGif : monsterDefeatGif}
                 alt="This evil monster is destroying Jebraville! Solve math questions to defeat the monster."
             />
             <p>This evil monster is destroying Jebraville! Solve math questions to defeat the monster.</p>

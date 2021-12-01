@@ -18,7 +18,7 @@ import { isSubjectModel } from "models/SubjectModel";
 import Fade from '@mui/material/Fade';
 
 
-const SubjectSelector: React.FC<{ callback: (name: string) => void }> = (props) => {
+const SubjectList: React.FC = () => {
     // Fetch the subjects
     const fetchResult = useFetch(
         getAzureFunctions().GetSubjects,
@@ -40,14 +40,16 @@ const SubjectSelector: React.FC<{ callback: (name: string) => void }> = (props) 
                     src={equationSubject}
                     alt="An icon to demonstrate the subject."
                 />
-                <h2>{subject.subject_name}</h2>
+                <p>{subject.subject_name}</p>
             </li>
         ))
         return (
-            <ul>
-                <h2>Available Subjects</h2>
-                {subjectListItems}
-            </ul>
+            <>
+                <h4 className={homeStyles.subjectsHeading}>Available Subjects</h4>
+                <ul className={homeStyles.subjectsList}>
+                    {subjectListItems}
+                </ul>
+            </>
         );
     } else if (fetchResult.status === FetchStatus.Failure) {
         // Notify user that the subjects list couldn't be fetched
@@ -63,16 +65,12 @@ const SubjectSelector: React.FC<{ callback: (name: string) => void }> = (props) 
 }
 
 const Home: React.FC = () => {
-    const [subjectName, setSubjectName] = useState<string | undefined>(undefined);
-
     return (
         <Fade in={true} timeout={500}>
             <div className={styles.content}>
                 <h3>Home</h3>
                 <div className={homeStyles.columnContainer}>
-                    <div>
-                        <SubjectSelector callback={setSubjectName}/>
-                    </div>
+                    <SubjectList />
                     <div className={homeStyles.buttonContainer}>
                         <Button className={homeStyles.createButton} component={Link} to="/instructor" variant="contained" color="primary" startIcon={<CreateIcon />}>Instructor Portal</Button>
                         <Button className={homeStyles.joinButton} component={Link} to="/student" variant="contained" color="success" startIcon={<AddIcon />}>Student Portal</Button>
