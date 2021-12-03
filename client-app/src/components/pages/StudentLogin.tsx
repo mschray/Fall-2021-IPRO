@@ -82,11 +82,10 @@ const StudentLogin: React.FC<StudentLoginProps> = props => {
             <div>                
                 <TextField name="courseCode" required sx={{ m: 1, width: '25ch' }} label="Course Code" value={formState.courseCode} placeholder="Course Code" type="text" onChange={onFormChange} />
             </div>
-            <br/>
             {
                 loginErrorState !== undefined
                     ? <p className={styles.error}>{loginErrorState}</p>
-                    : null
+                    : <br />
             }
             <button name="Join class">Join Class</button>
         </form>
