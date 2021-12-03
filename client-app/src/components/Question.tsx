@@ -12,7 +12,8 @@ import TextField from "@mui/material/TextField";
 // Properties for the Question React component
 interface QuestionProperties {
     questionData: QuestionModel,
-    onSolve: (questionData: QuestionModel) => void
+    onSolve: (questionData: QuestionModel) => void,
+    questionNumber?: number
 }
 
 // Interface for answer form
@@ -60,9 +61,11 @@ const Question: React.FC<QuestionProperties> = (props) => {
         initialState
     );
 
+    const questionNumberLabel = (props.questionNumber !== undefined) ? `(${props.questionNumber})` : null;
+
     return (
         <div>
-            <Latex>{`Solve: ${props.questionData.question}`}</Latex>
+            <Latex>{`${questionNumberLabel} Solve: ${props.questionData.question}`}</Latex>
             <form onSubmit={onFormSubmit}>
                 <TextField
                     required
