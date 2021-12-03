@@ -65,7 +65,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
 
     return (
         <div>
-            <Latex>{`${questionNumberLabel} Solve: ${props.questionData.question}`}</Latex>
+            <p>{questionNumberLabel} Solve: <Latex>{props.questionData.question}</Latex></p>
             <form onSubmit={onFormSubmit}>
                 <TextField
                     required
