@@ -49,7 +49,7 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
         stageName: ""
     };
 
-    // login request pending state
+    // course creation request pending state
     const [isRequestPending, setIsRequestPending] = useState(false);
 
     // Course creation error message
