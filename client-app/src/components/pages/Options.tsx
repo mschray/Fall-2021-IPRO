@@ -8,6 +8,7 @@ const Options: React.FC = () => {
         <Fade in={true} timeout={500}>
             <div className={styles.content}>
                 <h3>Options</h3>
+                <p>Options will be added soon</p>
             </div>
         </Fade>
     );
