@@ -54,7 +54,7 @@ const InstructorLogin: React.FC<InstructorLoginProps> = props => {
                     props.onLogin(json[0]);
                 } else {
                     // Data doesn't conform to InstructorModel
-                    setLoginErrorState("Unexpected data returned from backend. Check the console.");
+                    setLoginErrorState("Incorrect log in information inputted. Please try again.");
                 }
             })
             .catch(err => {
@@ -101,7 +101,7 @@ const InstructorLogin: React.FC<InstructorLoginProps> = props => {
                     <br/>
                     {
                         loginErrorState !== undefined
-                            ? <p>{loginErrorState}</p>
+                            ? <p className={styles.error}>{loginErrorState}</p>
                             : null
                     }
                     <input type="submit" value="Submit" />
