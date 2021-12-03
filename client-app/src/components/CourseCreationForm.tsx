@@ -56,11 +56,6 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
     // Need to memo-ize the callback since it relies on subjectFetchResult
     const newGameRequest = useCallback(
         (formState: NewGameFormState) => {
-            if (isRequestPending)
-                return;
-    
-            setIsRequestPending(true);
-
             if (subjectFetchResult.status !== FetchStatus.Success) 
                 return;
 
@@ -77,6 +72,11 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
                 setNewGameErrorMessage("Invalid subject index");
                 return;
             }
+
+            if (isRequestPending)
+                return;
+    
+            setIsRequestPending(true);
             
             const url = new URL(getAzureFunctions().NewGame);
             url.searchParams.append("subjectName", subjectFetchResult.payload[formState.subjectIndex].subject_name);
@@ -183,11 +183,10 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
                             onChange={onFormChange}
                         />
                     </div>
-                    <br/>
                     {
                         (newGameErrorMessage !== undefined)
                             ? <p>{newGameErrorMessage}</p>
-                            : null
+                            : <br/>
                     }
                     <button name="CreateCourse">Create Course</button>
                 </form>
