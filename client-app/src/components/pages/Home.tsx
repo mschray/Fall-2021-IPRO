@@ -17,6 +17,7 @@ import useFetch, { FetchStatus } from "hooks/useFetch";
 import { isSubjectModel } from "models/SubjectModel";
 import Fade from '@mui/material/Fade';
 
+import LoadingAnimation from "components/LoadingAnimation";
 
 const SubjectList: React.FC = () => {
     // Fetch the subjects
@@ -59,7 +60,10 @@ const SubjectList: React.FC = () => {
     } else {
         // Notify user that the subjects list is currently being fetched
         return (
-            <p>Fetching subjects list...</p>
+            <>
+                <p>Fetching subjects list...</p>
+                <LoadingAnimation />
+            </>
         )
     }
 }
