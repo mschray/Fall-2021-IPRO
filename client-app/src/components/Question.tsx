@@ -7,6 +7,8 @@ import QuestionModel from "models/QuestionModel";
 
 import Latex from "react-latex";
 
+import TextField from "@mui/material/TextField";
+
 // Properties for the Question React component
 interface QuestionProperties {
     questionData: QuestionModel,
@@ -22,6 +24,13 @@ enum AnswerResult {
     Correct,
     Incorrect,
     NoAnswersYet
+}
+
+function hasNumericAnswer(question: QuestionModel): boolean {
+    if (question.answer_b !== null) {
+        return (Number(question.answer_a) !== NaN) && (Number(question.answer_b) !== NaN);
+    }
+    return (Number(question.answer_a) !== NaN);
 }
 
 const Question: React.FC<QuestionProperties> = (props) => {
@@ -56,11 +65,20 @@ const Question: React.FC<QuestionProperties> = (props) => {
             <Latex>{`Solve: ${props.questionData.question}`}</Latex>
             <p>Subject: {props.questionData.subject_name}</p>
             <form onSubmit={onFormSubmit}>
-                <label>
-                    Enter answer: 
-                    <input name="answer" value={formState.answer} type="text" placeholder="Answer" autoComplete="off" onChange={onFormChange} />
-                    <input type="submit" />
-                </label>
+                <TextField
+                    required
+                    name="answer"
+                    id="answer"
+                    sx={{ m: 1, width: '25ch' }}
+                    label="Answer"
+                    value={formState.answer}
+                    placeholder="Answer"
+                    type={(hasNumericAnswer(props.questionData)) ? "number" : "text"}
+                    autoComplete="off"
+                    onChange={onFormChange}
+                />
+                <br />
+                <input type="submit" />
             </form>
             {
                 (lastAnswerResult === AnswerResult.Correct)
