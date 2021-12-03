@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Page.module.scss";
 import homeStyles from "./Home.module.scss";
@@ -7,10 +7,12 @@ import AddIcon from "@mui/icons-material/Add";
 import CreateIcon from "@mui/icons-material/Create";
 
 import equationSubject from "assets/subjectIcons/equationsSymbol.png";
+/*
 import linearSubject from "assets/subjectIcons/linearSymbol.png";
 import polynomialSubject from "assets/subjectIcons/polynomialSymbol.png";
 import quadraticSubject from "assets/subjectIcons/quadraticSymbol.png";
 import squareSubject from "assets/subjectIcons/SquaresSymbol.png";
+*/
 
 import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
