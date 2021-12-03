@@ -134,7 +134,7 @@ const InstructorLogin: React.FC<InstructorLoginProps> = props => {
                         ? form
                         : loading
                 }
-                <p>New to Jebra? <a href="/Signup">Create an account</a></p>
+                {/* <p>New to Jebra? <a href="/Signup">Create an account</a></p> */}
             </div>
         </Fade>
     );
