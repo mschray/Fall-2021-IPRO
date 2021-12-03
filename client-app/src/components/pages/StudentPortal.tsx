@@ -12,15 +12,20 @@ const StudentPortal: React.FC = () => {
     const onStageFinish = useCallback(
         (data: StageEndModel) => {
             setLoginResult(
-                oldLoginResult => ({
-                    userData: {
-                        courseId: oldLoginResult!.userData.courseId,
-                        userId: oldLoginResult!.userData.userId,
-                        instructorId: oldLoginResult!.userData.instructorId,
-                        stageId: data.new_stage_id
-                    },
-                    courseCode: oldLoginResult!.courseCode
-                })
+                oldLoginResult => {
+                    if (oldLoginResult === undefined)
+                        return undefined;
+                    
+                    return {
+                        userData: {
+                            courseId: oldLoginResult!.userData.courseId,
+                            userId: oldLoginResult!.userData.userId,
+                            instructorId: oldLoginResult!.userData.instructorId,
+                            stageId: data.new_stage_id
+                        },
+                        courseCode: oldLoginResult!.courseCode
+                    };
+                }
             );
         },
         [setLoginResult]
