@@ -40,17 +40,19 @@ const useStyles = makeStyles(() => ({
     header: {
         backgroundColor: "#262F34",
         filter: "drop-shadow(4px 4px 1px rgba(0, 0, 0, 0.25))",
-        paddingRight: "79px",
-        paddingLeft: "5rem",
-        "@media (max-width: 900px)": {
-            paddingLeft: "5rem",
-        },
         borderRadius: "15px",
         display: "flex",
-        flexFlow:"row wrap",
-        justifyContent: "space-between",
+        flexFlow: "row wrap",
         position: "relative",
-        height: "5rem"
+        height: "5rem",
+        paddingLeft: "5rem",
+        paddingRight: "5rem",
+        justifyContent: "space-between",
+        "@media (max-width: 900px)": {
+            paddingLeft: "2rem",
+            paddingRight: "2rem",
+            justifyContent: "space-around",
+        },
     },
     menuButton: {
         fontFamily: "Open Sans, sans-serif",
@@ -60,7 +62,7 @@ const useStyles = makeStyles(() => ({
     },
     toolbar: {
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "space-evenly",
     },
     drawerContainer: {
         padding: "20px 30px",
@@ -109,7 +111,7 @@ export default function Header() {
             setState((prevState) => ({ ...prevState, drawerOpen: false }));
 
         return (
-            <Toolbar>
+            <Toolbar className={toolbar}>
                 <IconButton
                     {...{
                         edge: "start",
@@ -174,10 +176,8 @@ export default function Header() {
     };
 
     return (
-        <header>
-            <AppBar className={header}>
-                {mobileView ? displayMobile() : displayDesktop()}
-            </AppBar>
-        </header>
+        <AppBar className={header}>
+            {mobileView ? displayMobile() : displayDesktop()}
+        </AppBar>
     );
 }
