@@ -12,6 +12,7 @@ import useForm from "hooks/useForm";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import LoadingAnimation from "./LoadingAnimation";
 
 interface CourseCreationFormProps {
     instructorData: InstructorModel,
@@ -180,7 +181,10 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
         );
     } else if (subjectFetchResult.status === FetchStatus.InProgress) {
         return (
-            <p>Fetching subject list...</p>
+            <>
+                <p>Fetching subjects list...</p>
+                <LoadingAnimation />
+            </>
         );
     } else {
         return (
