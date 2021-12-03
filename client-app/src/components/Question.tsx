@@ -29,9 +29,9 @@ enum AnswerResult {
 
 function hasNumericAnswer(question: QuestionModel): boolean {
     if (question.answer_b !== null) {
-        return (Number(question.answer_a) !== NaN) && (Number(question.answer_b) !== NaN);
+        return !isNaN(Number(question.answer_a)) && !isNaN(Number(question.answer_b));
     }
-    return (Number(question.answer_a) !== NaN);
+    return isNaN(Number(question.answer_a));
 }
 
 const Question: React.FC<QuestionProperties> = (props) => {
