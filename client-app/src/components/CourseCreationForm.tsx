@@ -9,6 +9,8 @@ import { isSubjectModel } from "models/SubjectModel";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 import useForm from "hooks/useForm";
 
+import styles from "components/pages/Page.module.scss";
+
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -185,7 +187,7 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
                     </div>
                     {
                         (newGameErrorMessage !== undefined)
-                            ? <p>{newGameErrorMessage}</p>
+                            ? <p className={styles.error}>{newGameErrorMessage}</p>
                             : <br/>
                     }
                     <button name="CreateCourse">Create Course</button>
