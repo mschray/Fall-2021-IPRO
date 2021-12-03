@@ -13,6 +13,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Fade from '@mui/material/Fade';
 
 import InstructorModel, { isInstructorModel } from "models/InstructorModel"; 
+import LoadingAnimation from "components/LoadingAnimation";
 
 interface InstructorLoginProps {
     onLogin: (data: InstructorModel) => void
@@ -24,6 +25,9 @@ interface InstructorLoginFormState {
 };
 
 const InstructorLogin: React.FC<InstructorLoginProps> = props => {
+    // login request pending state
+    const [isLoginPending, setIsLoginPending] = useState(false);
+
     // login error message state
     const [loginErrorState, setLoginErrorState] = useState<string | undefined>(undefined);
 
@@ -35,6 +39,11 @@ const InstructorLogin: React.FC<InstructorLoginProps> = props => {
 
     // a submit function that will execute upon form submission
     async function loginUserCallback() {
+        if (isLoginPending)
+            return;
+
+        setIsLoginPending(true);
+
         const url = new URL(getAzureFunctions().InstructorLogin);
 
         const requestInfo: RequestInit = {
@@ -46,7 +55,10 @@ const InstructorLogin: React.FC<InstructorLoginProps> = props => {
         };
 
         fetch(url.toString(), requestInfo)
-            .then(response => response.json())
+            .then(response => {
+                setIsLoginPending(false);
+                return response.json();
+            })
             .then(json => {
                 console.log(json);
                 if (Array.isArray(json) && isInstructorModel(json[0])) {
@@ -59,6 +71,7 @@ const InstructorLogin: React.FC<InstructorLoginProps> = props => {
             })
             .catch(err => {
                 // Error occurred furing PUT request
+                setIsLoginPending(false);
                 console.error(err);
                 setLoginErrorState("An error occured during login. Check the console.");
             });
@@ -74,38 +87,53 @@ const InstructorLogin: React.FC<InstructorLoginProps> = props => {
         initialState
     );
 
+    const form = (
+        <form onSubmit={onFormSubmit}>
+            <div>
+                <TextField name="username" sx={{ m: 1, width: '25ch' }} required label="Username" value={formState.username} placeholder="Username" type="text" onChange={onFormChange} />
+            </div>
+            <br/>
+            <div>                
+                <TextField name="password" required label="Password" value={formState.password} placeholder="Password" onChange={onFormChange}
+                    type={visible ? 'text' : 'password'} 
+                    sx={{ m: 1, width: '25ch' }}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={toggleVisibility}>
+                                    {visible ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        )
+                    }}
+                />
+            </div>
+            <br/>
+            {
+                loginErrorState !== undefined
+                    ? <p className={styles.error}>{loginErrorState}</p>
+                    : null
+            }
+            <input type="submit" value="Submit" />
+        </form>
+    );
+
+    const loading = (
+        <>
+            <p>Logging in...</p>
+            <LoadingAnimation />
+        </>
+    );
+
     return (
         <Fade in={true} timeout={500}>
             <div className={styles.content}>
                 <h3>Instructor Log In</h3>
-                <form onSubmit={onFormSubmit}>
-                    <div>
-                        <TextField name="username" sx={{ m: 1, width: '25ch' }} required label="Username" value={formState.username} placeholder="Username" type="text" onChange={onFormChange} />
-                    </div>
-                    <br/>
-                    <div>                
-                        <TextField name="password" required label="Password" value={formState.password} placeholder="Password" onChange={onFormChange}
-                            type={visible ? 'text' : 'password'} 
-                            sx={{ m: 1, width: '25ch' }}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton onClick={toggleVisibility}>
-                                            {visible ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                )
-                            }}
-                        />
-                    </div>
-                    <br/>
-                    {
-                        loginErrorState !== undefined
-                            ? <p className={styles.error}>{loginErrorState}</p>
-                            : null
-                    }
-                    <input type="submit" value="Submit" />
-                </form>
+                {
+                    (!isLoginPending)
+                        ? form
+                        : loading
+                }
                 <p>New to Jebra? <a href="/Signup">Create an account</a></p>
             </div>
         </Fade>
