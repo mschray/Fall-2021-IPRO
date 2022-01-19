@@ -1,8 +1,14 @@
 # IPRO 497 - Product Direction Document
 
-## Problem Statment
+## Problem Statment - Old
 1. Middle school students lack a strong foundational understanding of algebra because current edutainment solutions fail to make it engaging for visual and interactive learners.
 2. In the vital subject of middle school algebra, teachers struggle to find edutainment solutions that address the needs of visual learners who currently struggle to learn the subject through traditional methods.
+
+## Problem Statment - New
+1. Middle school through high school students lack a strong foundational understanding of core mathematic concepts such as algebra and early calculus. 
+2. Current edutainment solutions fail to make it engaging for visual and interactive learners which leaves educators without the necessary tools.
+
+## The following text is outdated and in need of revision. 
 
 ## Customer
 - Teachers
