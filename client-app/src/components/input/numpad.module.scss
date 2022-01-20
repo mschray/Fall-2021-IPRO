@@ -27,7 +27,7 @@
   }
 }
 
-@keyframes bloopInDopeamineGreen{
+@keyframes bloopIndopamineGreen{
   from {
     transform: scale(1);
   }
@@ -41,6 +41,7 @@
 @keyframes bloopInAngerRed{
   from {
     transform: scale(1);
+    background-color: #E8ECED;
   }
   to {
     transform: scale(0.8);
@@ -84,7 +85,7 @@
 
   /*Animation is intentionally here instead of being in :active. It adds a neat effect.*/
   animation-duration: 0.2s;
-  animation-name: bloopInDopeamineGreen;
+  animation-name: bloopIndopamineGreen;
 }
 
 .numenter:active { 
@@ -99,7 +100,7 @@
 }
 
 .numclear:active { 
-  animation-duration: 0.2s;
+  animation-duration: 0.3s;
   animation-name: bloopInAngerRed;
   background-color: #FF0000;
   color:#E8ECED;
