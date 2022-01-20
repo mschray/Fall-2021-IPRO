@@ -2,6 +2,7 @@ import React from "react";
 
 import styles from "./numpad.module.scss";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import CheckIcon from '@mui/icons-material/Check';
 
 const NumPad: React.FC = (props) => {
     return (
@@ -17,6 +18,7 @@ const NumPad: React.FC = (props) => {
             <button className={[styles.num3, styles.numpad_button].join(" ")}>3</button>
             <button className={[styles.num0, styles.numpad_button].join(" ")}>0</button>
             <button className={[styles.numdot, styles.numpad_button].join(" ")}><FiberManualRecordIcon sx={{ fontSize: "75%" }} /></button>
+            <button className={[styles.numenter, styles.numpad_button].join(" ")}><span><CheckIcon sx={{ fontSize: "200%", boxSizing:"content-box" }} /></span></button>
         </div>
     );
 };

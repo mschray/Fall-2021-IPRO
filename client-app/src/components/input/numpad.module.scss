@@ -2,10 +2,11 @@
     background-color: #E8ECED;
     color: #FF9999;
     border: 3px solid #FF9999;
-    padding: 1em;
     font-size: 150%;
     border-radius: 8px;
     box-shadow: 2px 2px 2px rgb(115, 115, 115);
+    width: 3em;
+    height: 3.5em;
 }
 
 .numpad_button:active{
@@ -35,7 +36,7 @@
     "num7 num8 num9"
     "num4 num5 num6"
     "num1 num2 num3"
-    ". num0 numdot"; 
+    "numenter num0 numdot"; 
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
@@ -51,3 +52,14 @@
   .num3 { grid-area: num3; }
   .num0 { grid-area: num0; }
   .numdot { grid-area: numdot; }
+
+  .numenter { 
+    grid-area: numenter; 
+    border: 3px solid white;
+    background-color: #6AF090;
+    color:#E8ECED;
+  }
+  .numenter:active { 
+    background-color: #E8ECED;
+    color:#6AF090;
+  }
