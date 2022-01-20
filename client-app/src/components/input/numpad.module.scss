@@ -27,6 +27,20 @@
   }
 }
 
+@keyframes bloopInDopeamineGreen{
+  from {
+    transform: scale(1);
+    border: 3px solid white;
+    background-color: #6AF090;
+    color:#E8ECED;
+  }
+  to {
+    transform: scale(0.8);
+    background-color: #E8ECED;
+    color:#6AF090;
+  }
+}
+
 .numpad_container {
     display: grid; 
     grid-template-columns: 1fr 1fr 1fr; 
@@ -55,10 +69,13 @@
 
   .numenter { 
     grid-area: numenter; 
+    animation-duration: 0.2s;
+    animation-name: bloopInDopeamineGreen;
     border: 3px solid white;
     background-color: #6AF090;
     color:#E8ECED;
   }
+
   .numenter:active { 
     background-color: #E8ECED;
     color:#6AF090;
