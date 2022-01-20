@@ -30,9 +30,6 @@
 @keyframes bloopInDopeamineGreen{
   from {
     transform: scale(1);
-    border: 3px solid white;
-    background-color: #6AF090;
-    color:#E8ECED;
   }
   to {
     transform: scale(0.8);
@@ -41,42 +38,69 @@
   }
 }
 
-.numpad_container {
-    display: grid; 
-    grid-template-columns: 1fr 1fr 1fr; 
-    grid-template-rows: 1fr 1fr 1fr 1fr; 
-    gap: 1em 1em; 
-    grid-template-areas: 
-    "num7 num8 num9"
-    "num4 num5 num6"
-    "num1 num2 num3"
-    "numenter num0 numdot"; 
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+@keyframes bloopInAngerRed{
+  from {
+    transform: scale(1);
   }
-  .num7 { grid-area: num7; }
-  .num8 { grid-area: num8; }
-  .num9 { grid-area: num9; }
-  .num4 { grid-area: num4; }
-  .num5 { grid-area: num5; }
-  .num6 { grid-area: num6; }
-  .num1 { grid-area: num1; }
-  .num2 { grid-area: num2; }
-  .num3 { grid-area: num3; }
-  .num0 { grid-area: num0; }
-  .numdot { grid-area: numdot; }
-
-  .numenter { 
-    grid-area: numenter; 
-    animation-duration: 0.2s;
-    animation-name: bloopInDopeamineGreen;
-    border: 3px solid white;
-    background-color: #6AF090;
+  to {
+    transform: scale(0.8);
+    background-color: #FF0000;
     color:#E8ECED;
   }
+}
 
-  .numenter:active { 
-    background-color: #E8ECED;
-    color:#6AF090;
-  }
+.numpad_container {
+  display: grid; 
+  grid-auto-columns: 1fr; 
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+  grid-template-rows: 1fr 1fr 1fr 1fr; 
+  gap: 1em 1em; 
+  grid-template-areas: 
+    ". num7 num8 num9 ."
+    ". num4 num5 num6 ."
+    ". num1 num2 num3 numclear"
+    ". numenter num0 numdot numclear"; 
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+.num7 { grid-area: num7; }
+.num8 { grid-area: num8; }
+.num9 { grid-area: num9; }
+.num4 { grid-area: num4; }
+.num5 { grid-area: num5; }
+.num6 { grid-area: num6; }
+.num1 { grid-area: num1; }
+.num2 { grid-area: num2; }
+.num3 { grid-area: num3; }
+.num0 { grid-area: num0; }
+.numdot { grid-area: numdot; }
+
+.numenter { 
+  grid-area: numenter; 
+  border: 3px solid white;
+  background-color: #6AF090;
+  color:#E8ECED;
+
+  /*Animation is intentionally here instead of being in :active. It adds a neat effect.*/
+  animation-duration: 0.2s;
+  animation-name: bloopInDopeamineGreen;
+}
+
+.numenter:active { 
+  background-color: #E8ECED;
+  color:#6AF090;
+}
+
+.numclear { 
+  grid-area: numclear; 
+  color: #FF0000;
+  height: auto;
+}
+
+.numclear:active { 
+  animation-duration: 0.2s;
+  animation-name: bloopInAngerRed;
+  background-color: #FF0000;
+  color:#E8ECED;
+}
