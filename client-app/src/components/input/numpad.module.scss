@@ -32,10 +32,10 @@
     grid-template-rows: 1fr 1fr 1fr 1fr; 
     gap: 1em 1em; 
     grid-template-areas: 
-      "num7 num8 num9"
-      "num4 num5 num6"
-      "num1 num2 num3"
-      ". num0 ."; 
+    "num7 num8 num9"
+    "num4 num5 num6"
+    "num1 num2 num3"
+    ". num0 numdot"; 
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
@@ -50,3 +50,4 @@
   .num2 { grid-area: num2; }
   .num3 { grid-area: num3; }
   .num0 { grid-area: num0; }
+  .numdot { grid-area: numdot; }
