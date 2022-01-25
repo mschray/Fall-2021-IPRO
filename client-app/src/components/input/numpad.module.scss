@@ -114,9 +114,10 @@
   gap: 2px;
   color: #262F34;
   border-bottom: 3px solid #262F34;
-  width: 50%;
+  width: 55%;
   margin-left: auto;
   margin-right: auto;
+  text-align: start;
 }
 
 .numpad_display h3::after {
@@ -149,15 +150,15 @@
   }
 
   .numpad_display h3{
-    width: 40%;
+    width: 65%;
   }
 
   .numneg { grid-area: numneg; }
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 750px) {
   .numpad_display h3{
-    width: 30%;
+    width: 50%;
   }
 }
 
