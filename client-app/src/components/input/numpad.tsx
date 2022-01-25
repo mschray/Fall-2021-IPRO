@@ -10,6 +10,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 /*
 Handles the input cases from each of the buttons on the number pad.
 Non-number buttons are represented using negatives.
+-5 = backspace
 -4 = negative
 -3 = clear
 -2 = submit
@@ -27,6 +28,7 @@ function handleNumpadButtonClick(num: number){
             break;
         case -2:
             display.innerHTML="&gt;";
+            console.log("Submit");
             //Handle submit
             break;
         case -3:
@@ -39,18 +41,71 @@ function handleNumpadButtonClick(num: number){
                 display.innerHTML=display.innerHTML+"-";
             }
             break;
+        case -5:
+            display.innerHTML=display.innerHTML.substring(0, display.innerHTML.length -1);
+            break;
         default: 
             display.innerHTML=display.innerHTML+num;
             break;
     }
 }
 
+/*
+This code is used to capture keyboard input and push it to the numpad display.
+*/
+//Code partially from https://javascript.plainenglish.io/how-to-detect-a-sequence-of-keystrokes-in-javascript-83ec6ffd8e93
+document.addEventListener('DOMContentLoaded', () => {
+    let buffer: string[] = [];
+    let lastKeyTime = Date.now();
+
+    document.addEventListener('keydown', event => {
+        const currentTime = Date.now();
+
+        if (currentTime - lastKeyTime > 100) {
+            buffer = [];
+        }
+
+        buffer.push(event.key);
+        lastKeyTime = currentTime;
+
+        if(!(isNaN(parseInt(event.key)))){ //If number is entered
+            handleNumpadButtonClick(parseInt(event.key));
+        }
+
+        switch(event.key)
+        {
+            case 'Enter':
+                handleNumpadButtonClick(-2);
+                break;
+            case '-':
+                handleNumpadButtonClick(-4);
+                break;
+            case '.':
+                handleNumpadButtonClick(-1);
+                break;
+            case 'Backspace':
+                handleNumpadButtonClick(-3);
+                break;
+            case 'Delete':
+                handleNumpadButtonClick(-5);
+                break;
+            case ' ':
+                handleNumpadButtonClick(-5); //Space is same as delete
+                break;
+            default:
+                break;
+        }
+        //console.log(buffer);
+        //console.log(event.key === 'Delete');
+    }); 
+});
 
 //Do we choose to implement a backspace button OR shall we let that add to the pressure? hmmmmm.
 const NumPad: React.FC = (props) => {
+
     return (
         <div>
-            <span className={styles.numpad_display}><h3 className="numpad_display_text">&gt;</h3></span>
+            <span className={styles.numpad_display}><h3 className="numpad_display_text" onClick={() =>handleNumpadButtonClick(-5)}>&gt;</h3></span>
             <div className={styles.numpad_container}>
             <button onClick={() =>handleNumpadButtonClick(7)} className={[styles.num7, styles.numpad_button].join(" ")}>7</button>
             <button onClick={() =>handleNumpadButtonClick(8)} className={[styles.num8, styles.numpad_button].join(" ")}>8</button>
