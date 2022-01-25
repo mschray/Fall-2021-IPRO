@@ -27,10 +27,10 @@ function handleNumpadButtonClick(num: number, onSubmitFunction: Function){
             }         
             break;
         case -2:
-            display.innerHTML="&gt;";
             console.log("Submit");
             //Handle submit
             onSubmitFunction(display.innerHTML.substring(4));
+            display.innerHTML="&gt;";
             break;
         case -3:
             display.innerHTML="&gt;";
@@ -51,11 +51,16 @@ function handleNumpadButtonClick(num: number, onSubmitFunction: Function){
     }
 }
 
+interface NumpadProps {
+    onSubmit(arg: string): void;
+}
+
 /*
 Props: onSubmit = function(string)
     -Called when enter button is pressed with the collected input as the string parameter.
  */
-const NumPad: React.FC<{onSubmit:Function}> = ({children, onSubmit}) => {
+const NumPad: React.FC<NumpadProps> = (props) => {
+    const onSubmit = props.onSubmit;
     useEffect(() => {
         // Will run once since the second parameter [] is empty. Otherwise would run every time those parameters change.
         
@@ -109,6 +114,7 @@ const NumPad: React.FC<{onSubmit:Function}> = ({children, onSubmit}) => {
             }); 
         });
     }, []);
+    
     return (
         <div>
             <span className={styles.numpad_display}><h3 className="numpad_display_text" onClick={() =>handleNumpadButtonClick(-5, onSubmit)}>&gt;</h3></span>
