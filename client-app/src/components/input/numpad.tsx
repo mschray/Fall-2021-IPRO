@@ -117,23 +117,23 @@ const NumPad: React.FC<NumpadProps> = (props) => {
     
     return (
         <div>
-            <span className={styles.numpad_display}><h3 className="numpad_display_text" onClick={() =>handleNumpadButtonClick(-5, onSubmit)}>&gt;</h3></span>
             <div className={styles.numpad_container}>
-            <button onClick={() =>handleNumpadButtonClick(7, onSubmit)} className={[styles.num7, styles.numpad_button].join(" ")}>7</button>
-            <button onClick={() =>handleNumpadButtonClick(8, onSubmit)} className={[styles.num8, styles.numpad_button].join(" ")}>8</button>
-            <button onClick={() =>handleNumpadButtonClick(9, onSubmit)} className={[styles.num9, styles.numpad_button].join(" ")}>9</button>
-            <button onClick={() =>handleNumpadButtonClick(4, onSubmit)} className={[styles.num4, styles.numpad_button].join(" ")}>4</button>
-            <button onClick={() =>handleNumpadButtonClick(5, onSubmit)} className={[styles.num5, styles.numpad_button].join(" ")}>5</button>
-            <button onClick={() =>handleNumpadButtonClick(6, onSubmit)} className={[styles.num6, styles.numpad_button].join(" ")}>6</button>
-            <button onClick={() =>handleNumpadButtonClick(1, onSubmit)} className={[styles.num1, styles.numpad_button].join(" ")}>1</button>
-            <button onClick={() =>handleNumpadButtonClick(2, onSubmit)} className={[styles.num2, styles.numpad_button].join(" ")}>2</button>
-            <button onClick={() =>handleNumpadButtonClick(3, onSubmit)} className={[styles.num3, styles.numpad_button].join(" ")}>3</button>
-            <button onClick={() =>handleNumpadButtonClick(0, onSubmit)} className={[styles.num0, styles.numpad_button].join(" ")}>0</button>
-            <button onClick={() =>handleNumpadButtonClick(-1, onSubmit)} className={[styles.numdot, styles.numpad_button].join(" ")}><FiberManualRecordIcon sx={{ fontSize: "75%" }} /></button>
-            <button onClick={() =>handleNumpadButtonClick(-2, onSubmit)} className={[styles.numenter, styles.numpad_button].join(" ")}><span><CheckIcon sx={{ fontSize: "100%"}} /></span></button>
-            <button onClick={() =>handleNumpadButtonClick(-3, onSubmit)} className={[styles.numclear, styles.numpad_button].join(" ")}><span><ClearIcon sx={{ fontSize: "150%", lineHeight: "100%"}} /></span></button>
-            <button onClick={() =>handleNumpadButtonClick(-4, onSubmit)} className={[styles.numneg, styles.numpad_button].join(" ")}>-</button>
-        </div>
+                <span className={styles.numpad_display}><h3 className="numpad_display_text" onClick={() =>handleNumpadButtonClick(-5, onSubmit)}>&gt;</h3></span>            
+                <button onClick={() =>handleNumpadButtonClick(7, onSubmit)} className={[styles.num7, styles.numpad_button].join(" ")}>7</button>
+                <button onClick={() =>handleNumpadButtonClick(8, onSubmit)} className={[styles.num8, styles.numpad_button].join(" ")}>8</button>
+                <button onClick={() =>handleNumpadButtonClick(9, onSubmit)} className={[styles.num9, styles.numpad_button].join(" ")}>9</button>
+                <button onClick={() =>handleNumpadButtonClick(4, onSubmit)} className={[styles.num4, styles.numpad_button].join(" ")}>4</button>
+                <button onClick={() =>handleNumpadButtonClick(5, onSubmit)} className={[styles.num5, styles.numpad_button].join(" ")}>5</button>
+                <button onClick={() =>handleNumpadButtonClick(6, onSubmit)} className={[styles.num6, styles.numpad_button].join(" ")}>6</button>
+                <button onClick={() =>handleNumpadButtonClick(1, onSubmit)} className={[styles.num1, styles.numpad_button].join(" ")}>1</button>
+                <button onClick={() =>handleNumpadButtonClick(2, onSubmit)} className={[styles.num2, styles.numpad_button].join(" ")}>2</button>
+                <button onClick={() =>handleNumpadButtonClick(3, onSubmit)} className={[styles.num3, styles.numpad_button].join(" ")}>3</button>
+                <button onClick={() =>handleNumpadButtonClick(0, onSubmit)} className={[styles.num0, styles.numpad_button].join(" ")}>0</button>
+                <button onClick={() =>handleNumpadButtonClick(-1, onSubmit)} className={[styles.numdot, styles.numpad_button].join(" ")}><FiberManualRecordIcon sx={{ fontSize: "75%" }} /></button>
+                <button onClick={() =>handleNumpadButtonClick(-2, onSubmit)} className={[styles.numenter, styles.numpad_button].join(" ")}><span><CheckIcon sx={{ fontSize: "140%"}} /></span></button>
+                <button onClick={() =>handleNumpadButtonClick(-3, onSubmit)} className={[styles.numclear, styles.numpad_button].join(" ")}><span><ClearIcon sx={{ fontSize: "150%", lineHeight: "100%"}} /></span></button>
+                <button onClick={() =>handleNumpadButtonClick(-4, onSubmit)} className={[styles.numneg, styles.numpad_button].join(" ")}>-</button>
+            </div>
         </div>
     );
 };

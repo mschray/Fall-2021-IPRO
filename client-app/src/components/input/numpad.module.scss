@@ -5,7 +5,6 @@
     font-size: 150%;
     border-radius: 8px;
     box-shadow: 2px 2px 2px rgb(115, 115, 115);
-    min-width: 100%;
 }
 
 .numpad_button:active{
@@ -52,18 +51,17 @@
 .numpad_container {
   display: grid; 
   grid-auto-columns: 1fr; 
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
-  gap: 1em 1em; 
+  grid-template-columns: 12vw 12vw 12vw 12vw 12vw; 
+  grid-template-rows: 12vw 12vw 12vw 12vw 12vw 12vw; 
+  gap: 2vw 2vw; 
   grid-template-areas: 
+    ". disp disp disp ."
     ". num7 num8 num9 ."
     ". num4 num5 num6 numneg"
     ". num1 num2 num3 numclear"
     ". numenter num0 numdot numclear"
     ". numclearMobile numclearMobile numnegMobile ."; 
   width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
 }
 .num7 { grid-area: num7; }
 .num8 { grid-area: num8; }
@@ -98,7 +96,6 @@
   grid-area: numclearMobile; 
   color: #FF0000;
   width: auto;
-  height: auto;
 }
 
 .numclear:active { 
@@ -108,16 +105,18 @@
   color:#E8ECED;
 }
 
+.numpad_display {
+  grid-area: disp;
+  height: 100%;
+}
+
 .numpad_display h3{
-  align-items: center;
   font-size: 150%;
   gap: 2px;
   color: #262F34;
   border-bottom: 3px solid #262F34;
-  width: 55%;
-  margin-left: auto;
-  margin-right: auto;
   text-align: start;
+  margin: auto;
 }
 
 .numpad_display h3::after {
@@ -141,24 +140,13 @@
 @media only screen and (min-width: 600px) {
   .numpad_container {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
-    grid-template-rows: 4em 4em 4em 4em 4em; 
+    grid-template-rows: 4em 4em 4em 4em 4em 4em; 
+    gap: 1vw 1vw; 
   }
 
   .numclear { 
     grid-area: numclear; 
-    height: auto;
-  }
-
-  .numpad_display h3{
-    width: 65%;
   }
 
   .numneg { grid-area: numneg; }
 }
-
-@media only screen and (min-width: 750px) {
-  .numpad_display h3{
-    width: 50%;
-  }
-}
-
