@@ -107,6 +107,31 @@
   color:#E8ECED;
 }
 
+.numpad_display h3{
+  align-items: center;
+  font-size: 150%;
+  gap: 2px;
+  color: #262F34;
+}
+
+.numpad_display h3::after {
+  content: "";
+  width: 0.4em;
+  height: 1.1em;
+  background: #FF9999;
+  display: inline-block;
+  animation: cursor-blink 0.8s infinite;
+}
+
+@keyframes cursor-blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @media only screen and (min-width: 600px) {
   .numpad_container {
     grid-template-areas: 

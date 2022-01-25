@@ -7,26 +7,34 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 //Link to grid layout https://grid.layoutit.com/?id=ATBfViZ
 
-function num7(){
-    console.log("Numpad 7 was pressed!")
+function handleNumpadButtonClick(num: number){
+    //console.log("Numpad " + num + " was pressed!")
+
+    switch(num){
+        case 1: 
+            break;
+    }
 }
 
 const NumPad: React.FC = (props) => {
     return (
-        <div className={styles.numpad_container}>
-            <button onClick={num7} className={[styles.num7, styles.numpad_button].join(" ")}>7</button>
-            <button className={[styles.num8, styles.numpad_button].join(" ")}>8</button>
-            <button className={[styles.num9, styles.numpad_button].join(" ")}>9</button>
-            <button className={[styles.num4, styles.numpad_button].join(" ")}>4</button>
-            <button className={[styles.num5, styles.numpad_button].join(" ")}>5</button>
-            <button className={[styles.num6, styles.numpad_button].join(" ")}>6</button>
-            <button className={[styles.num1, styles.numpad_button].join(" ")}>1</button>
-            <button className={[styles.num2, styles.numpad_button].join(" ")}>2</button>
-            <button className={[styles.num3, styles.numpad_button].join(" ")}>3</button>
-            <button className={[styles.num0, styles.numpad_button].join(" ")}>0</button>
-            <button className={[styles.numdot, styles.numpad_button].join(" ")}><FiberManualRecordIcon sx={{ fontSize: "75%" }} /></button>
-            <button className={[styles.numenter, styles.numpad_button].join(" ")}><span><CheckIcon sx={{ fontSize: "100%"}} /></span></button>
-            <button className={[styles.numclear, styles.numpad_button].join(" ")}><span><ClearIcon sx={{ fontSize: "150%", lineHeight: "100%"}} /></span></button>
+        <div>
+            <span className={styles.numpad_display}><h3>Hi</h3></span>
+            <div className={styles.numpad_container}>
+            <button onClick={() =>handleNumpadButtonClick(7)} className={[styles.num7, styles.numpad_button].join(" ")}>7</button>
+            <button onClick={() =>handleNumpadButtonClick(8)} className={[styles.num8, styles.numpad_button].join(" ")}>8</button>
+            <button onClick={() =>handleNumpadButtonClick(9)} className={[styles.num9, styles.numpad_button].join(" ")}>9</button>
+            <button onClick={() =>handleNumpadButtonClick(4)} className={[styles.num4, styles.numpad_button].join(" ")}>4</button>
+            <button onClick={() =>handleNumpadButtonClick(5)} className={[styles.num5, styles.numpad_button].join(" ")}>5</button>
+            <button onClick={() =>handleNumpadButtonClick(6)} className={[styles.num6, styles.numpad_button].join(" ")}>6</button>
+            <button onClick={() =>handleNumpadButtonClick(1)} className={[styles.num1, styles.numpad_button].join(" ")}>1</button>
+            <button onClick={() =>handleNumpadButtonClick(2)} className={[styles.num2, styles.numpad_button].join(" ")}>2</button>
+            <button onClick={() =>handleNumpadButtonClick(3)} className={[styles.num3, styles.numpad_button].join(" ")}>3</button>
+            <button onClick={() =>handleNumpadButtonClick(0)} className={[styles.num0, styles.numpad_button].join(" ")}>0</button>
+            <button onClick={() =>handleNumpadButtonClick(-1)} className={[styles.numdot, styles.numpad_button].join(" ")}><FiberManualRecordIcon sx={{ fontSize: "75%" }} /></button>
+            <button onClick={() =>handleNumpadButtonClick(-2)} className={[styles.numenter, styles.numpad_button].join(" ")}><span><CheckIcon sx={{ fontSize: "100%"}} /></span></button>
+            <button onClick={() =>handleNumpadButtonClick(-3)} className={[styles.numclear, styles.numpad_button].join(" ")}><span><ClearIcon sx={{ fontSize: "150%", lineHeight: "100%"}} /></span></button>
+        </div>
         </div>
     );
 };
