@@ -7,12 +7,23 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 //Link to grid layout https://grid.layoutit.com/?id=ATBfViZ
 
+/*
+Handles the input cases from each of the buttons on the number pad.
+Non-number buttons are represented using negatives.
+-3 = clear
+-2 = submit
+-1 = period
+*/
 function handleNumpadButtonClick(num: number){
     //console.log("Numpad " + num + " was pressed!")
     var display = document.getElementsByClassName("numpad_display_text")[0];
     switch(num){      
         case -1:
             display.innerHTML=display.innerHTML+".";
+            break;
+        case -2:
+            display.innerHTML="&gt;";
+            //Handle submit
             break;
         case -3:
             display.innerHTML="&gt;";
