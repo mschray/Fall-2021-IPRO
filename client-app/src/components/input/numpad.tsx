@@ -18,9 +18,12 @@ Non-number buttons are represented using negatives.
 function handleNumpadButtonClick(num: number){
     //console.log("Numpad " + num + " was pressed!")
     var display = document.getElementsByClassName("numpad_display_text")[0];
+    var lastChar = display.innerHTML.charAt(display.innerHTML.length -1);
     switch(num){      
         case -1:
-            display.innerHTML=display.innerHTML+".";
+            if(!(lastChar===".")){
+                display.innerHTML=display.innerHTML+".";
+            }         
             break;
         case -2:
             display.innerHTML="&gt;";
@@ -30,8 +33,7 @@ function handleNumpadButtonClick(num: number){
             display.innerHTML="&gt;";
             break;
         case -4:
-            //console.log(display.innerHTML.charAt(display.innerHTML.length -1));
-            var lastChar = display.innerHTML.charAt(display.innerHTML.length -1);
+            //console.log(display.innerHTML.charAt(display.innerHTML.length -1));           
             //console.log(lastChar + "|" + !(lastChar === '.'));
             if(isNaN(parseInt(lastChar)) && !(lastChar === '.')){ //Only allow - if the last number was not another number or a decimal point. Example of what this prevents: "324-3" and "3.4-4"
                 display.innerHTML=display.innerHTML+"-";
@@ -43,6 +45,8 @@ function handleNumpadButtonClick(num: number){
     }
 }
 
+
+//Do we choose to implement a backspace button OR shall we let that add to the pressure? hmmmmm.
 const NumPad: React.FC = (props) => {
     return (
         <div>
