@@ -52,7 +52,7 @@ function handleNumpadButtonClick(num: number, onSubmitFunction: Function){
 }
 
 interface NumpadProps {
-    onSubmit(arg: string): void;
+    onSubmit(arg: string): void; //Ran when the enter key is pressed.
 }
 
 /*
