@@ -9,9 +9,16 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 function handleNumpadButtonClick(num: number){
     //console.log("Numpad " + num + " was pressed!")
-
-    switch(num){
-        case 1: 
+    var display = document.getElementsByClassName("numpad_display_text")[0];
+    switch(num){      
+        case -1:
+            display.innerHTML=display.innerHTML+".";
+            break;
+        case -3:
+            display.innerHTML="&gt;";
+            break;
+        default: 
+            display.innerHTML=display.innerHTML+num;
             break;
     }
 }
@@ -19,7 +26,7 @@ function handleNumpadButtonClick(num: number){
 const NumPad: React.FC = (props) => {
     return (
         <div>
-            <span className={styles.numpad_display}><h3>Hi</h3></span>
+            <span className={styles.numpad_display}><h3 className="numpad_display_text">&gt;</h3></span>
             <div className={styles.numpad_container}>
             <button onClick={() =>handleNumpadButtonClick(7)} className={[styles.num7, styles.numpad_button].join(" ")}>7</button>
             <button onClick={() =>handleNumpadButtonClick(8)} className={[styles.num8, styles.numpad_button].join(" ")}>8</button>

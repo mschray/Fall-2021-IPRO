@@ -112,6 +112,10 @@
   font-size: 150%;
   gap: 2px;
   color: #262F34;
+  border-bottom: 3px solid #262F34;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .numpad_display h3::after {
@@ -147,7 +151,15 @@
     grid-area: numclear; 
     height: auto;
   }
+
+  .numpad_display h3{
+    width: 40%;
+  }
 }
 
-
+@media only screen and (min-width: 800px) {
+  .numpad_display h3{
+    width: 30%;
+  }
+}
 
