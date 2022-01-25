@@ -57,10 +57,10 @@
   gap: 1em 1em; 
   grid-template-areas: 
     ". num7 num8 num9 ."
-    ". num4 num5 num6 ."
+    ". num4 num5 num6 numneg"
     ". num1 num2 num3 numclear"
     ". numenter num0 numdot numclear"
-    ". numclearMobile numclearMobile numclearMobile ."; 
+    ". numclearMobile numclearMobile numnegMobile ."; 
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -76,6 +76,7 @@
 .num3 { grid-area: num3; }
 .num0 { grid-area: num0; }
 .numdot { grid-area: numdot; }
+.numneg { grid-area: numnegMobile; }
 
 .numenter { 
   grid-area: numenter; 
@@ -138,11 +139,6 @@
 
 @media only screen and (min-width: 600px) {
   .numpad_container {
-    grid-template-areas: 
-      ". num7 num8 num9 ."
-      ". num4 num5 num6 ."
-      ". num1 num2 num3 numclear"
-      ". numenter num0 numdot numclear"; 
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
     grid-template-rows: 4em 4em 4em 4em 4em; 
   }
@@ -155,6 +151,8 @@
   .numpad_display h3{
     width: 40%;
   }
+
+  .numneg { grid-area: numneg; }
 }
 
 @media only screen and (min-width: 800px) {

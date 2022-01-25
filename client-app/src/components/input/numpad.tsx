@@ -5,14 +5,15 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 
-//Link to grid layout https://grid.layoutit.com/?id=ATBfViZ
+//Link to grid layout grid.layoutit.com?id=GINfCeW
 
 /*
 Handles the input cases from each of the buttons on the number pad.
 Non-number buttons are represented using negatives.
+-4 = negative
 -3 = clear
 -2 = submit
--1 = period
+-1 = decimal point
 */
 function handleNumpadButtonClick(num: number){
     //console.log("Numpad " + num + " was pressed!")
@@ -27,6 +28,14 @@ function handleNumpadButtonClick(num: number){
             break;
         case -3:
             display.innerHTML="&gt;";
+            break;
+        case -4:
+            //console.log(display.innerHTML.charAt(display.innerHTML.length -1));
+            var lastChar = display.innerHTML.charAt(display.innerHTML.length -1);
+            //console.log(lastChar + "|" + !(lastChar === '.'));
+            if(isNaN(parseInt(lastChar)) && !(lastChar === '.')){ //Only allow - if the last number was not another number or a decimal point. Example of what this prevents: "324-3" and "3.4-4"
+                display.innerHTML=display.innerHTML+"-";
+            }
             break;
         default: 
             display.innerHTML=display.innerHTML+num;
@@ -52,6 +61,7 @@ const NumPad: React.FC = (props) => {
             <button onClick={() =>handleNumpadButtonClick(-1)} className={[styles.numdot, styles.numpad_button].join(" ")}><FiberManualRecordIcon sx={{ fontSize: "75%" }} /></button>
             <button onClick={() =>handleNumpadButtonClick(-2)} className={[styles.numenter, styles.numpad_button].join(" ")}><span><CheckIcon sx={{ fontSize: "100%"}} /></span></button>
             <button onClick={() =>handleNumpadButtonClick(-3)} className={[styles.numclear, styles.numpad_button].join(" ")}><span><ClearIcon sx={{ fontSize: "150%", lineHeight: "100%"}} /></span></button>
+            <button onClick={() =>handleNumpadButtonClick(-4)} className={[styles.numneg, styles.numpad_button].join(" ")}>-</button>
         </div>
         </div>
     );
