@@ -5,12 +5,16 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 
-//Link to grid layout https://grid.layoutit.com/?id=6qY4dfg
+//Link to grid layout https://grid.layoutit.com/?id=ATBfViZ
+
+function num7(){
+    console.log("Numpad 7 was pressed!")
+}
 
 const NumPad: React.FC = (props) => {
     return (
         <div className={styles.numpad_container}>
-            <button className={[styles.num7, styles.numpad_button].join(" ")}>7</button>
+            <button onClick={num7} className={[styles.num7, styles.numpad_button].join(" ")}>7</button>
             <button className={[styles.num8, styles.numpad_button].join(" ")}>8</button>
             <button className={[styles.num9, styles.numpad_button].join(" ")}>9</button>
             <button className={[styles.num4, styles.numpad_button].join(" ")}>4</button>
@@ -21,8 +25,8 @@ const NumPad: React.FC = (props) => {
             <button className={[styles.num3, styles.numpad_button].join(" ")}>3</button>
             <button className={[styles.num0, styles.numpad_button].join(" ")}>0</button>
             <button className={[styles.numdot, styles.numpad_button].join(" ")}><FiberManualRecordIcon sx={{ fontSize: "75%" }} /></button>
-            <button className={[styles.numenter, styles.numpad_button].join(" ")}><span><CheckIcon sx={{ fontSize: "200%"}} /></span></button>
-            <button className={[styles.numclear, styles.numpad_button].join(" ")}><span><ClearIcon sx={{ fontSize: "200%"}} /></span></button>
+            <button className={[styles.numenter, styles.numpad_button].join(" ")}><span><CheckIcon sx={{ fontSize: "100%"}} /></span></button>
+            <button className={[styles.numclear, styles.numpad_button].join(" ")}><span><ClearIcon sx={{ fontSize: "150%", lineHeight: "100%"}} /></span></button>
         </div>
     );
 };
