@@ -1,7 +1,7 @@
-# IPRO 497 - Product Direction Document
+# Jebra - Product Direction Document
 
 ## Problem Statement
-1. Middle school to high school students misunderstand core math concepts since educators lack visual and engaging solutions to teach math. This leaves an opportunity for a tool to provide a learning experience that these students need.
+1. **Middle school to high school students misunderstand core math concepts since educators lack visual and engaging solutions to teach math. This leaves an opportunity for Jebra to provide math students with an interactive edutainment experience.**
 2. Underfunded middle and high schools lack the resources to teach students math in an affordable manner, which can be solved through a free and accessible edutainment service.
 
 ## Customer
@@ -27,6 +27,7 @@
     - Large class sizes
 
 ### Customer Persona
+
 - Jimmy - Struggling Student
     - Responsibilities
         - Pass 8th grade algebra
@@ -69,7 +70,7 @@
         - Math lends itself to individual work
     - Needs and Wants
         - Inexpensive and easily accessible
-        - Modern solutions to traditional teaching problems
+        - Interactive solutions to traditional teaching problems
 
 ## Other customers or stakeholders
 - School administrations
