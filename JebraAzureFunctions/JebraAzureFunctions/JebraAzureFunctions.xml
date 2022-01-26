@@ -9,6 +9,15 @@
             Will return new stage id if monster is defeated.
             </summary>
         </member>
+        <member name="M:JebraAzureFunctions.GetSubjectNameFromStageId.Run(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Also returns stage.max_hp, stage.name as stage_name instead of just the subject name. Fix this later. Done by Tommy.
+            --Dan Tiberi
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
         <member name="T:JebraAzureFunctions.PublishStatisticForStage">
             <summary>
             When calling this function, you are required to provide values for each column asked of in the model.

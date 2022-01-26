@@ -5,6 +5,8 @@ import styles from "./Question.module.scss";
 import useForm from "hooks/useForm";
 import QuestionModel from "models/QuestionModel";
 
+import Latex from "react-latex";
+
 // Properties for the Question React component
 interface QuestionProperties {
     questionData: QuestionModel,
@@ -51,7 +53,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
 
     return (
         <div>
-            <p>Solve: {props.questionData.question}</p>
+            <Latex>{`Solve: ${props.questionData.question}`}</Latex>
             <p>Subject: {props.questionData.subject_name}</p>
             <form onSubmit={onFormSubmit}>
                 <label>

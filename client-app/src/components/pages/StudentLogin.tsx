@@ -50,7 +50,7 @@ const StudentLogin: React.FC<StudentLoginProps> = props => {
             .catch(err => {
                 // Error occurred furing PUT request
                 console.error(err);
-                setLoginErrorState("An error occured during login. Check the console.");
+                setLoginErrorState("Incorrect course code was inputted. Please try again.");
             });
     }
 
@@ -75,7 +75,7 @@ const StudentLogin: React.FC<StudentLoginProps> = props => {
                     <br/>
                     {
                         loginErrorState !== undefined
-                            ? <p>{loginErrorState}</p>
+                            ? <p className={styles.error}>{loginErrorState}</p>
                             : null
                     }
                     <button name="Join class">Join Class</button>
