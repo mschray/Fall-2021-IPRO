@@ -23,16 +23,21 @@ const CourseMonitor: React.FC<CourseMonitorProps> = props => {
     const onStageFinish = useCallback(
         (data: StageEndModel) => {
             setGameData(
-                oldGameData => ({
-                    course_id: oldGameData!.course_id,
-                    cname: oldGameData!.cname,
-                    code: oldGameData!.code,
-                    max_hp: data.new_max_hp,
-                    name: data.new_stage_name,
-                    stage_id: data.new_stage_id,
-                    subject_id: data.new_subject_id,
-                    subject_name: data.new_subject_name
-                })
+                oldGameData => {
+                    if (oldGameData === undefined)
+                        return undefined;
+                    
+                    return {
+                        course_id: oldGameData!.course_id,
+                        cname: oldGameData!.cname,
+                        code: oldGameData!.code,
+                        max_hp: data.new_max_hp,
+                        name: data.new_stage_name,
+                        stage_id: data.new_stage_id,
+                        subject_id: data.new_subject_id,
+                        subject_name: data.new_subject_name
+                    };
+                }
             );
         },
         [setGameData]

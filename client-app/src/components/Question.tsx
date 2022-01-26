@@ -7,10 +7,13 @@ import QuestionModel from "models/QuestionModel";
 
 import Latex from "react-latex";
 
+import TextField from "@mui/material/TextField";
+
 // Properties for the Question React component
 interface QuestionProperties {
     questionData: QuestionModel,
-    onSolve: (questionData: QuestionModel) => void
+    onSolve: (questionData: QuestionModel) => void,
+    questionNumber?: number
 }
 
 // Interface for answer form
@@ -22,6 +25,13 @@ enum AnswerResult {
     Correct,
     Incorrect,
     NoAnswersYet
+}
+
+function hasNumericAnswer(question: QuestionModel): boolean {
+    if (question.answer_b !== null) {
+        return !isNaN(Number(question.answer_a)) && !isNaN(Number(question.answer_b));
+    }
+    return isNaN(Number(question.answer_a));
 }
 
 const Question: React.FC<QuestionProperties> = (props) => {
@@ -51,16 +61,26 @@ const Question: React.FC<QuestionProperties> = (props) => {
         initialState
     );
 
+    const questionNumberLabel = (props.questionNumber !== undefined) ? `(${props.questionNumber})` : null;
+
     return (
         <div>
-            <Latex>{`Solve: ${props.questionData.question}`}</Latex>
-            <p>Subject: {props.questionData.subject_name}</p>
+            <p>{questionNumberLabel} Solve: <Latex>{props.questionData.question}</Latex></p>
             <form onSubmit={onFormSubmit}>
-                <label>
-                    Enter answer: 
-                    <input name="answer" value={formState.answer} type="text" placeholder="Answer" autoComplete="off" onChange={onFormChange} />
-                    <input type="submit" />
-                </label>
+                <TextField
+                    required
+                    name="answer"
+                    id="answer"
+                    sx={{ m: 1, width: '25ch' }}
+                    label="Answer"
+                    value={formState.answer}
+                    placeholder="Answer"
+                    type={(hasNumericAnswer(props.questionData)) ? "number" : "text"}
+                    autoComplete="off"
+                    onChange={onFormChange}
+                />
+                <br />
+                <input type="submit" />
             </form>
             {
                 (lastAnswerResult === AnswerResult.Correct)

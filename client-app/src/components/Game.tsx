@@ -78,10 +78,10 @@ const Game: React.FC<GameProps> = (props) => {
                     onCourseFinish={props.onCourseFinish}
                     forceFetchStageEvents={questionIndex}
                 >
-                    <p>Question #{questionIndex + 1}:</p>
                     <Question
                         questionData={fetchResult.payload[questionIndex % fetchResult.payload.length]}
                         onSolve={onQuestionSolve}
+                        questionNumber={questionIndex + 1}
                     />
                 </Stage>
             );
