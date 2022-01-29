@@ -11,8 +11,6 @@ function App() {
   useEffect(() => {
     // code to run after render goes here
     document.getElementsByClassName("rs-play")[0].innerHTML = "Play";
-    document.getElementsByClassName("rs-pause")[0].innerHTML = "Pause";
-    document.getElementsByClassName("rs-resume")[0].innerHTML = "Resume";
     document.getElementsByClassName("rs-stop")[0].innerHTML = "Stop";
   });
 
@@ -20,7 +18,7 @@ function App() {
     <div className="App">
       <h1>Text-To-Speech</h1>
       <p>"Hello human. I am alive! Alive I tell you! Alive! Fear me!"</p>
-      <Speech text="Hello human. I am alive! Alive I tell you! Alive! Fear me!" voice="Google UK English Female" pause={true} resume={true}  lang="en-US" stop={true} />
+      <Speech text="Hello human. I am alive! Alive I tell you! Alive! Fear me!" voice="Google UK English Female" lang="en-US" stop={true} />
     </div>
   );
 }
