@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <h1>Text-To-Speech</h1>
-      <p>"Hello Dan. I am alive! Alive I tell you! Alive! Fear me!"</p>
+      <p>"Hello human. I am alive! Alive I tell you! Alive! Fear me!"</p>
       <Speech text="Hello human. I am alive! Alive I tell you! Alive! Fear me!" voice="Google UK English Female" pause={true} resume={true}  lang="en-US" stop={true} />
     </div>
   );
