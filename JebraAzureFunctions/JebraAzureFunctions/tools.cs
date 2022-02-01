@@ -522,7 +522,7 @@ namespace JebraAzureFunctions
         {
             Random r = new Random();
 
-            // Construct equation "y = x^2 + bx + c"
+            // Construct expression "x^2 + bx + c"
             int root1 = r.Next(-10, 10);
             int root2 = r.Next(-10, 10);
             int b = -root1 - root2; // coefficient of x term
@@ -556,10 +556,10 @@ namespace JebraAzureFunctions
                 constant = c.ToString();
             }
 
-            string equation = $"x^2{xTerm}{constant}";
+            string expression = $"x^2{xTerm}{constant}";
 
             QuestionModel questionModel = new QuestionModel();
-            questionModel.question = equation;
+            questionModel.question = expression;
             questionModel.answer_a = root1.ToString();
             questionModel.answer_b = root2.ToString();
             questionModel.subject_id = GetSubjectIdFromString("Quadratic Roots");
