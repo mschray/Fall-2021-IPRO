@@ -513,6 +513,11 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
+        /// <summary>
+        /// Generates a monic quadratic polynomial with integer roots between -10 and 10
+        /// ex: x^2-5x+4 => roots are 1, 4
+        /// </summary>
+        /// <returns></returns>
         public static QuestionModel QuadraticRoots()
         {
             Random r = new Random();
