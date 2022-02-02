@@ -137,5 +137,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:JebraAzureFunctions.Tools.QuadraticRoots">
+            <summary>
+            Generates a monic quadratic polynomial with integer roots between -10 and 10
+            ex: x^2-5x+4 => roots are 1, 4
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>
