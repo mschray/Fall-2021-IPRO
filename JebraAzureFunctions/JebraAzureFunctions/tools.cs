@@ -523,8 +523,8 @@ namespace JebraAzureFunctions
             Random r = new Random();
 
             // Construct expression "x^2 + bx + c"
-            int root1 = r.Next(-10, 10);
-            int root2 = r.Next(-10, 10);
+            int root1 = r.Next(-10, 11);
+            int root2 = r.Next(root1, 11);
             int b = -root1 - root2; // coefficient of x term
             int c = root1 * root2; // constant
 
