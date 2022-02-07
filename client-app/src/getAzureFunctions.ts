@@ -18,7 +18,8 @@ const azureFunctionsDevelopment = {
     RemoveQuestion: "http://localhost:7071/api/RemoveQuestion",
     SetUserIsOnline: "http://localhost:7071/api/SetUserIsOnline",
     UserSignIn: "http://localhost:7071/api/UserSignIn",
-    UserSignOut: "http://localhost:7071/api/UserSignOut"
+    UserSignOut: "http://localhost:7071/api/UserSignOut",
+    GetNumberOfPlayers: "http://localhost:7071/api/GetNumberOfPlayers"
 }
 
 const azureFunctionsProduction = {
@@ -41,11 +42,12 @@ const azureFunctionsProduction = {
     RemoveQuestion: "https://jebrafunctions.azurewebsites.net/api/RemoveQuestion?code=guS3rbHgda5otaHCGdbQHC9SAga9mWRHaLxSSSaq70XxHv98aPCc2w==",
     SetUserIsOnline: "https://jebrafunctions.azurewebsites.net/api/SetUserIsOnline?code=/TqclO2QBFSinPDiv4okCZ8GzO2ka7aQZwSWZgiPZqw0U6NLtb8glA==",
     UserSignIn: "https://jebrafunctions.azurewebsites.net/api/UserSignIn?code=fD2DKcEP56EYetQJXIsuZNMeH0qIPTvUAWOd9YmayT1haBfD02yprA==",
-    UserSignOut: "https://jebrafunctions.azurewebsites.net/api/UserSignOut?code=CbJQOhRTcgw7JoDMKH2y62ZZYe6AW3P18vkZX5iYACrhSwHYePBvlw=="
+    UserSignOut: "https://jebrafunctions.azurewebsites.net/api/UserSignOut?code=CbJQOhRTcgw7JoDMKH2y62ZZYe6AW3P18vkZX5iYACrhSwHYePBvlw==",
+    GetNumberOfPlayers: "https://jebrafunctions.azurewebsites.net/api/GetNumberOfPlayers?code=dL7Ia8YQddPaOscJGW5/Xgqp2VxKSozNELztSavLBbfhpMYJ8ReXQw=="
 };
 
-const getAzureFunctions = () => (process.env.NODE_ENV === "development") ? azureFunctionsDevelopment : azureFunctionsProduction;
+//const getAzureFunctions = () => (process.env.NODE_ENV === "development") ? azureFunctionsDevelopment : azureFunctionsProduction;
 // Comment the line above and uncomment the line below if you want to use prod endpoints in a dev environment (DO SO CAUTIOUSLY)
-//const getAzureFunctions = () => azureFunctionsProduction;
+const getAzureFunctions = () => azureFunctionsProduction;
 
 export default getAzureFunctions;

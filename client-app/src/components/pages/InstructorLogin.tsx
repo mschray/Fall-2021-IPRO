@@ -73,7 +73,7 @@ const InstructorLogin: React.FC<InstructorLoginProps> = props => {
                 // Error occurred furing PUT request
                 setIsLoginPending(false);
                 console.error(err);
-                setLoginErrorState("An error occured during login. Check the console.");
+                setLoginErrorState("An error occurred during login. Check the console.");
             });
     }
 
