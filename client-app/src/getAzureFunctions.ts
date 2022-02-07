@@ -19,7 +19,8 @@ const azureFunctionsDevelopment = {
     SetUserIsOnline: "http://localhost:7071/api/SetUserIsOnline",
     UserSignIn: "http://localhost:7071/api/UserSignIn",
     UserSignOut: "http://localhost:7071/api/UserSignOut",
-    GetNumberOfPlayers: "http://localhost:7071/api/GetNumberOfPlayers"
+    GetNumberOfPlayers: "http://localhost:7071/api/GetNumberOfPlayers",
+    DropPlayer: "http://localhost:7071/api/DropPlayer"
 }
 
 const azureFunctionsProduction = {
@@ -43,7 +44,8 @@ const azureFunctionsProduction = {
     SetUserIsOnline: "https://jebrafunctions.azurewebsites.net/api/SetUserIsOnline?code=/TqclO2QBFSinPDiv4okCZ8GzO2ka7aQZwSWZgiPZqw0U6NLtb8glA==",
     UserSignIn: "https://jebrafunctions.azurewebsites.net/api/UserSignIn?code=fD2DKcEP56EYetQJXIsuZNMeH0qIPTvUAWOd9YmayT1haBfD02yprA==",
     UserSignOut: "https://jebrafunctions.azurewebsites.net/api/UserSignOut?code=CbJQOhRTcgw7JoDMKH2y62ZZYe6AW3P18vkZX5iYACrhSwHYePBvlw==",
-    GetNumberOfPlayers: "https://jebrafunctions.azurewebsites.net/api/GetNumberOfPlayers?code=dL7Ia8YQddPaOscJGW5/Xgqp2VxKSozNELztSavLBbfhpMYJ8ReXQw=="
+    GetNumberOfPlayers: "https://jebrafunctions.azurewebsites.net/api/GetNumberOfPlayers?code=dL7Ia8YQddPaOscJGW5/Xgqp2VxKSozNELztSavLBbfhpMYJ8ReXQw==",
+    DropPlayer: "https://jebrafunctions.azurewebsites.net/api/DropPlayer?code=0mtAsfwwvz1mKEILONIeSVeKxk2DQS5OWZcJHAbb0RarbKtisSVrrg=="
 };
 
 //const getAzureFunctions = () => (process.env.NODE_ENV === "development") ? azureFunctionsDevelopment : azureFunctionsProduction;
