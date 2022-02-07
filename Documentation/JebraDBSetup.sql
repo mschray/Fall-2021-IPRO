@@ -51,6 +51,7 @@ INSERT INTO [dbo].subject VALUES ('Simplify Exponents');
 INSERT INTO [dbo].subject VALUES ('Simplify Exponents 2');
 INSERT INTO [dbo].subject VALUES ('Simplify Square Roots');
 INSERT INTO [dbo].subject VALUES ('Factorials');
+INSERT INTO [dbo].subject VALUES ('Quadratic Roots');
 
 CREATE TABLE [dbo].stage (
 	id					INT				NOT NULL	IDENTITY,
