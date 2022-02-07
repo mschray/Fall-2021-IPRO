@@ -56,17 +56,26 @@ const Play: React.FC<PlayProps> = props => {
         );
     }
 
-    //Remove player from game when component unmounts.
-    React.useEffect( () => () => {
+    const removePlayer = () => {
         console.log("Removing player from game:")
         const url = new URL(getAzureFunctions().DropPlayer);
         url.searchParams.append("userId", props.userData.userId.toString());
         url.searchParams.append("courseId", props.userData.courseId.toString());
         const executeFunction = async () => {
             await fetch(url.toString(), { method: 'DELETE' }).then(response => console.log(response));
-        }   
+        }
         executeFunction();
-    }, [] );
+    }
+
+    //Remove player from game when window closes.
+    window.addEventListener("beforeunload", (ev) => {
+        removePlayer();
+    });
+
+    //Remove player from game when component unmounts.
+    React.useEffect(() => () => {
+        removePlayer();
+    }, []);
     //React.useEffect( () => () => console.log("unmount"), [] );
 
     return (
