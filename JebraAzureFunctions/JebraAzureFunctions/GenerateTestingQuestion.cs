@@ -68,6 +68,9 @@ namespace JebraAzureFunctions
                 case "System Of Equations":
                     status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SystemOfEquations, amount, subjectId)).GetAwaiter().GetResult();
                     break;
+                case "Quadratic Roots":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.QuadraticRoots, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
                 default:
                     status = false;
                     break;

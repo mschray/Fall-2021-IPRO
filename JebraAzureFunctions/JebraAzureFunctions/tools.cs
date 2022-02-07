@@ -513,6 +513,60 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
+        /// <summary>
+        /// Generates a monic quadratic polynomial with integer roots between -10 and 10
+        /// ex: x^2-5x+4 => roots are 1, 4
+        /// </summary>
+        /// <returns></returns>
+        public static QuestionModel QuadraticRoots()
+        {
+            Random r = new Random();
+
+            // Construct expression "x^2 + bx + c"
+            int root1 = r.Next(-10, 11);
+            int root2 = r.Next(root1, 11);
+            int b = -root1 - root2; // coefficient of x term
+            int c = root1 * root2; // constant
+
+            string xTerm;
+            if (b > 0)
+            {
+                xTerm = $"+{b}x";
+            }
+            else if (b == 0)
+            {
+                xTerm = "";
+            }
+            else // b < 0
+            {
+                xTerm = $"{b}x";
+            }
+
+            string constant;
+            if (c > 0)
+            {
+                constant = $"+{c}";
+            }
+            else if (c == 0)
+            {
+                constant = "";
+            }
+            else // c < 0
+            {
+                constant = c.ToString();
+            }
+
+            string expression = $"x^2{xTerm}{constant}";
+
+            QuestionModel questionModel = new QuestionModel();
+            questionModel.question = expression;
+            questionModel.answer_a = root1.ToString();
+            questionModel.answer_b = root2.ToString();
+            questionModel.subject_id = GetSubjectIdFromString("Quadratic Roots");
+
+            return questionModel;
+        }
+
         //answer type is string, wont work currently
         /*
         //ex: (x + 3)*(x + 4) = x^2 + 7x + 12
