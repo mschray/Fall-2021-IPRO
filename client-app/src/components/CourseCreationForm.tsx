@@ -9,9 +9,12 @@ import { isSubjectModel } from "models/SubjectModel";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 import useForm from "hooks/useForm";
 
+import styles from "components/pages/Page.module.scss";
+
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import LoadingAnimation from "./LoadingAnimation";
 
 interface CourseCreationFormProps {
     instructorData: InstructorModel,
@@ -46,6 +49,9 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
         stageName: ""
     };
 
+    // course creation request pending state
+    const [isRequestPending, setIsRequestPending] = useState(false);
+
     // Course creation error message
     const [newGameErrorMessage, setNewGameErrorMessage] = useState<string | undefined>(undefined);
 
@@ -68,6 +74,11 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
                 setNewGameErrorMessage("Invalid subject index");
                 return;
             }
+
+            if (isRequestPending)
+                return;
+    
+            setIsRequestPending(true);
             
             const url = new URL(getAzureFunctions().NewGame);
             url.searchParams.append("subjectName", subjectFetchResult.payload[formState.subjectIndex].subject_name);
@@ -79,7 +90,10 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
             const requestInfo: RequestInit = { method: "PUT" };
 
             fetch(url.toString(), requestInfo)
-                .then(response => response.json())
+                .then(response => {
+                    setIsRequestPending(false);
+                    return response.json();
+                })
                 .then(json => {
                     console.log(json);
                     if (Array.isArray(json) && json.length > 0 && isNewGameResponseModel(json[0])) {
@@ -89,11 +103,12 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
                     }
                 })
                 .catch(err => {
+                    setIsRequestPending(false);
                     console.error(err);
                     setNewGameErrorMessage("Error occurred while making NewGame request. Check console.");
                 });
         },
-        [subjectFetchResult, props]
+        [subjectFetchResult, props, isRequestPending, setIsRequestPending]
     );
 
     // async callback simply calls memo-ized callback
@@ -108,79 +123,90 @@ const CourseCreationForm: React.FC<CourseCreationFormProps> = props => {
     );
 
     if (subjectFetchResult.status === FetchStatus.Success) {
-        return (
-            <form onSubmit={onFormSubmit}>
-                <div>
-                    <Select
-                        required
-                        name="subjectIndex"
-                        id="subjectIndex"
-                        sx={{ m: 1, width: '24ch' }}
-                        label="Subject"
-                        value={formState.subjectIndex}
-                        onChange={(event) => {onFormChange(event as React.ChangeEvent<{ name: string, value: string }>);}}
-                    >
-                        {
-                            subjectFetchResult.payload.map((subject, index) => (
-                                <MenuItem value={index} key={subject.id}>{subject.subject_name}</MenuItem>
-                            ))
-                        }
-                    </Select>
-                </div>
-                <br/>
-                <div>
-                    <TextField
-                        required
-                        name="courseName"
-                        id="courseName"
-                        sx={{ m: 1, width: '25ch' }}
-                        label="Course Name"
-                        value={formState.courseName}
-                        placeholder="Jebra Course"
-                        type="text"
-                        onChange={onFormChange}
-                    />
-                </div>
-                <br/>
-                <div>                
-                    <TextField
-                        required
-                        name="stageName"
-                        id="stageName"
-                        sx={{ m: 1, width: '25ch' }}
-                        label="Stage Name"
-                        value={formState.stageName}
-                        placeholder="Jebra Stage"
-                        type="text"
-                        onChange={onFormChange}
-                    />
-                </div>
-                <br/>
-                <div>                
-                    <TextField
-                        required
-                        name="stageHp"
-                        id="stageHp"
-                        sx={{ m: 1, width: '25ch' }}
-                        label="Stage HP"
-                        value={formState.stageHp}
-                        placeholder="Stage HP"
-                        type="number"
-                        onChange={onFormChange}
-                    />
-                </div>
-                <br/>
-                {
-                    (newGameErrorMessage !== undefined)
-                        ? <p>{newGameErrorMessage}</p>
-                        : null
-                }
-                <button name="CreateCourse">Create Course</button>
-            </form>
-        );
+        if (!isRequestPending) {
+            return (
+                <form onSubmit={onFormSubmit}>
+                    <div>
+                        <Select
+                            required
+                            name="subjectIndex"
+                            id="subjectIndex"
+                            sx={{ m: 1, width: '24ch' }}
+                            label="Subject"
+                            value={formState.subjectIndex}
+                            onChange={(event) => {onFormChange(event as React.ChangeEvent<{ name: string, value: string }>);}}
+                        >
+                            {
+                                subjectFetchResult.payload.map((subject, index) => (
+                                    <MenuItem value={index} key={subject.id}>{subject.subject_name}</MenuItem>
+                                ))
+                            }
+                        </Select>
+                    </div>
+                    <br/>
+                    <div>
+                        <TextField
+                            required
+                            name="courseName"
+                            id="courseName"
+                            sx={{ m: 1, width: '25ch' }}
+                            label="Course Name"
+                            value={formState.courseName}
+                            placeholder="Jebra Course"
+                            type="text"
+                            onChange={onFormChange}
+                        />
+                    </div>
+                    <br/>
+                    <div>                
+                        <TextField
+                            required
+                            name="stageName"
+                            id="stageName"
+                            sx={{ m: 1, width: '25ch' }}
+                            label="Stage Name"
+                            value={formState.stageName}
+                            placeholder="Jebra Stage"
+                            type="text"
+                            onChange={onFormChange}
+                        />
+                    </div>
+                    <br/>
+                    <div>                
+                        <TextField
+                            required
+                            name="stageHp"
+                            id="stageHp"
+                            sx={{ m: 1, width: '25ch' }}
+                            label="Stage HP"
+                            value={formState.stageHp}
+                            placeholder="Stage HP"
+                            type="number"
+                            onChange={onFormChange}
+                        />
+                    </div>
+                    {
+                        (newGameErrorMessage !== undefined)
+                            ? <p className={styles.error}>{newGameErrorMessage}</p>
+                            : <br/>
+                    }
+                    <button name="CreateCourse">Create Course</button>
+                </form>
+            );
+        } else {
+            return (
+                <>
+                    <p>Creating course...</p>
+                    <LoadingAnimation />
+                </>
+            )
+        }
     } else if (subjectFetchResult.status === FetchStatus.InProgress) {
         return (
-            <p>Fetching subject list...</p>
+            <>
+                <p>Fetching subjects list...</p>
+                <LoadingAnimation />
+            </>
         );
     } else {
         return (

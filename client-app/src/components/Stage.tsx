@@ -103,14 +103,13 @@ const Stage: React.FC<StageProps> = (props) => {
 
     const contents = (
         <>
-            <h4>Stage: {props.stageName}</h4>
             <p>Course code: {props.courseCode}</p>
             <img
                 className={styles.gif}
                 src={(hp > 0) ? monsterHavocGif : monsterDefeatGif}
                 alt="This evil monster is destroying Jebraville! Solve math questions to defeat the monster."
             />
-            <p>This evil monster is destroying Jebraville! Solve math questions to defeat the monster.</p>
+            <p>{props.stageName}'s Health: {hp} / {props.max_hp}</p>
             <ProgressBar alpha={hp / props.max_hp}/>
         </>
     );
