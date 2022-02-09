@@ -56,7 +56,8 @@ const Play: React.FC<PlayProps> = props => {
         );
     }
 
-    const removePlayer = () => {
+    //Run DropPlayer az function.
+    const removePlayer = async () => {
         console.log("Removing player from game:")
         const url = new URL(getAzureFunctions().DropPlayer);
         url.searchParams.append("userId", props.userData.userId.toString());
@@ -64,13 +65,24 @@ const Play: React.FC<PlayProps> = props => {
         const executeFunction = async () => {
             await fetch(url.toString(), { method: 'DELETE' }).then(response => console.log(response));
         }
-        executeFunction();
+        await executeFunction();
     }
 
-    //Remove player from game when window closes.
-    window.addEventListener("beforeunload", (ev) => {
-        removePlayer();
+    //Remove player from game when window closes. 
+    //Broken... :( Does not work in newer browsers.
+        /*
+    window.addEventListener("beforeunload", async (ev) => {
+        //alert("WOW");
+        await removePlayer();
+        //alert("END OF WOW");
     });
+    */
+   
+    window.onbeforeunload = async function(e) {
+        await removePlayer();
+        e.returnValue = 'onbeforeunload';
+        return 'onbeforeunload';
+      };
 
     //Remove player from game when component unmounts.
     React.useEffect(() => () => {
