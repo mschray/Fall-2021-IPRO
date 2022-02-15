@@ -131,6 +131,7 @@ namespace JebraAzureFunctions
                 q.question = obj?.question;
                 q.id = obj?.id;
                 q.subject_id = obj?.subject_id;
+                q.is_json = obj?.is_json;
                 ret.Add(q);
             }
             return ret;
