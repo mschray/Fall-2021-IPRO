@@ -4,7 +4,8 @@ export default interface QuestionModel {
     answer_a: string,
     answer_b: string | null,
     question: string,
-    subject_name: string
+    subject_name: string,
+    is_json: boolean
 }
 
 // Type guard for validating that data returned from the backend contains the expected fields
@@ -19,4 +20,5 @@ export function isQuestionModel(data: any): data is QuestionModel {
         && (typeof questionData.answer_b === "string" || questionData.answer_b === null)
         && typeof questionData.question === "string"
         && typeof questionData.subject_name === "string"
+        && typeof questionData.is_json === "boolean";
 }
