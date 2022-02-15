@@ -262,7 +262,7 @@ namespace JebraAzureFunctions
             string command = "";
             foreach(QuestionModel question in list)
             {
-                command += $"INSERT INTO question VALUES('{question.answer_a}', {question.answer_b}, '{question.question}', {question.subject_id}) \n";
+                command += $"INSERT INTO question VALUES('{question.answer_a}', {question.answer_b}, '{question.question}', {question.subject_id}, '{question.is_json}') \n";
             }
             return command;
         }
