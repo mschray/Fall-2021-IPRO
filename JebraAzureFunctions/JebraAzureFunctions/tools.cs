@@ -568,6 +568,18 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
+        public static QuestionModel TrigFunctions()
+        {
+            QuestionModel questionModel = new QuestionModel();
+            questionModel.question = "dummy";
+            questionModel.answer_a = "dummy";
+            questionModel.answer_b = null;
+            questionModel.subject_id = GetSubjectIdFromString("Trig Functions");
+            questionModel.is_json = true;
+
+            return questionModel;
+        }
+
         //answer type is string, wont work currently
         /*
         //ex: (x + 3)*(x + 4) = x^2 + 7x + 12
