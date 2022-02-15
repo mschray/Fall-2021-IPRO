@@ -56,6 +56,7 @@ INSERT INTO [dbo].subject VALUES ('Single Variable');
 INSERT INTO [dbo].subject VALUES ('System Of Equations');
 INSERT INTO [dbo].subject VALUES ('Quadratic Roots');
 INSERT INTO [dbo].subject VALUES ('Trig Functions');
+INSERT INTO [dbo].subject VALUES ('Inverse Trig Functions');
 
 CREATE TABLE [dbo].stage (
 	id					INT				NOT NULL	IDENTITY,
