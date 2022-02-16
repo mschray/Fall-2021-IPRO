@@ -629,7 +629,23 @@ namespace JebraAzureFunctions
             int funcIndex = r.Next(3);
             string func = (funcIndex == 0) ? "sine" : (funcIndex == 1) ? "cosine" : "tangent";
 
-
+            // Figure out numerator and denominator of answer
+            int num, denom;
+            if (func == "sine")
+            {
+                num = (angle == "A") ? a : b;
+                denom = c;
+            }
+            else if (func == "cosine")
+            {
+                num = (angle == "A") ? b : a;
+                denom = c;
+            }
+            else // func == "tangent"
+            {
+                num = (angle == "A") ? a : b;
+                denom = (angle == "A") ? b : a;
+            }
 
             QuestionModel questionModel = new QuestionModel();
             questionModel.question = "dummy";
