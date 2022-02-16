@@ -647,9 +647,12 @@ namespace JebraAzureFunctions
                 denom = (angle == "A") ? b : a;
             }
 
+            // Turn into fraction
+            string answer = ReduceFraction(num, denom);
+
             QuestionModel questionModel = new QuestionModel();
             questionModel.question = "dummy";
-            questionModel.answer_a = "dummy";
+            questionModel.answer_a = answer;
             questionModel.answer_b = null;
             questionModel.subject_id = GetSubjectIdFromString("Trig Functions");
             questionModel.is_json = true;
