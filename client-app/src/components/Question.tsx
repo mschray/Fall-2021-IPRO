@@ -31,7 +31,7 @@ function hasNumericAnswer(question: QuestionModel): boolean {
     if (question.answer_b !== null) {
         return !isNaN(Number(question.answer_a)) && !isNaN(Number(question.answer_b));
     }
-    return isNaN(Number(question.answer_a));
+    return !isNaN(Number(question.answer_a));
 }
 
 const Question: React.FC<QuestionProperties> = (props) => {
