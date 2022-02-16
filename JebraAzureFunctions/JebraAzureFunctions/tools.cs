@@ -623,16 +623,15 @@ namespace JebraAzureFunctions
         }
 
         /// <summary>
-        /// Generates a trig function question for a right triangle.
-        /// Answer is a reduced fraction.
-        /// Ex. Calculate sin(A) given a = 3, b = 4, c = 5. Answer = 3/5.
+        /// Takes in right triangle lengths.
+        /// Randomly picks an angle and a trig function.
+        /// Then, it calculates the numerator and denominator of that function's value for that angle.
         /// </summary>
-        public static QuestionModel TrigFunctions()
+        /// <returns>
+        /// A quadruple of (angle name "A"/"B", sine function "sine"/"cosine"/"tangent", numerator, denominator)
+        /// </returns>
+        public static (string, string, int, int) PickTrigFunction(Random r, int a, int b, int c)
         {
-            Random r = new Random();
-
-            var (a, b, c) = GeneratePythagoreanTriple(r);
-
             // Pick which angle to calculate trig function for
             string angle = (r.NextDouble() < 0.5) ? "A" : "B";
 
@@ -658,7 +657,25 @@ namespace JebraAzureFunctions
                 denom = (angle == "A") ? b : a;
             }
 
-            // Turn into fraction
+            return (angle, func, num, denom);
+        }
+
+        /// <summary>
+        /// Generates a trig function question for a right triangle.
+        /// Answer is a reduced fraction.
+        /// Ex. Calculate sin(A) given a = 3, b = 4, c = 5. Answer = 3/5.
+        /// </summary>
+        public static QuestionModel TrigFunctions()
+        {
+            Random r = new Random();
+
+            // Generate triangle
+            var (a, b, c) = GeneratePythagoreanTriple(r);
+
+            // Pick angle, trig function, and calculate numerator and denominator
+            var (angle, func, num, denom) = PickTrigFunction(r, a, b, c);
+
+            // Turn into reduced fraction
             string answer = ReduceFraction(num, denom);
 
             QuestionModel questionModel = new QuestionModel();
