@@ -570,6 +570,7 @@ namespace JebraAzureFunctions
 
         /// <summary>
         /// Calculates the GCD of two positive integers using the Euclidean algorithm
+        /// TODO: Move into separate math utilities class?
         /// </summary>
         public static int CalculateGCD(int a, int b)
         {
@@ -583,6 +584,11 @@ namespace JebraAzureFunctions
             return a;
         }
 
+        /// <summary>
+        /// Generates a trig function question for a right triangle.
+        /// Answer is a reduced fraction.
+        /// Ex. Calculate sin(A) given a = 3, b = 4, c = 5. Answer = 3/5.
+        /// </summary>
         public static QuestionModel TrigFunctions()
         {
             Random r = new Random();
