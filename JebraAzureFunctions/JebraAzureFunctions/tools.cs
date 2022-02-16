@@ -663,6 +663,23 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
+        /// <summary>
+        /// Generates an inverse trig function question for a right triangle.
+        /// Answer is an angle in degrees rounded to the nearest degree.
+        /// Ex. Calculate asin(A) given a = 3, b = 4, c = 5. Answer = 37.
+        /// </summary>
+        public static QuestionModel InverseTrigFunctions()
+        {
+            QuestionModel questionModel = new QuestionModel();
+            questionModel.question = "dummy";
+            questionModel.answer_a = "dummy";
+            questionModel.answer_b = "null";
+            questionModel.subject_id = GetSubjectIdFromString("Inverse Trig Functions");
+            questionModel.is_json = true;
+
+            return questionModel;
+        }
+
         //answer type is string, wont work currently
         /*
         //ex: (x + 3)*(x + 4) = x^2 + 7x + 12
