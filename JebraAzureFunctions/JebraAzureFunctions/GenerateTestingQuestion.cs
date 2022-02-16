@@ -74,6 +74,9 @@ namespace JebraAzureFunctions
                 case "Trig Functions":
                     status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.TrigFunctions, amount, subjectId)).GetAwaiter().GetResult();
                     break;
+                case "Inverse Trig Functions":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.InverseTrigFunctions, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
                 default:
                     status = false;
                     break;
