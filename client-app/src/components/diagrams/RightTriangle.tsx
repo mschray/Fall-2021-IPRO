@@ -26,13 +26,15 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
     const pixelsPerUnit = TRIANGLE_WIDTH / props.b;
     const height = pixelsPerUnit * props.a;
 
-    const points = [
-        [0, 0],
-        [0, height],
-        [TRIANGLE_WIDTH, height]
+    // Array of vertices
+    const vertices = [
+        [0, 0],                     // Point B
+        [0, height],                // Point C
+        [TRIANGLE_WIDTH, height]    // Point A
     ];
 
-    const pointsString = points
+    // Convert vertex array to string of points, incorporate padding
+    const points = vertices
         .map(([x, y]) => `${x + PADDING},${y + PADDING}`)
         .join(" ");
 
@@ -40,7 +42,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
         <svg width={TRIANGLE_WIDTH + 2*PADDING} height={height + 2*PADDING}>
             <polygon
                 className={styles.triangle}
-                points={pointsString}
+                points={points}
             />
         </svg>
     )
