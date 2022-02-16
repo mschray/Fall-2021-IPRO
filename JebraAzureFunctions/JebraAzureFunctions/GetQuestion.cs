@@ -57,7 +57,7 @@ namespace JebraAzureFunctions
             }
             */
 
-            string command = $"SELECT question.*, subject.subject_name FROM question, subject WHERE question.id={id} AND subject.id = question.subject_id";
+            string command = $"SELECT question.id, question.answer_a, question.answer_b, question.question, question.is_json, subject.subject_name FROM question, subject WHERE question.id={id} AND subject.id = question.subject_id";
 
             responseMessage = Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult();
             return new OkObjectResult(responseMessage);
