@@ -584,6 +584,10 @@ namespace JebraAzureFunctions
             // Pick which angle to calculate trig function for
             string angle = (r.NextDouble() < 0.5) ? "A" : "B";
 
+            // Pick which trig function to calculate
+            int funcIndex = r.Next(3);
+            string func = (funcIndex == 0) ? "sine" : (funcIndex == 1) ? "cosine" : "tangent";
+
             QuestionModel questionModel = new QuestionModel();
             questionModel.question = "dummy";
             questionModel.answer_a = "dummy";
