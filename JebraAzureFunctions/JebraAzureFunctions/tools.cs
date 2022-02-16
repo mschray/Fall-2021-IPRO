@@ -585,6 +585,26 @@ namespace JebraAzureFunctions
         }
 
         /// <summary>
+        /// Takes a numerator and denominator and produces a string that is the reduced fraction.
+        /// If the reduced denominator is 1, then just outputs the numerator.
+        /// TODO: Move into separate math utilities class?
+        /// </summary>
+        public static string ReduceFraction(int num, int denom)
+        {
+            int gcd = CalculateGCD(num, denom);
+            num /= gcd;
+            denom /= gcd;
+            if (denom == 1)
+            {
+                return num.ToString();
+            }
+            else
+            {
+                return $"{num}/{denom}";
+            }
+        }
+
+        /// <summary>
         /// Generates a trig function question for a right triangle.
         /// Answer is a reduced fraction.
         /// Ex. Calculate sin(A) given a = 3, b = 4, c = 5. Answer = 3/5.
