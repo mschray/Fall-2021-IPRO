@@ -698,9 +698,32 @@ namespace JebraAzureFunctions
         /// </summary>
         public static QuestionModel InverseTrigFunctions()
         {
+            Random r = new Random();
+
+            // Generate triangle
+            var (a, b, c) = GeneratePythagoreanTriple(r);
+
+            // Pick angle, trig function, and calculate numerator and denominator
+            var (angle, func, num, denom) = PickAngleAndTrigFunction(r, a, b, c);
+
+            // Calculate value of trig function
+            double trigValue = (double)num / denom;
+
+            // Calculate answer
+            double angleMeasure = (func == "sine") ? Math.Asin(trigValue) : (func == "cosine") ? Math.Acos(trigValue) : Math.Atan2(num, denom);
+
+            // Convert to degrees
+            angleMeasure *= 180 / Math.PI;
+
+            // Round to nearest degree
+            int roundedAngleMeasure = (int)Math.Round(angleMeasure);
+
             QuestionModel questionModel = new QuestionModel();
-            questionModel.question = "dummy";
-            questionModel.answer_a = "dummy";
+
+            // TODO: Create specific JSON model for trig function questions? May be unnecessary.
+            questionModel.question = $"{{\"a\": {a}, \"b\": {b}, \"c\": {c}, \"angle\": \"{angle}\", \"function\": \"arc{func}\"}}";
+
+            questionModel.answer_a = angleMeasure.ToString();
             questionModel.answer_b = "null";
             questionModel.subject_id = GetSubjectIdFromString("Inverse Trig Functions");
             questionModel.is_json = true;
