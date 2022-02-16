@@ -680,7 +680,7 @@ namespace JebraAzureFunctions
 
             QuestionModel questionModel = new QuestionModel();
 
-            // TODO: Create specific JSON model for trig function questions? May be unnecessary.
+            // TODO: Create specific JSON model for trig function questions? Might be unnecessary.
             questionModel.question = $"{{\"a\": {a}, \"b\": {b}, \"c\": {c}, \"angle\": \"{angle}\", \"function\": \"{func}\"}}";
 
             questionModel.answer_a = answer;
@@ -720,7 +720,7 @@ namespace JebraAzureFunctions
 
             QuestionModel questionModel = new QuestionModel();
 
-            // TODO: Create specific JSON model for trig function questions? May be unnecessary.
+            // TODO: Create specific JSON model for trig function questions? Might be unnecessary.
             questionModel.question = $"{{\"a\": {a}, \"b\": {b}, \"c\": {c}, \"angle\": \"{angle}\", \"function\": \"arc{func}\"}}";
 
             questionModel.answer_a = roundedAngleMeasure.ToString();
