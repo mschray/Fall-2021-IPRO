@@ -630,7 +630,7 @@ namespace JebraAzureFunctions
         /// <returns>
         /// A quadruple of (angle name "A"/"B", sine function "sine"/"cosine"/"tangent", numerator, denominator)
         /// </returns>
-        public static (string, string, int, int) PickTrigFunction(Random r, int a, int b, int c)
+        public static (string, string, int, int) PickAngleAndTrigFunction(Random r, int a, int b, int c)
         {
             // Pick which angle to calculate trig function for
             string angle = (r.NextDouble() < 0.5) ? "A" : "B";
@@ -673,7 +673,7 @@ namespace JebraAzureFunctions
             var (a, b, c) = GeneratePythagoreanTriple(r);
 
             // Pick angle, trig function, and calculate numerator and denominator
-            var (angle, func, num, denom) = PickTrigFunction(r, a, b, c);
+            var (angle, func, num, denom) = PickAngleAndTrigFunction(r, a, b, c);
 
             // Turn into reduced fraction
             string answer = ReduceFraction(num, denom);
