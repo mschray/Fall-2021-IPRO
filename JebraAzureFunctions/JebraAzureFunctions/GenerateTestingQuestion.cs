@@ -71,6 +71,9 @@ namespace JebraAzureFunctions
                 case "Quadratic Roots":
                     status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.QuadraticRoots, amount, subjectId)).GetAwaiter().GetResult();
                     break;
+                case "Trig Functions":
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.TrigFunctions, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
                 default:
                     status = false;
                     break;
