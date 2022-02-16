@@ -605,6 +605,24 @@ namespace JebraAzureFunctions
         }
 
         /// <summary>
+        /// Generates an integral Pythagorean triple.
+        /// First two side lengths are the legs; the third is the hypotenuse.
+        /// </summary>
+        public static (int, int, int) GeneratePythagoreanTriple(Random r)
+        {
+            // Side length parameters
+            int m = r.Next(2, 6);
+            int n = r.Next(1, m);
+
+            // Side lengths (c is the hypotenuse)
+            int a = m * m - n * n;
+            int b = 2 * m * n;
+            int c = m * m + n * n;
+
+            return (a, b, c);
+        }
+
+        /// <summary>
         /// Generates a trig function question for a right triangle.
         /// Answer is a reduced fraction.
         /// Ex. Calculate sin(A) given a = 3, b = 4, c = 5. Answer = 3/5.
@@ -613,14 +631,7 @@ namespace JebraAzureFunctions
         {
             Random r = new Random();
 
-            // Clever way to generate an integral Pythagorean triple
-            int m = r.Next(2, 6);
-            int n = r.Next(1, m);
-
-            // Side lengths (c is the hypotenuse)
-            int a = m * m - n * n;
-            int b = 2 * m * n;
-            int c = m * m + n * n;
+            var (a, b, c) = GeneratePythagoreanTriple(r);
 
             // Pick which angle to calculate trig function for
             string angle = (r.NextDouble() < 0.5) ? "A" : "B";
