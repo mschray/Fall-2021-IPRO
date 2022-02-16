@@ -1,6 +1,15 @@
 import React from "react";
 
-const RightTriangle: React.FC = () => {
+interface RightTriangleProps {
+    a: number,
+    b: number,
+    c: number,
+    angle: "A" | "B",
+    hideA?: boolean,
+    hideB?: boolean
+}
+
+const RightTriangle: React.FC<RightTriangleProps> = props => {
     return null;
 }
 
