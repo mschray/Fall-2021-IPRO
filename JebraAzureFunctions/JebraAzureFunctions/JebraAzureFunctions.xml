@@ -144,5 +144,25 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:JebraAzureFunctions.Tools.CalculateGCD(System.Int32,System.Int32)">
+            <summary>
+            Calculates the GCD of two positive integers using the Euclidean algorithm
+            TODO: Move into separate math utilities class?
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.ReduceFraction(System.Int32,System.Int32)">
+            <summary>
+            Takes a numerator and denominator and produces a string that is the reduced fraction.
+            If the reduced denominator is 1, then just outputs the numerator.
+            TODO: Move into separate math utilities class?
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.TrigFunctions">
+            <summary>
+            Generates a trig function question for a right triangle.
+            Answer is a reduced fraction.
+            Ex. Calculate sin(A) given a = 3, b = 4, c = 5. Answer = 3/5.
+            </summary>
+        </member>
     </members>
 </doc>
