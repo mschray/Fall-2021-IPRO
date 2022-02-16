@@ -581,6 +581,9 @@ namespace JebraAzureFunctions
             int b = 2 * m * n;
             int c = m * m + n * n;
 
+            // Pick which angle to calculate trig function for
+            string angle = (r.NextDouble() < 0.5) ? "A" : "B";
+
             QuestionModel questionModel = new QuestionModel();
             questionModel.question = "dummy";
             questionModel.answer_a = "dummy";
