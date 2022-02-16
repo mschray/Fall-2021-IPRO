@@ -570,6 +570,17 @@ namespace JebraAzureFunctions
 
         public static QuestionModel TrigFunctions()
         {
+            Random r = new Random();
+
+            // Clever way to generate an integral Pythagorean triple
+            int m = r.Next(2, 6);
+            int n = r.Next(1, m);
+
+            // Side lengths (c is the hypotenuse)
+            int a = m * m - n * n;
+            int b = 2 * m * n;
+            int c = m * m + n * n;
+
             QuestionModel questionModel = new QuestionModel();
             questionModel.question = "dummy";
             questionModel.answer_a = "dummy";
