@@ -1,0 +1,8 @@
+@import "styles/colors";
+
+.triangle {
+    fill: $blue;
+    stroke: $dark-grey;
+    stroke-width: 4px;
+    stroke-linejoin: round;
+}
