@@ -653,18 +653,10 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
 
             // TODO: Create specific JSON model for trig function questions? May be unnecessary.
-            questionModel.question = $@"
-                {{
-                    ""a"": {a},
-                    ""b"": {b},
-                    ""c"": {c},
-                    ""angle"": {angle},
-                    ""function"": {func}
-                }}
-            ";
+            questionModel.question = $"{{\"a\": {a}, \"b\": {b}, \"c\": {c}, \"angle\": \"{angle}\", \"function\": \"{func}\"}}";
 
             questionModel.answer_a = answer;
-            questionModel.answer_b = null;
+            questionModel.answer_b = "null";
             questionModel.subject_id = GetSubjectIdFromString("Trig Functions");
             questionModel.is_json = true;
 
