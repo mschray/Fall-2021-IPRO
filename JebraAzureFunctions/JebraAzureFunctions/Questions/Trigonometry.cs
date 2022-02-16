@@ -153,15 +153,15 @@ namespace JebraAzureFunctions.Questions
             // Convert to degrees
             angleMeasure *= 180 / Math.PI;
 
-            // Round to nearest hundredth of a degree
-            angleMeasure = Math.Round(angleMeasure, 2);
+            // Round to nearest hundredth of a degree and convert to string
+            string answer = angleMeasure.ToString("0.00");
 
             QuestionModel questionModel = new QuestionModel();
 
             // TODO: Create specific JSON model for trig function questions? Might be unnecessary.
             questionModel.question = $"{{\"a\": {a}, \"b\": {b}, \"c\": {c}, \"angle\": \"{angle}\", \"function\": \"arc{func}\"}}";
 
-            questionModel.answer_a = angleMeasure.ToString();
+            questionModel.answer_a = answer;
             questionModel.answer_b = "null";
             questionModel.subject_id = Tools.GetSubjectIdFromString("Inverse Trig Functions");
             questionModel.is_json = true;
