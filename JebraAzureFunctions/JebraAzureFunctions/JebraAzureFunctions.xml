@@ -54,6 +54,11 @@
             A quadruple of (angle name "A"/"B", sine function "sine"/"cosine"/"tangent", numerator, denominator)
             </returns>
         </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.GenerateRightTriangleJSON(System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Generates a JSON string with a right triangle's side lengths, specified angle, and trig function.
+            </summary>
+        </member>
         <member name="M:JebraAzureFunctions.Questions.Trigonometry.TrigFunctions">
             <summary>
             Generates a trig function question for a right triangle.

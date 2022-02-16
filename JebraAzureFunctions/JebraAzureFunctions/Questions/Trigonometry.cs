@@ -99,6 +99,14 @@ namespace JebraAzureFunctions.Questions
         }
 
         /// <summary>
+        /// Generates a JSON string with a right triangle's side lengths, specified angle, and trig function.
+        /// </summary>
+        public static string GenerateRightTriangleJSON(int a, int b, int c, string angle, string func)
+        {
+            return $"{{\"a\": {a}, \"b\": {b}, \"c\": {c}, \"angle\": \"{angle}\", \"function\": \"{func}\"}}";
+        }
+
+        /// <summary>
         /// Generates a trig function question for a right triangle.
         /// Answer is a reduced fraction.
         /// Ex. Calculate sin(A) given a = 3, b = 4, c = 5. Answer = 3/5.
@@ -118,8 +126,8 @@ namespace JebraAzureFunctions.Questions
 
             QuestionModel questionModel = new QuestionModel();
 
-            // TODO: Create specific JSON model for trig function questions? Might be unnecessary.
-            questionModel.question = $"{{\"a\": {a}, \"b\": {b}, \"c\": {c}, \"angle\": \"{angle}\", \"function\": \"{func}\"}}";
+            // Generate JSON string for question
+            questionModel.question = GenerateRightTriangleJSON(a, b, c, angle, func);
 
             questionModel.answer_a = answer;
             questionModel.answer_b = "null";
@@ -158,8 +166,8 @@ namespace JebraAzureFunctions.Questions
 
             QuestionModel questionModel = new QuestionModel();
 
-            // TODO: Create specific JSON model for trig function questions? Might be unnecessary.
-            questionModel.question = $"{{\"a\": {a}, \"b\": {b}, \"c\": {c}, \"angle\": \"{angle}\", \"function\": \"arc{func}\"}}";
+            // Generate JSON string for question with "arc{func}" as the trig function
+            questionModel.question = GenerateRightTriangleJSON(a, b, c, angle, $"arc{func}");
 
             questionModel.answer_a = answer;
             questionModel.answer_b = "null";
