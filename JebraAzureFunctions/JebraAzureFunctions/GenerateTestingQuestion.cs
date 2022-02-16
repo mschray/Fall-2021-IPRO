@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using JebraAzureFunctions.Models;
+using JebraAzureFunctions.Questions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -72,10 +73,10 @@ namespace JebraAzureFunctions
                     status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.QuadraticRoots, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "Trig Functions":
-                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.TrigFunctions, amount, subjectId)).GetAwaiter().GetResult();
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Trigonometry.TrigFunctions, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "Inverse Trig Functions":
-                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.InverseTrigFunctions, amount, subjectId)).GetAwaiter().GetResult();
+                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Trigonometry.InverseTrigFunctions, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 default:
                     status = false;
