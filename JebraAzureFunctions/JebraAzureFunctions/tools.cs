@@ -568,6 +568,21 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
+        /// <summary>
+        /// Calculates the GCD of two positive integers using the Euclidean algorithm
+        /// </summary>
+        public static int CalculateGCD(int a, int b)
+        {
+            // Use the Euclidean algorithm
+            while (b > 0)
+            {
+                int remainder = a % b;
+                a = b;
+                b = remainder;
+            }
+            return a;
+        }
+
         public static QuestionModel TrigFunctions()
         {
             Random r = new Random();
@@ -587,6 +602,8 @@ namespace JebraAzureFunctions
             // Pick which trig function to calculate
             int funcIndex = r.Next(3);
             string func = (funcIndex == 0) ? "sine" : (funcIndex == 1) ? "cosine" : "tangent";
+
+
 
             QuestionModel questionModel = new QuestionModel();
             questionModel.question = "dummy";
