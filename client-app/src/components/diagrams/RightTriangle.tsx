@@ -11,8 +11,28 @@ interface RightTriangleProps {
     hideB?: boolean
 }
 
+interface Vertex {
+    x: number,
+    y: number,
+    angle: "A" | "B" | "C",
+    textAnchor: "start" | "end",
+    alignmentBaseline: "baseline" | "hanging"
+}
+
 const TRIANGLE_WIDTH = 400; // Not actual pixels, the SVG viewport can be scaled responsively
-const PADDING = 8;          // Padding around the triangle so that the stroke doesn't get clipped
+const PADDING = 32;         // Padding around the triangle so that the text doesn't get clipped
+
+// Offset for text labels depending on alignment
+const TEXT_OFFSET_X = {
+    end: -8,
+    middle: 0,
+    start: 8
+}
+const TEXT_OFFSET_Y = {
+    baseline: -8,
+    middle: 0,
+    hanging: 8
+}
 
 const RightTriangle: React.FC<RightTriangleProps> = props => {
     /*
@@ -27,16 +47,54 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
     const height = pixelsPerUnit * props.a;
 
     // Array of vertices
-    const vertices = [
-        [0, 0],                     // Point B
-        [0, height],                // Point C
-        [TRIANGLE_WIDTH, height]    // Point A
+    let vertices: Vertex[] = [
+        {
+            x: 0,
+            y: 0,
+            angle: "B",
+            textAnchor: "end",
+            alignmentBaseline: "baseline"
+        },
+        {
+            x: 0,
+            y: height,
+            angle: "C",
+            textAnchor: "end",
+            alignmentBaseline: "hanging"
+        },
+        {
+            x: TRIANGLE_WIDTH,
+            y: height,
+            angle: "A",
+            textAnchor: "start",
+            alignmentBaseline: "hanging"
+        }
     ];
 
-    // Convert vertex array to string of points, incorporate padding
+    // Add padding
+    vertices = vertices.map(vertex => ({
+        ...vertex,
+        x: vertex.x + PADDING,
+        y: vertex.y + PADDING
+    }));
+
+    // Convert vertex array to string of points
     const points = vertices
-        .map(([x, y]) => `${x + PADDING},${y + PADDING}`)
+        .map(({x, y}) => `${x},${y}`)
         .join(" ");
+
+    // Create text labels for each vertex
+    const angleLabels = vertices
+        .map(vertex => (
+            <text
+                x={vertex.x + TEXT_OFFSET_X[vertex.textAnchor]}
+                y={vertex.y + TEXT_OFFSET_Y[vertex.alignmentBaseline]}
+                textAnchor={vertex.textAnchor}
+                alignmentBaseline={vertex.alignmentBaseline}
+            >
+                {vertex.angle}
+            </text>
+        ));
 
     return (
         <svg width={TRIANGLE_WIDTH + 2*PADDING} height={height + 2*PADDING}>
@@ -44,6 +102,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
                 className={styles.triangle}
                 points={points}
             />
+            {angleLabels}
         </svg>
     )
 }
