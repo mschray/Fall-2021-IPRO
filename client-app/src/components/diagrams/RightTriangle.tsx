@@ -8,7 +8,8 @@ interface RightTriangleProps {
     c: number,
     angle: "A" | "B",
     hideA?: boolean,    // For inverse trig questions, we may want to hide unneeded side lengths
-    hideB?: boolean
+    hideB?: boolean,
+    hideC?: boolean
 }
 
 interface Vertex {
@@ -81,16 +82,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
         }
     ];
     // Array of midpoints
-    let midpoints: Vertex[] = [
-        {
-            x: TRIANGLE_WIDTH/2,
-            y: height/2,
-            label: props.c.toString(),
-            type: "side",
-            textAnchor: "start",
-            alignmentBaseline: "baseline"
-        }
-    ];
+    let midpoints: Vertex[] = [];
     if (!props.hideA) {
         midpoints.push({
             x: 0,
@@ -109,6 +101,16 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
             type: "side",
             textAnchor: "middle",
             alignmentBaseline: "hanging"
+        });
+    }
+    if (!props.hideC) {
+        midpoints.push({
+            x: TRIANGLE_WIDTH/2,
+            y: height/2,
+            label: props.c.toString(),
+            type: "side",
+            textAnchor: "start",
+            alignmentBaseline: "baseline"
         });
     }
 
