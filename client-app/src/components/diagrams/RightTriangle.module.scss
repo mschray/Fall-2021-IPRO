@@ -1,10 +1,19 @@
 @import "styles/colors";
 
-.triangle {
-    fill: $blue;
+@mixin stroke {
     stroke: $dark-blue;
     stroke-width: 4px;
     stroke-linejoin: round;
+}
+
+.triangle {
+    @include stroke;
+    fill: $blue;
+}
+
+.arc {
+    @include stroke;
+    fill: $light-blue;
 }
 
 @mixin label {

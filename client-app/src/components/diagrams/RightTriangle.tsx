@@ -165,11 +165,13 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
                 className={styles.triangle}
                 points={points}
             />
-            <path d={`M ${arcCenter.x} ${arcCenter.y}
-                      l ${vectorLeft.x} ${vectorLeft.y}
-                      a ${ARC_RADIUS} ${ARC_RADIUS} 0 0 1
-                        ${vectorRight.x - vectorLeft.x} ${vectorRight.y - vectorLeft.y}
-                      z`}
+            <path
+                className={styles.arc}
+                d={`M ${arcCenter.x} ${arcCenter.y}
+                    l ${vectorLeft.x} ${vectorLeft.y}
+                    a ${ARC_RADIUS} ${ARC_RADIUS} 0 0 1
+                    ${vectorRight.x - vectorLeft.x} ${vectorRight.y - vectorLeft.y}
+                    z`}
             />
             {labels}
         </svg>
