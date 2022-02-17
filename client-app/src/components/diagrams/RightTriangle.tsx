@@ -22,7 +22,6 @@ interface Vertex {
 
 const TRIANGLE_WIDTH = 400; // Not actual pixels, the SVG viewport can be scaled responsively
 const PADDING = 32;         // Padding around the triangle so that the text doesn't get clipped
-const ARC_RADIUS = 64;      // Radius of arc used to demarcate specified angle
 
 // Offset for text labels depending on alignment
 const TEXT_OFFSET_X = {
@@ -142,6 +141,9 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
             </text>
         ));
 
+    // Radius of arc used to demarcate specified angle
+    const arcRadius = (props.angle === "A") ? TRIANGLE_WIDTH / 4 : height / 3;
+
     // Determine center, left point, and right point of arc
     const arcCenter = (props.angle === "A") ? vertices[2] : vertices[0];
     const arcLeft =   (props.angle === "A") ? vertices[1] : vertices[2];
@@ -156,8 +158,8 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
     const magnitudeRight = Math.sqrt(vectorRight.x * vectorRight.x + vectorRight.y * vectorRight.y);
 
     // Adjust vector lengths to be of ARC_RADIUS length
-    vectorLeft  = { x:  vectorLeft.x /  magnitudeLeft * ARC_RADIUS, y:  vectorLeft.y /  magnitudeLeft * ARC_RADIUS};
-    vectorRight = { x: vectorRight.x / magnitudeRight * ARC_RADIUS, y: vectorRight.y / magnitudeRight * ARC_RADIUS};
+    vectorLeft  = { x:  vectorLeft.x /  magnitudeLeft * arcRadius, y:  vectorLeft.y /  magnitudeLeft * arcRadius};
+    vectorRight = { x: vectorRight.x / magnitudeRight * arcRadius, y: vectorRight.y / magnitudeRight * arcRadius};
 
     return (
         <svg width={TRIANGLE_WIDTH + 2*PADDING} height={height + 2*PADDING}>
@@ -169,7 +171,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
                 className={styles.arc}
                 d={`M ${arcCenter.x} ${arcCenter.y}
                     l ${vectorLeft.x} ${vectorLeft.y}
-                    a ${ARC_RADIUS} ${ARC_RADIUS} 0 0 1
+                    a ${arcRadius} ${arcRadius} 0 0 1
                     ${vectorRight.x - vectorLeft.x} ${vectorRight.y - vectorLeft.y}
                     z`}
             />
