@@ -108,7 +108,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
             } else if (subjectName === "Inverse Trig Functions") {
                 const latexString = `$m \\angle ${parsed.angle}$`;
                 questionStatement = (
-                    <>Solve: <Latex>{latexString}</Latex> rounded to the nearest hundredth of a degree. {parsed.function}</>
+                    <>Solve: <Latex>{latexString}</Latex> rounded to the nearest hundredth of a degree</>
                 );
 
                 hideA = parsed.function !== "arctangent"
