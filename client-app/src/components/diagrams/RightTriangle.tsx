@@ -15,8 +15,8 @@ interface Vertex {
     x: number,
     y: number,
     label: string,
-    textAnchor: "start" | "end",
-    alignmentBaseline: "baseline" | "hanging"
+    textAnchor: "start" | "middle" | "end",
+    alignmentBaseline: "baseline" | "middle" | "hanging"
 }
 
 const TRIANGLE_WIDTH = 400; // Not actual pixels, the SVG viewport can be scaled responsively
@@ -70,21 +70,52 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
             alignmentBaseline: "hanging"
         }
     ];
+    // Array of midpoints
+    let midpoints: Vertex[] = [
+        {
+            x: TRIANGLE_WIDTH/2,
+            y: height/2,
+            label: props.c.toString(),
+            textAnchor: "start",
+            alignmentBaseline: "baseline"
+        }
+    ];
+    if (!props.hideA) {
+        midpoints.push({
+            x: 0,
+            y: height/2,
+            label: props.a.toString(),
+            textAnchor: "end",
+            alignmentBaseline: "middle"
+        });
+    }
+    if (!props.hideB) {
+        midpoints.push({
+            x: TRIANGLE_WIDTH/2,
+            y: height,
+            label: props.b.toString(),
+            textAnchor: "middle",
+            alignmentBaseline: "hanging"
+        });
+    }
 
     // Add padding
-    vertices = vertices.map(vertex => ({
+    const addPadding = (vertex: Vertex) => ({
         ...vertex,
         x: vertex.x + PADDING,
         y: vertex.y + PADDING
-    }));
+    });
+    vertices = vertices.map(addPadding);
+    midpoints = midpoints.map(addPadding);
 
     // Convert vertex array to string of points
     const points = vertices
         .map(({x, y}) => `${x},${y}`)
         .join(" ");
 
-    // Create text labels for each vertex
-    const angleLabels = vertices
+    // Create text labels for angles and side lengths
+    const labels = vertices
+        .concat(midpoints)
         .map(vertex => (
             <text
                 x={vertex.x + TEXT_OFFSET_X[vertex.textAnchor]}
@@ -102,7 +133,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
                 className={styles.triangle}
                 points={points}
             />
-            {angleLabels}
+            {labels}
         </svg>
     )
 }
