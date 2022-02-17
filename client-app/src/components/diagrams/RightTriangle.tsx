@@ -7,7 +7,7 @@ interface RightTriangleProps {
     b: number,
     c: number,
     angle: "A" | "B",
-    hideA?: boolean,
+    hideA?: boolean,    // For inverse trig questions, we may want to hide unneeded side lengths
     hideB?: boolean
 }
 
