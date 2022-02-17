@@ -52,9 +52,15 @@ namespace JebraAzureFunctions.Questions
             int m = r.Next(2, 6);
             int n = r.Next(1, m);
 
-            // Side lengths (c is the hypotenuse)
-            int a = m * m - n * n;
-            int b = 2 * m * n;
+            // Leg lengths
+            int leg1 = m * m - n * n;
+            int leg2 = 2 * m * n;
+
+            // Choose a = shorter leg, b = longer leg
+            int a = (leg1 < leg2) ? leg1 : leg2;
+            int b = (leg1 < leg2) ? leg2 : leg1;
+
+            // Hypotenuse
             int c = m * m + n * n;
 
             return (a, b, c);
