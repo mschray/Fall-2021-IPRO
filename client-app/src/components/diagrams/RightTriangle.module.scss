@@ -1,32 +1,32 @@
 @import "styles/colors";
 
-@mixin stroke {
+.triangleFill {
+    fill: $blue;
+}
+
+.triangleStroke {
+    fill: none;
     stroke: $dark-blue;
     stroke-width: 4px;
     stroke-linejoin: round;
 }
 
-.triangle {
-    @include stroke;
-    fill: $blue;
-}
-
 .arc {
-    @include stroke;
-    fill: $light-blue;
+    fill: $green;
 }
 
 @mixin label {
     font-size: 1.1em;
     font-weight: 500;
+    fill: $dark-blue;
 }
 
+// I keep separate classes for side length labels and angle labels
+// so we can style them differently if needed
 .sideLabel {
     @include label;
-    fill: $blue;
 }
 
 .angleLabel {
     @include label;
-    fill: $dark-blue;
 }

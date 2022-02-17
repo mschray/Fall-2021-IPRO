@@ -162,7 +162,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
     return (
         <svg width={TRIANGLE_WIDTH + 2*PADDING} height={height + 2*PADDING}>
             <polygon
-                className={styles.triangle}
+                className={styles.triangleFill}
                 points={points}
             />
             <path
@@ -172,6 +172,10 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
                     a ${ARC_RADIUS} ${ARC_RADIUS} 0 0 1
                     ${vectorRight.x - vectorLeft.x} ${vectorRight.y - vectorLeft.y}
                     z`}
+            />
+            <polygon
+                className={styles.triangleStroke}
+                points={points}
             />
             {labels}
         </svg>
