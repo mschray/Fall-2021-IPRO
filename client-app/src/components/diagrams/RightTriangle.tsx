@@ -14,7 +14,7 @@ interface RightTriangleProps {
 interface Vertex {
     x: number,
     y: number,
-    angle: "A" | "B" | "C",
+    label: string,
     textAnchor: "start" | "end",
     alignmentBaseline: "baseline" | "hanging"
 }
@@ -51,21 +51,21 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
         {
             x: 0,
             y: 0,
-            angle: "B",
+            label: "B",
             textAnchor: "end",
             alignmentBaseline: "baseline"
         },
         {
             x: 0,
             y: height,
-            angle: "C",
+            label: "C",
             textAnchor: "end",
             alignmentBaseline: "hanging"
         },
         {
             x: TRIANGLE_WIDTH,
             y: height,
-            angle: "A",
+            label: "A",
             textAnchor: "start",
             alignmentBaseline: "hanging"
         }
@@ -92,7 +92,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
                 textAnchor={vertex.textAnchor}
                 alignmentBaseline={vertex.alignmentBaseline}
             >
-                {vertex.angle}
+                {vertex.label}
             </text>
         ));
 
