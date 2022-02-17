@@ -22,6 +22,7 @@ interface Vertex {
 
 const TRIANGLE_WIDTH = 400; // Not actual pixels, the SVG viewport can be scaled responsively
 const PADDING = 32;         // Padding around the triangle so that the text doesn't get clipped
+const ARC_RADIUS = 64;      // Radius of arc used to demarcate specified angle
 
 // Offset for text labels depending on alignment
 const TEXT_OFFSET_X = {
@@ -141,11 +142,34 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
             </text>
         ));
 
+    // Determine center, left point, and right point of arc
+    const arcCenter = (props.angle === "A") ? vertices[2] : vertices[0];
+    const arcLeft =   (props.angle === "A") ? vertices[1] : vertices[2];
+    const arcRight =  (props.angle === "A") ? vertices[0] : vertices[1];
+
+    // Calculate left and right bound vectors of arc
+    let vectorLeft  = { x:  arcLeft.x - arcCenter.x, y:  arcLeft.y - arcCenter.y };
+    let vectorRight = { x: arcRight.x - arcCenter.x, y: arcRight.y - arcCenter.y };
+
+    // Calculate magnitude of vectors
+    const magnitudeLeft =  Math.sqrt( vectorLeft.x *  vectorLeft.x +  vectorLeft.y *  vectorLeft.y);
+    const magnitudeRight = Math.sqrt(vectorRight.x * vectorRight.x + vectorRight.y * vectorRight.y);
+
+    // Adjust vector lengths to be of ARC_RADIUS length
+    vectorLeft  = { x:  vectorLeft.x /  magnitudeLeft * ARC_RADIUS, y:  vectorLeft.y /  magnitudeLeft * ARC_RADIUS};
+    vectorRight = { x: vectorRight.x / magnitudeRight * ARC_RADIUS, y: vectorRight.y / magnitudeRight * ARC_RADIUS};
+
     return (
         <svg width={TRIANGLE_WIDTH + 2*PADDING} height={height + 2*PADDING}>
             <polygon
                 className={styles.triangle}
                 points={points}
+            />
+            <path d={`M ${arcCenter.x} ${arcCenter.y}
+                      l ${vectorLeft.x} ${vectorLeft.y}
+                      a ${ARC_RADIUS} ${ARC_RADIUS} 0 0 1
+                        ${vectorRight.x - vectorLeft.x} ${vectorRight.y - vectorLeft.y}
+                      z`}
             />
             {labels}
         </svg>
