@@ -6,3 +6,18 @@
     stroke-width: 4px;
     stroke-linejoin: round;
 }
+
+@mixin label {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.sideLabel {
+    @include label;
+    fill: $blue;
+}
+
+.angleLabel {
+    @include label;
+    fill: $dark-blue;
+}

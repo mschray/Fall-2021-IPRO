@@ -15,6 +15,7 @@ interface Vertex {
     x: number,
     y: number,
     label: string,
+    type: "angle" | "side",
     textAnchor: "start" | "middle" | "end",
     alignmentBaseline: "baseline" | "middle" | "hanging"
 }
@@ -32,6 +33,12 @@ const TEXT_OFFSET_Y = {
     baseline: -8,
     middle: 0,
     hanging: 8
+}
+
+// Class for each vertex type
+const VERTEX_TYPE_CLASS = {
+    angle: styles.angleLabel,
+    side: styles.sideLabel
 }
 
 const RightTriangle: React.FC<RightTriangleProps> = props => {
@@ -52,6 +59,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
             x: 0,
             y: 0,
             label: "B",
+            type: "angle",
             textAnchor: "end",
             alignmentBaseline: "baseline"
         },
@@ -59,6 +67,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
             x: 0,
             y: height,
             label: "C",
+            type: "angle",
             textAnchor: "end",
             alignmentBaseline: "hanging"
         },
@@ -66,6 +75,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
             x: TRIANGLE_WIDTH,
             y: height,
             label: "A",
+            type: "angle",
             textAnchor: "start",
             alignmentBaseline: "hanging"
         }
@@ -76,6 +86,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
             x: TRIANGLE_WIDTH/2,
             y: height/2,
             label: props.c.toString(),
+            type: "side",
             textAnchor: "start",
             alignmentBaseline: "baseline"
         }
@@ -85,6 +96,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
             x: 0,
             y: height/2,
             label: props.a.toString(),
+            type: "side",
             textAnchor: "end",
             alignmentBaseline: "middle"
         });
@@ -94,6 +106,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
             x: TRIANGLE_WIDTH/2,
             y: height,
             label: props.b.toString(),
+            type: "side",
             textAnchor: "middle",
             alignmentBaseline: "hanging"
         });
@@ -118,6 +131,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
         .concat(midpoints)
         .map(vertex => (
             <text
+                className={VERTEX_TYPE_CLASS[vertex.type]}
                 x={vertex.x + TEXT_OFFSET_X[vertex.textAnchor]}
                 y={vertex.y + TEXT_OFFSET_Y[vertex.alignmentBaseline]}
                 textAnchor={vertex.textAnchor}
