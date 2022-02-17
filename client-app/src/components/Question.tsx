@@ -95,7 +95,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
         const subjectName = props.questionData.subject_name;
         if (isRightTriangleTrigModel(parsed)) {
             let hideA, hideB, hideC;
-            hideA = hideB = hideC = true;
+            hideA = hideB = hideC = false;
 
             if (subjectName === "Trig Functions") {
                 const latexFunc = (parsed.function === "sine")    ? "sin"
