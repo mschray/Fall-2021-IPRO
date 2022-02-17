@@ -17,10 +17,9 @@ const FunctionPlot: React.FC<FunctionProperties> = (props) => {
 
     
     if (props.solution !== ""){
-      var y1 = functionPlot.$eval.builtIn({fn: props.function}, 'fn', {x: +props.solution})
+      const y1 = functionPlot.$eval.builtIn({fn: props.function}, 'fn', {x: +props.solution})
       if (y1 === 0){
         alert('correct solution')
-        y1 = 1
       }
     }
 
@@ -31,8 +30,6 @@ const FunctionPlot: React.FC<FunctionProperties> = (props) => {
           function handleClick(event: { target: any; }) {
             if (-0.1 < y && y < 0.1){
               alert('correct '+ y)
-            } else {
-              alert('incorrect')
             }
           }
           
@@ -78,7 +75,7 @@ const FunctionPlot: React.FC<FunctionProperties> = (props) => {
 
     
     return(
-        <div id='functionPlot'>
+        <div id='functionPlot' style={{display: "inline-block"}}>
         </div>
     );
 };
