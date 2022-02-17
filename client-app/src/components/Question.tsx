@@ -4,10 +4,12 @@ import styles from "./Question.module.scss";
 
 import useForm from "hooks/useForm";
 import QuestionModel from "models/QuestionModel";
+import { isRightTriangleTrigModel } from "models/questions/RightTriangleTrigModel";
 
 import Latex from "react-latex";
 
 import TextField from "@mui/material/TextField";
+import RightTriangle from "components/diagrams/RightTriangle";
 
 // Properties for the Question React component
 interface QuestionProperties {
@@ -63,9 +65,44 @@ const Question: React.FC<QuestionProperties> = (props) => {
 
     const questionNumberLabel = (props.questionNumber !== undefined) ? `(${props.questionNumber})` : null;
 
+    let diagram: JSX.Element | null = null;
+    let questionStatement = (
+        <>Solve: <Latex>{props.questionData.question}</Latex></>
+    );
+
+    if (props.questionData.is_json) {
+        const parsed = JSON.parse(props.questionData.question);
+        if (isRightTriangleTrigModel(parsed)) {
+            diagram = (
+                <RightTriangle
+                    a={parsed.a}
+                    b={parsed.b}
+                    c={parsed.c}
+                    angle={parsed.angle}
+                />
+            );
+
+            if (props.questionData.subject_name === "Trig Functions") {
+                const latexFunc = (parsed.function === "sine")    ? "sin"
+                                : (parsed.function === "cosine")  ? "cos"
+                                                                  : "tan";
+                const latexString = `$\\${latexFunc}{${parsed.angle}}$`;
+                questionStatement = (
+                    <>Solve: <Latex>{latexString}</Latex> as a reduced fraction</>
+                );
+            } else if (props.questionData.subject_name === "Inverse Trig Functions") {
+                const latexString = `$m \\angle ${parsed.angle}$`;
+                questionStatement = (
+                    <>Solve: <Latex>{latexString}</Latex> rounded to the nearest hundredth of a degree</>
+                );
+            }
+        }
+    }
+
     return (
         <div>
-            <p>{questionNumberLabel} Solve: <Latex>{props.questionData.question}</Latex></p>
+            {diagram}
+            <p>{questionNumberLabel} {questionStatement}</p>
             <form onSubmit={onFormSubmit}>
                 <TextField
                     required
