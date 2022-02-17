@@ -15,8 +15,41 @@ const FunctionPlot: React.FC<FunctionProperties> = (props) => {
     let width = contentsBounds.width * 0.3
     let height = width
 
-    functionPlot({
-        target: "#root",
+    
+    if (props.solution !== ""){
+      var y1 = functionPlot.$eval.builtIn({fn: props.function}, 'fn', {x: +props.solution})
+      if (y1 === 0){
+        alert('correct solution')
+        y1 = 1
+      }
+    }
+
+    function useSolutionChecker(y: number) {
+
+      useEffect(() => {
+
+          function handleClick(event: { target: any; }) {
+            if (-0.1 < y && y < 0.1){
+              alert('correct '+ y)
+            } else {
+              alert('incorrect')
+            }
+          }
+          
+          const id = document.getElementById('functionPlot')
+          if (id){
+            id.addEventListener("click", handleClick);
+            return () => {
+                id.removeEventListener("click", handleClick);
+            };
+          }
+          // Bind the event listener
+      });
+    }    
+    
+    useEffect(() => {
+      functionPlot({
+        target: "#functionPlot",
         width ,
         height,
         yAxis: { domain: [-10, 10] },
@@ -39,38 +72,13 @@ const FunctionPlot: React.FC<FunctionProperties> = (props) => {
 
         }]
         
-    })
-    if (props.solution !== ""){
-      var y1 = functionPlot.$eval.builtIn({fn: props.function}, 'fn', {x: +props.solution})
-      if (y1 === 0){
-        alert('correct solution')
-        y1 = 1
-      }
-    }
-
-    function useSolutionChecker(y: number) {
-      useEffect(() => {
-    
-          function handleClick(event: { target: any; }) {
-            if (-0.1 < y && y < 0.1){
-              alert('correct '+ y)
-              setY(1)
-            }
-          }
-    
-          // Bind the event listener
-          document.addEventListener("click", handleClick);
-          return () => {
-              document.removeEventListener("click", handleClick);
-          };
-      });
-    }    
-    
+      })
+    }, [width, height, props]);
     useSolutionChecker(y)
 
     
     return(
-        <div>
+        <div id='functionPlot'>
         </div>
     );
 };
