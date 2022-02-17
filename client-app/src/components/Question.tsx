@@ -36,6 +36,26 @@ function hasNumericAnswer(question: QuestionModel): boolean {
     return !isNaN(Number(question.answer_a));
 }
 
+function getDecimalPlaces(answerOrQuestion: string | QuestionModel): number {
+    if (typeof answerOrQuestion === "string") {
+        const parts = answerOrQuestion.split(".");
+
+        if (parts.length < 2)
+            return 0;
+
+        return parts[1].length;
+    } else {
+        if (answerOrQuestion.answer_b !== null) {
+            return Math.max(
+                getDecimalPlaces(answerOrQuestion.answer_a),
+                getDecimalPlaces(answerOrQuestion.answer_b)
+            );
+        } else {
+            return getDecimalPlaces(answerOrQuestion.answer_a);
+        }
+    }
+}
+
 const Question: React.FC<QuestionProperties> = (props) => {
     // Result of last question answered as a state variable
     const [lastAnswerResult, setLastAnswerResult] = useState(AnswerResult.NoAnswersYet);
@@ -112,7 +132,12 @@ const Question: React.FC<QuestionProperties> = (props) => {
                     label="Answer"
                     value={formState.answer}
                     placeholder="Answer"
-                    type={(hasNumericAnswer(props.questionData)) ? "number" : "text"}
+                    type={hasNumericAnswer(props.questionData) ? "number" : "text"}
+                    inputProps={
+                        hasNumericAnswer(props.questionData)
+                            ? { step: Math.pow(10, -getDecimalPlaces(props.questionData)) }
+                            : {}
+                    }
                     autoComplete="off"
                     onChange={onFormChange}
                 />
