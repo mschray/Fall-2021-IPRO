@@ -4,9 +4,22 @@
         <name>JebraAzureFunctions</name>
     </assembly>
     <members>
+        <member name="T:JebraAzureFunctions.EndGame">
+            <summary>
+            Cleans up database after a game as ended.
+            </summary>
+        </member>
         <member name="T:JebraAzureFunctions.GetEvents">
             <summary>
             Will return new stage id if monster is defeated.
+            </summary>
+        </member>
+        <member name="T:JebraAzureFunctions.GetNumberOfPlayers">
+            <summary>
+            Used to collect the number of players signed into a course.
+            Will not update in real time :(
+            
+            We need to make sure users are removed from course_assignment when they close the tab.
             </summary>
         </member>
         <member name="M:JebraAzureFunctions.GetSubjectNameFromStageId.Run(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">

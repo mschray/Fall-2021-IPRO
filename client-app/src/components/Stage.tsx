@@ -21,7 +21,8 @@ interface StageProps {
     winMessage: string,
     onStageFinish: (data: StageEndModel) => void,
     onCourseFinish: () => void,
-    forceFetchStageEvents?: number                  // Used to force Stage to re-fetch stage events when set to a new number (hacky!)
+    forceFetchStageEvents?: number,                  // Used to force Stage to re-fetch stage events when set to a new number (hacky!)
+    courseId: number
 }
 
 // Time (in milliseconds) between each GetEvents request
@@ -36,6 +37,8 @@ const Stage: React.FC<StageProps> = (props) => {
     const [eventsErrorMessage, setEventsErrorMessage] = useState<string | undefined>(undefined);
     // Toggle whether or not we should keep pinging
     const [shouldPing, setShouldPing] = useState(true);
+
+    const [numberOfPlayers, setNumberOfPlayers]= useState(0);
 
     // need to destructure function props since React doesn't like having them in dependency arrays
     const onStageFinish = props.onStageFinish;
@@ -77,10 +80,27 @@ const Stage: React.FC<StageProps> = (props) => {
                 })
                 .catch(err => {
                     console.log(err);
-                    setEventsErrorMessage("Unexpected error occured while fetching stage events. Check console.");
+                    setEventsErrorMessage("Unexpected error occurred while fetching stage events. Check console.");
                 });
         },
         [setEventsErrorMessage, setMonsterHP, props.stageId, props.courseCode, props.max_hp, onStageFinish, onCourseFinish, props.forceFetchStageEvents, shouldPing, setShouldPing]
+    );
+
+    const getNumberOfPlayers = useCallback(
+        () => {
+        const url = new URL(getAzureFunctions().GetNumberOfPlayers);
+        url.searchParams.append("course_id", props.courseId.toString());
+        fetch(url.toString())
+            .then(response => response.json())
+            .then(json => {
+                setNumberOfPlayers(json.NumberOfPlayers);
+            })
+            .catch(err => {
+                console.log(err);
+                setEventsErrorMessage("Unexpected error occurred while fetching number of players. Check console.");
+            });
+    },
+    [setNumberOfPlayers, props.courseId]
     );
 
     // Periodically update HP based on stage events
@@ -88,15 +108,19 @@ const Stage: React.FC<StageProps> = (props) => {
         () => {
             // Immediately fetch stage events
             fetchStageEvents();
-            // Continue to fetch stage events every EVENTS_INTERVAL milliseconds
+            // Immediately fetch number of players
+            getNumberOfPlayers();
+            // Continue to fetch stage events + number of players every EVENTS_INTERVAL milliseconds
             console.log("starting ping interval!");
             const interval = setInterval(fetchStageEvents, EVENTS_INTERVAL);
+            const intervalNumberOfPlayers = setInterval(getNumberOfPlayers, EVENTS_INTERVAL);
             return () => {
                 console.log("clearing ping interval!");
                 clearInterval(interval);
+                clearInterval(intervalNumberOfPlayers);
             }
         },
-        [fetchStageEvents]
+        [fetchStageEvents, getNumberOfPlayers]
     );
 
     const hp = Math.max(monsterHP, 0);
@@ -104,6 +128,7 @@ const Stage: React.FC<StageProps> = (props) => {
     const contents = (
         <>
             <p>Course code: {props.courseCode}</p>
+            <p>Player Count: {numberOfPlayers}</p>
             <img
                 className={styles.gif}
                 src={(hp > 0) ? monsterHavocGif : monsterDefeatGif}
