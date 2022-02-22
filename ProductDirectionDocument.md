@@ -1,7 +1,7 @@
 # Jebra - Product Direction Document
 
 ## Problem Statement
-1. **Middle school to high school students misunderstand core math concepts since educators lack visual and engaging solutions to teach math. This leaves an opportunity for Jebra to provide math students with an interactive edutainment experience.**
+1. **[SELECTED] Middle school to high school students misunderstand core math concepts since educators lack visual and engaging solutions to teach math. This leaves an opportunity for Jebra to provide math students with an interactive edutainment experience.**
 2. Underfunded middle and high schools lack the resources to teach students math in an affordable manner, which can be solved through a free and accessible edutainment service.
 
 ## Customer
@@ -125,12 +125,28 @@ Sarah is a middle school algebra teacher who likes to make classes fun and engag
 | Emily Ciezobka | Chicago Area | 0 |
 
 ### Past Members (Relax in Peace)
-| Name |
-| Isaac Kane |
-| Andrew Cordell |
+- Isaac Kane
+- Andrew Cordell
 
 ## Team Working Agreement
 - We will use Github and keep items updated as progress is made.
 - If we need to meet outside of class we have found a mutually agreeable time of 4-7pm on Fridays.
 - If we need to meet outside of class we will use Discord.
 - When we are not meeting together we will use Discord.
+
+## Project Manager Schedule
+| Week | Project Manager |
+| --- | --- |
+| February 1, 2022 | Tommy Vadakumchery |
+| February 8, 2022 | Tommy Vadakumchery |
+| February 15, 2022 | Christopher Converse |
+| February 22, 2022 | Christopher Converse |
+| March 1, 2022 | Dan Tiberi |
+| March 8, 2022 | Dan Tiberi |
+| March 15, 2022 | Emily Ciezobka |
+| March 22, 2022 | Emily Ciezobka |
+| March 29, 2022 | Khiem Nguyen |
+| April 5, 2022 | Khiem Nguyen |
+| April 12, 2022 | Nam Nguyen |
+| April 19, 2022 | Nam Nguyen |
+| April 26, 2022 | Tommy Vadakumchery |

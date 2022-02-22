@@ -14,10 +14,9 @@ using System;
 
 namespace JebraAzureFunctions
 {
-    /*
-     * 	
-        [{"cname":"Mr. Jebra Fun Class","code":"555444333","stage_id":5,"max_hp":500,"name":"Mega Basher","subject_id":2,"subject_name":"Simplify Exponents"}]
-     */
+    /// <summary>
+    /// Cleans up database after a game as ended.
+    /// </summary>
     public static class EndGame
     {
         [FunctionName("EndGame")]
@@ -32,15 +31,21 @@ namespace JebraAzureFunctions
         {
             int courseId = int.Parse(req.Query["courseId"]);
             int stageId = int.Parse(req.Query["stageId"]);
-
+            //Deletes in stage_event_join are already handled via cascade *shrug*
             bool status1 = Tools.ExecuteNonQueryAsync($@"
-                DELETE FROM course WHERE id = {courseId};").GetAwaiter().GetResult();
+            DELETE FROM stage_event WHERE stage_event.id IN (
+            SELECT stage_event.id FROM stage_event 
+            INNER JOIN stage_event_join ON stage_event.id = stage_event_join.stage_event_id
+            WHERE stage_event_join.course_id = {courseId});
+            ").GetAwaiter().GetResult();
 
-            bool status2 = Tools.ExecuteNonQueryAsync($"DELETE FROM stage WHERE id = {stageId};").GetAwaiter().GetResult();
+            bool status2 = Tools.ExecuteNonQueryAsync($@"DELETE FROM course WHERE id = {courseId};").GetAwaiter().GetResult();
 
-            bool status3 = Tools.ExecuteNonQueryAsync($@"DELETE FROM course_assignment WHERE course_id = {courseId};").GetAwaiter().GetResult();
+            bool status3 = Tools.ExecuteNonQueryAsync($"DELETE FROM stage WHERE id = {stageId};").GetAwaiter().GetResult();
 
-            return new OkObjectResult($"Request to end game response: {status1 && status2 && status3}");
+            bool status4 = Tools.ExecuteNonQueryAsync($@"DELETE FROM course_assignment WHERE course_id = {courseId};").GetAwaiter().GetResult();
+
+            return new OkObjectResult($"Request to end game response: {status2 && status3 && status4}");
         }
     }
 }

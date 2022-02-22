@@ -4,6 +4,7 @@ import styles from "./numpad.module.scss";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 
 //Link to grid layout grid.layoutit.com?id=GINfCeW
 
@@ -131,7 +132,7 @@ const NumPad: React.FC<NumpadProps> = (props) => {
                 <button onClick={() =>handleNumpadButtonClick(0, onSubmit)} className={[styles.num0, styles.numpad_button].join(" ")}>0</button>
                 <button onClick={() =>handleNumpadButtonClick(-1, onSubmit)} className={[styles.numdot, styles.numpad_button].join(" ")}><FiberManualRecordIcon sx={{ fontSize: "75%" }} /></button>
                 <button onClick={() =>handleNumpadButtonClick(-2, onSubmit)} className={[styles.numenter, styles.numpad_button].join(" ")}><span><CheckIcon sx={{ fontSize: "140%"}} /></span></button>
-                <button onClick={() =>handleNumpadButtonClick(-3, onSubmit)} className={[styles.numclear, styles.numpad_button].join(" ")}><span><ClearIcon sx={{ fontSize: "150%", lineHeight: "100%"}} /></span></button>
+                <button onClick={() =>handleNumpadButtonClick(-3, onSubmit)} className={[styles.numclear, styles.numpad_button].join(" ")}>C</button>
                 <button onClick={() =>handleNumpadButtonClick(-4, onSubmit)} className={[styles.numneg, styles.numpad_button].join(" ")}>-</button>
             </div>
         </div>

@@ -88,6 +88,7 @@ const CourseMonitor: React.FC<CourseMonitorProps> = props => {
                     winMessage={"Your brilliant students have defeated the monster! Moving onto next stage..."}
                     onStageFinish={onStageFinish}
                     onCourseFinish={onCourseFinish}
+                    courseId={gameData.course_id}
                 />
                 <button onClick={endGameRequest}>End Game</button>
             </>
