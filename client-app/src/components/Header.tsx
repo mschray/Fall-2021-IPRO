@@ -51,7 +51,7 @@ const useStyles = makeStyles(() => ({
         "@media (max-width: 900px)": {
             paddingLeft: "2rem",
             paddingRight: "2rem",
-            justifyContent: "space-around",
+            justifyContent: "start",
         },
     },
     menuButton: {
