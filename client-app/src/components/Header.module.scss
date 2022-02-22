@@ -1,5 +1,11 @@
 @import "styles/colors";
 
+@media screen and (max-width: 600px) {
+    .header {
+        background-color: $green;
+    }
+}
+
 .header {
     background-color: $dark-grey;
     filter: drop-shadow(4px 4px 1px rgba(0, 0, 0, 0.25));
@@ -14,9 +20,14 @@
     border-radius: 15px;
 }
 
-.logo {
-    height: 60%;
+.logoDesktop {
+    width: 20%;
     margin-left: 2rem;
+    align-self: center;
+}
+
+.logoMobile {
+    width: 40%;
     align-self: center;
 }
 

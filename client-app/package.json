@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.11.2",
     "@mui/icons-material": "^5.0.4",
     "@mui/material": "^5.0.4",
+    "@mui/styles": "^5.3.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -17,10 +18,12 @@
     "@types/node": "^16.10.1",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
+    "@types/react-latex": "^2.0.0",
     "lodash": "^4.17.21",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-latex": "^2.0.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^4.0.3",
     "react-step-progress-bar": "^1.0.3",
@@ -29,7 +32,9 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -52,6 +57,7 @@
       "last 1 safari version"
     ]
   },
+  "homepage": "https://dantiberi.github.io/Fall-2021-IPRO",
   "devDependencies": {
     "@types/react-router-dom": "^5.3.0"
   }

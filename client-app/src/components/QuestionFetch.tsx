@@ -4,12 +4,12 @@ import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
 
 import Question from "components/Question";
-import { isQuestionModel } from "models/QuestionModel";
+import QuestionModel, { isQuestionModel } from "models/QuestionModel";
 
 // Properties for the QuestionFetch React component
 interface QuestionFetchProperties {
     id: number,
-    onSolve: () => void
+    onSolve: (questionData: QuestionModel) => void
 }
 
 const QuestionFetch: React.FC<QuestionFetchProperties> = (props) => {

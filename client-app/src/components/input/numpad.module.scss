@@ -1,0 +1,152 @@
+.numpad_button{
+    background-color: #E8ECED;
+    color: #FF9999;
+    border: 3px solid #FF9999;
+    font-size: 150%;
+    border-radius: 8px;
+    box-shadow: 2px 2px 2px rgb(115, 115, 115);
+}
+
+.numpad_button:active{
+  background-color: #FF9999;
+  color: #E8ECED;
+  box-shadow: 1px 1px 1px rgb(115, 115, 115);
+  border: 3px solid white;
+  animation-duration: 0.2s;
+  animation-name: bloopIn;
+}
+
+@keyframes bloopIn{
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.8);
+  }
+}
+
+@keyframes bloopIndopamineGreen{
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.8);
+    background-color: #E8ECED;
+    color:#6AF090;
+  }
+}
+
+@keyframes bloopInAngerRed{
+  from {
+    transform: scale(1);
+    background-color: #E8ECED;
+  }
+  to {
+    transform: scale(0.8);
+    background-color: #FF0000;
+    color:#E8ECED;
+  }
+}
+
+.numpad_container {
+  display: grid; 
+  grid-auto-columns: 1fr; 
+  grid-template-columns: 12vw 12vw 12vw 12vw 12vw; 
+  grid-template-rows: 12vw 12vw 12vw 12vw 12vw 12vw; 
+  gap: 2vw 2vw; 
+  grid-template-areas: 
+    ". disp disp disp ."
+    ". num7 num8 num9 ."
+    ". num4 num5 num6 numneg"
+    ". num1 num2 num3 numclear"
+    ". numenter num0 numdot numclear"
+    ". numclearMobile numclearMobile numnegMobile ."; 
+  width: fit-content;
+}
+.num7 { grid-area: num7; }
+.num8 { grid-area: num8; }
+.num9 { grid-area: num9; }
+.num4 { grid-area: num4; }
+.num5 { grid-area: num5; }
+.num6 { grid-area: num6; }
+.num1 { grid-area: num1; }
+.num2 { grid-area: num2; }
+.num3 { grid-area: num3; }
+.num0 { grid-area: num0; }
+.numdot { grid-area: numdot; }
+.numneg { grid-area: numnegMobile; }
+
+.numenter { 
+  grid-area: numenter; 
+  border: 3px solid white;
+  background-color: #6AF090;
+  color:#E8ECED;
+
+  /*Animation is intentionally here instead of being in :active. It adds a neat effect.*/
+  animation-duration: 0.2s;
+  animation-name: bloopIndopamineGreen;
+}
+
+.numenter:active { 
+  background-color: #E8ECED;
+  color:#6AF090;
+}
+
+.numclear { 
+  grid-area: numclearMobile; 
+  color: #FF0000;
+  width: auto;
+}
+
+.numclear:active { 
+  animation-duration: 0.3s;
+  animation-name: bloopInAngerRed;
+  background-color: #FF0000;
+  color:#E8ECED;
+}
+
+.numpad_display {
+  grid-area: disp;
+  height: 100%;
+}
+
+.numpad_display h3{
+  font-size: 150%;
+  gap: 2px;
+  color: #262F34;
+  border-bottom: 3px solid #262F34;
+  text-align: start;
+  margin: auto;
+}
+
+.numpad_display h3::after {
+  content: "";
+  width: 0.4em;
+  height: 1.1em;
+  background: #FF9999;
+  display: inline-block;
+  animation: cursor-blink 0.8s infinite;
+}
+
+@keyframes cursor-blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .numpad_container {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 4em 4em 4em 4em 4em 4em; 
+    gap: 1vw 1vw; 
+  }
+
+  .numclear { 
+    grid-area: numclear; 
+  }
+
+  .numneg { grid-area: numneg; }
+}

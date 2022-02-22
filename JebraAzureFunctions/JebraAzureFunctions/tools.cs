@@ -60,6 +60,20 @@ namespace JebraAzureFunctions
                     return true;
                 }
             }
+            catch (SqlException ex) {
+                // Catch SQL Exceptions and print them to console for debug purposes
+                StringBuilder errorMessages = new StringBuilder();
+                for (int i = 0; i < ex.Errors.Count; i++)
+                {
+                    errorMessages.Append("Index #" + i + "\n" +
+                        "Message: " + ex.Errors[i].Message + "\n" +
+                        "LineNumber: " + ex.Errors[i].LineNumber + "\n" +
+                        "Source: " + ex.Errors[i].Source + "\n" +
+                        "Procedure: " + ex.Errors[i].Procedure + "\n");
+                }
+                Console.WriteLine(errorMessages.ToString());
+                return false;
+            }
             catch { return false; }
         }
 
@@ -92,6 +106,14 @@ namespace JebraAzureFunctions
                 }
             }
         }
+        
+        public static int GetIdFromResponse(string s)
+        {
+            //Console.WriteLine(s.Substring(1, s.Length - 2));
+            dynamic data = JsonConvert.DeserializeObject(s.Substring(1, s.Length - 2));//Removes [] from ends.
+            //Console.WriteLine($"ID: {data?.id}");
+            return data?.id;
+        }
 
         /// <summary>
         /// Converts a list of questions from a request body into a List<QuestionModel>
@@ -109,6 +131,7 @@ namespace JebraAzureFunctions
                 q.question = obj?.question;
                 q.id = obj?.id;
                 q.subject_id = obj?.subject_id;
+                q.is_json = obj?.is_json;
                 ret.Add(q);
             }
             return ret;
@@ -182,6 +205,14 @@ namespace JebraAzureFunctions
             }
         }
 
+        /*
+         * BROKEN
+        public static int GetRandomIntInRange(int minNumber, int maxNumber)
+        {
+            return new Random().Next() * (maxNumber - minNumber) + minNumber;
+        }
+        */
+
         /// <summary>
         /// Generates a list of questions which are not already in the database.
         /// </summary>
@@ -232,7 +263,7 @@ namespace JebraAzureFunctions
             string command = "";
             foreach(QuestionModel question in list)
             {
-                command += $"INSERT INTO question VALUES('{question.answer_a}', {question.answer_b}, '{question.question}', {question.subject_id}) \n";
+                command += $"INSERT INTO question VALUES('{question.answer_a}', {question.answer_b}, '{question.question}', {question.subject_id}, '{question.is_json}') \n";
             }
             return command;
         }
@@ -266,7 +297,7 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = square.ToString();
             questionModel.answer_b = "null";
-            questionModel.question = num + "^2";
+            questionModel.question = "$" + num + "^{2}$";
             questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents");
             return questionModel;
         }
@@ -287,7 +318,7 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = exponential.ToString();
             questionModel.answer_b = "null";
-            questionModel.question = num + "^" + exp;
+            questionModel.question = "$" + num + "^{" + exp + "}$";
 
             questionModel.subject_id = GetSubjectIdFromString("Simplify Exponents 2");
             return questionModel;
@@ -306,7 +337,7 @@ namespace JebraAzureFunctions
             QuestionModel questionModel = new QuestionModel();
             questionModel.answer_a = num.ToString();
             questionModel.answer_b = (0 - num).ToString();
-            questionModel.question = "sqrt(" + square + ")";
+            questionModel.question = "$\\sqrt{" + square + "}$";
             questionModel.subject_id = GetSubjectIdFromString("Simplify Square Roots");
             return questionModel;
         }
@@ -480,6 +511,60 @@ namespace JebraAzureFunctions
 
             questionModel.subject_id = GetSubjectIdFromString("System Of Equations");
             questionModel.answer_b = "null";
+            return questionModel;
+        }
+
+        /// <summary>
+        /// Generates a monic quadratic polynomial with integer roots between -10 and 10
+        /// ex: x^2-5x+4 => roots are 1, 4
+        /// </summary>
+        /// <returns></returns>
+        public static QuestionModel QuadraticRoots()
+        {
+            Random r = new Random();
+
+            // Construct expression "x^2 + bx + c"
+            int root1 = r.Next(-10, 11);
+            int root2 = r.Next(root1, 11);
+            int b = -root1 - root2; // coefficient of x term
+            int c = root1 * root2; // constant
+
+            string xTerm;
+            if (b > 0)
+            {
+                xTerm = $"+{b}x";
+            }
+            else if (b == 0)
+            {
+                xTerm = "";
+            }
+            else // b < 0
+            {
+                xTerm = $"{b}x";
+            }
+
+            string constant;
+            if (c > 0)
+            {
+                constant = $"+{c}";
+            }
+            else if (c == 0)
+            {
+                constant = "";
+            }
+            else // c < 0
+            {
+                constant = c.ToString();
+            }
+
+            string expression = $"x^2{xTerm}{constant}";
+
+            QuestionModel questionModel = new QuestionModel();
+            questionModel.question = expression;
+            questionModel.answer_a = root1.ToString();
+            questionModel.answer_b = root2.ToString();
+            questionModel.subject_id = GetSubjectIdFromString("Quadratic Roots");
+
             return questionModel;
         }
 

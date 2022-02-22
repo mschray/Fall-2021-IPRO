@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import styles from "./Header.module.scss"
 import { ReactComponent as JebraSVG } from "assets/JebraLogov2Dark.svg";
 
-import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import { StyledEngineProvider } from "@mui/material/styles"
+import MenuIcon from '@mui/icons-material/Menu';
+
+import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import Link from "@material-ui/core/Link";
+import MenuItem from "@material-ui/core/MenuItem";
+import Toolbar from "@material-ui/core/Toolbar";
+
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+import { Link as RouterLink } from "react-router-dom";
 
 const headersData = [
     {
@@ -19,41 +27,157 @@ const headersData = [
         href: "/options",
     },
     {
-        label: "Login",
-        href: "/login",
+        label: "Start Game",
+        href: "/instructor",
     },
     {
-        label: "Play",
-        href: "/play",
+        label: "Join Game",
+        href: "/student",
     },
 ];
+  
+const useStyles = makeStyles(() => ({
+    header: {
+        backgroundColor: "#262F34",
+        filter: "drop-shadow(4px 4px 1px rgba(0, 0, 0, 0.25))",
+        borderRadius: "15px",
+        display: "flex",
+        flexFlow: "row wrap",
+        position: "relative",
+        height: "5rem",
+        paddingLeft: "5rem",
+        paddingRight: "5rem",
+        justifyContent: "space-between",
+        "@media (max-width: 900px)": {
+            paddingLeft: "2rem",
+            paddingRight: "2rem",
+            justifyContent: "space-around",
+        },
+    },
+    menuButton: {
+        fontFamily: "Open Sans, sans-serif",
+        fontWeight: 700,
+        size: "18px",
+        marginLeft: "38px",
+    },
+    toolbar: {
+        display: "flex",
+        justifyContent: "space-evenly",
+    },
+    drawerContainer: {
+        padding: "20px 30px",
+    },
+}));
+  
+export default function Header() {
+    const { header, menuButton, toolbar, drawerContainer } = useStyles();
 
+    const [state, setState] = useState({
+        mobileView: false,
+        drawerOpen: false,
+    });
 
-const Header: React.FC = () => {
-    const menuButtons = headersData.map(({ label, href }) => (
-        <Button
-            className={styles.menuButton}
-            key={label}
-            color="inherit"
-            to={href}
-            component={Link}
-        >
-            {label}
-        </Button>
-    ));
+    const { mobileView, drawerOpen } = state;
+
+    useEffect(() => {
+        const setResponsiveness = () => {
+        return window.innerWidth < 900
+            ? setState((prevState) => ({ ...prevState, mobileView: true }))
+            : setState((prevState) => ({ ...prevState, mobileView: false }));
+        };
+
+        setResponsiveness();
+
+        window.addEventListener("resize", () => setResponsiveness());
+
+        return () => {
+            window.removeEventListener("resize", () => setResponsiveness());
+        };
+    }, []);
+
+    const displayDesktop = () => {
+        return (
+            <Toolbar className={toolbar}>
+                <JebraSVG className={styles.logoDesktop} />
+                <div>{getMenuButtons()}</div>
+            </Toolbar>
+        );
+    };
+
+    const displayMobile = () => {
+        const handleDrawerOpen = () =>
+            setState((prevState) => ({ ...prevState, drawerOpen: true }));
+        const handleDrawerClose = () =>
+            setState((prevState) => ({ ...prevState, drawerOpen: false }));
+
+        return (
+            <Toolbar className={toolbar}>
+                <IconButton
+                    {...{
+                        edge: "start",
+                        color: "inherit",
+                        "aria-label": "menu",
+                        "aria-haspopup": "true",
+                        onClick: handleDrawerOpen,
+                    }}
+                >
+                    <MenuIcon />
+                </IconButton>
+
+                <Drawer
+                    {...{
+                        anchor: "left",
+                        open: drawerOpen,
+                        onClose: handleDrawerClose,
+                    }}
+                >
+                    <div className={drawerContainer}>{getDrawerChoices()}</div>
+                </Drawer>
+
+                <JebraSVG className={styles.logoMobile} />
+            </Toolbar>
+        );
+    };
+
+    const getDrawerChoices = () => {
+        return headersData.map(({ label, href }) => {
+            return (
+                <Link
+                    {...{
+                        component: RouterLink,
+                        to: href,
+                        color: "inherit",
+                        style: { textDecoration: "none" },
+                        key: label,
+                    }}
+                >
+                    <MenuItem>{label}</MenuItem>
+                </Link>
+            );
+        });
+    };
+
+    const getMenuButtons = () => {
+        return headersData.map(({ label, href }) => {
+            return (
+                <Button
+                    {...{
+                        key: label,
+                        color: "inherit",
+                        to: href,
+                        component: RouterLink,
+                        className: menuButton,
+                    }}
+                >
+                    {label}
+                </Button>
+            );
+        });
+    };
 
     return (
-        <StyledEngineProvider injectFirst>
-            <AppBar className={styles.header}>
-                <JebraSVG className={styles.logo} />
-                <Toolbar className={styles.toolbar}>
-                    <div className={styles.menu}>
-                        {menuButtons}
-                    </div>
-                </Toolbar>
-            </AppBar>
-        </StyledEngineProvider>
+        <AppBar className={header}>
+            {mobileView ? displayMobile() : displayDesktop()}
+        </AppBar>
     );
-};
-
-export default Header;
+}

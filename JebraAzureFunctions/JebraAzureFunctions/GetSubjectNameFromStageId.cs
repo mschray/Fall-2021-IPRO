@@ -15,6 +15,13 @@ namespace JebraAzureFunctions
 {
     public static class GetSubjectNameFromStageId
     {
+        /// <summary>
+        /// Also returns stage.max_hp, stage.name as stage_name instead of just the subject name. Fix this later. Done by Tommy.
+        /// --Dan Tiberi
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="log"></param>
+        /// <returns></returns>
         [FunctionName("GetSubjectNameFromStageId")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "Stage Requests" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
@@ -27,7 +34,7 @@ namespace JebraAzureFunctions
             int stageId = int.Parse(req.Query["stage_id"]);
 
             string res = Tools.ExecuteQueryAsync($@"
-                SELECT TOP 1 subject.subject_name
+                SELECT TOP 1 subject.subject_name, stage.max_hp, stage.name as stage_name
                 FROM subject
                 INNER JOIN stage ON stage.id = {stageId}
                 WHERE stage.subject_id = subject.id;

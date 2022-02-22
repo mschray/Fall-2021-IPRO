@@ -21,5 +21,8 @@ namespace JebraAzureFunctions
 
         [JsonProperty]
         public int subject_id { get; set; }
+
+        [JsonProperty]
+        public bool is_json { get; set; } = false;
     }
 }

@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JebraAzureFunctions</name>
+    </assembly>
+    <members>
+        <member name="T:JebraAzureFunctions.EndGame">
+            <summary>
+            Cleans up database after a game as ended.
+            </summary>
+        </member>
+        <member name="T:JebraAzureFunctions.GetEvents">
+            <summary>
+            Will return new stage id if monster is defeated.
+            </summary>
+        </member>
+        <member name="T:JebraAzureFunctions.GetNumberOfPlayers">
+            <summary>
+            Used to collect the number of players signed into a course.
+            Will not update in real time :(
+            
+            We need to make sure users are removed from course_assignment when they close the tab.
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.GetSubjectNameFromStageId.Run(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Also returns stage.max_hp, stage.name as stage_name instead of just the subject name. Fix this later. Done by Tommy.
+            --Dan Tiberi
+            </summary>
+            <param name="req"></param>
+            <param name="log"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JebraAzureFunctions.PublishStatisticForStage">
+            <summary>
+            When calling this function, you are required to provide values for each column asked of in the model.
+            This means that in order to update one field, such a score, you must first retrieve the existing values
+            of the other fields, first_time_correct and total_retries, in order to not overwrite the existing values.
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.CalculateGCD(System.Int32,System.Int32)">
+            <summary>
+            Calculates the GCD of two positive integers using the Euclidean algorithm
+            TODO: Move into separate math utilities class?
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.ReduceFraction(System.Int32,System.Int32)">
+            <summary>
+            Takes a numerator and denominator and produces a string that is the reduced fraction.
+            If the reduced denominator is 1, then just outputs the numerator.
+            TODO: Move into separate math utilities class?
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.GeneratePythagoreanTriple(System.Random)">
+            <summary>
+            Generates an integral Pythagorean triple.
+            First two side lengths are the legs; the third is the hypotenuse.
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.PickAngleAndTrigFunction(System.Random,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Takes in right triangle lengths.
+            Randomly picks an angle and a trig function.
+            Then, it calculates the numerator and denominator of that function's value for that angle.
+            </summary>
+            <returns>
+            A quadruple of (angle name "A"/"B", sine function "sine"/"cosine"/"tangent", numerator, denominator)
+            </returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.GenerateRightTriangleJSON(System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Generates a JSON string with a right triangle's side lengths, specified angle, and trig function.
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.TrigFunctions">
+            <summary>
+            Generates a trig function question for a right triangle.
+            Answer is a reduced fraction.
+            Ex. Calculate sin(A) given a = 3, b = 4, c = 5. Answer = 3/5.
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.InverseTrigFunctions">
+            <summary>
+            Generates an inverse trig function question for a right triangle.
+            Answer is an angle in degrees rounded to the nearest degree.
+            Ex. Calculate asin(A) given a = 3, b = 4, c = 5. Answer = 37.
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.PrintDebug(System.String)">
+            <summary>
+            Prints to Visual Studio debug console.
+            </summary>
+            <param name="s">String to print.</param>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SqlDatoToJson(System.Data.SqlClient.SqlDataReader)">
+            <summary>
+            Coverts a SqlDataReader into a JSON object representing the query results.
+            </summary>
+            <param name="dataReader"></param>
+            <returns>A JSON string representing the query results.</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.ExecuteNonQueryAsync(System.String)">
+            <summary>
+            Executes an async non-query command on the Azure sql database.
+            </summary>
+            <param name="command"></param>
+            <returns>True if the command was sent.</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.ExecuteQueryAsync(System.String)">
+            <summary>
+            Executes a query on the remote database.
+            To retrieve the result, you must do .GetAwaiter().GetResult();
+            See below example from the GetQuestion function.
+            EX: responseMessage = Tools.ExecuteQueryAsync(command).GetAwaiter().GetResult();
+            </summary>
+            <param name="command">Command to be executed.</param>
+            <returns>A json string representing the query result.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:JebraAzureFunctions.Tools.JsonQuestionsToModelArray(System.Object)" -->
+        <!-- Badly formed XML comment ignored for member "M:JebraAzureFunctions.Tools.JsonEventsToModelArray(System.Object)" -->
+        <member name="M:JebraAzureFunctions.Tools.UniqueQuestion(JebraAzureFunctions.QuestionModel,System.Collections.Generic.List{JebraAzureFunctions.QuestionModel})">
+            <summary>
+            Tests if a question has been entered into the database already.
+            </summary>
+            <param name="question"></param>
+            <param name="questionList"></param>
+            <returns>True if the question is unique.</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.InsertQuestionsAsync(System.Collections.Generic.List{JebraAzureFunctions.QuestionModel})">
+            <summary>
+            Takes a List of QuestionModels and inserts them into the database. 
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.GenerateUniqueQuestions(System.Func{JebraAzureFunctions.QuestionModel},System.Int32,System.Int32)">
+            <summary>
+            Generates a list of questions which are not already in the database.
+            </summary>
+            <param name="QuestionGeneratorFunct">Base function used to generate the question.</param>
+            <param name="amount">Amount of questions to generate.</param>
+            <param name="subjectId">Subject id of the questions to be generated.</param>
+            <returns></returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.InsertQuestionsSQLCommandGenerator(System.Collections.Generic.List{JebraAzureFunctions.QuestionModel})">
+            <summary>
+            Given a list of QuestionModels, will generate a sql command to insert them into a database. 
+            </summary>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.GetSubjectIdFromString(System.String)">
+            <summary>
+            Retreive the subject_id based on the subject_name field.
+            </summary>
+            <param name="subject"></param>
+            <returns>The subject's subject_id</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SimplifyExponents">
+            <summary>
+            ex: 4^2 = 16
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SimplifyExponents2">
+            <summary>
+            ex: 4^4 = 256
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SimplifySquareRoots">
+            <summary>
+            ex: sqrt(16) = 4
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.Factorials">
+            <summary>
+            ex: 4! = 24
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.CartesianCoordinates">
+            <summary>
+            ex: (-2,3) is in quadrant II
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SingleVariable">
+            <summary>
+            ex: 3x - 5 = 10 -> x = 5
+            </summary>
+            <returns>A QuestionModel</returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.SystemOfEquations">
+            <summary>
+            ex: x + 4 = 3x - 6 -> x = 5
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Tools.QuadraticRoots">
+            <summary>
+            Generates a monic quadratic polynomial with integer roots between -10 and 10
+            ex: x^2-5x+4 => roots are 1, 4
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
