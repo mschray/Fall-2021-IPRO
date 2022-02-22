@@ -1,5 +1,15 @@
 @import "styles/colors";
 
+<<<<<<< Updated upstream
+=======
+@media screen and (max-width: 600px) {
+    .header {
+        background-color: $green;
+        height: 1rem;
+    }
+}
+
+>>>>>>> Stashed changes
 .header {
     background-color: $dark-grey;
     filter: drop-shadow(4px 4px 1px rgba(0, 0, 0, 0.25));
@@ -20,8 +30,19 @@
     align-self: center;
 }
 
+<<<<<<< Updated upstream
+=======
+.logoMobile {
+    width: 30%;
+    align-self: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+>>>>>>> Stashed changes
 .menu {
-    justify-content: space-between;
     display: flex; /* or inline-flex */
     flex-flow: row;
     justify-content: space-between;
