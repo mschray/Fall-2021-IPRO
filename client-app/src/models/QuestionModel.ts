@@ -16,9 +16,7 @@ export default interface QuestionModel {
     answer_a: string,
     answer_b: string | null,
     question: string,
-    subject_name: string,
     solved_correctly: number // 0 or 1
-    subject_name: string
     subject_name: SubjectName,
     is_json: boolean
 }
