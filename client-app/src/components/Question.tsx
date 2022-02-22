@@ -40,12 +40,15 @@ const Question: React.FC<QuestionProperties> = (props) => {
 
     // Callback to be fired when the Submit button is entered
     async function submitAnswerCallback(state: AnswerFormState) {
-        if (state.answer === props.questionData.answer_a || state.answer === props.questionData.answer_b) {
+        if (state.answer === props.questionData.answer_a || state.answer === props.questionData.answer_b) { //If correct answer
             setLastAnswerResult(AnswerResult.Correct);
+            props.questionData.solved_correctly = 1;
             props.onSolve(props.questionData);
             // Clear input field
             setFormState({ answer: "" });
-        } else {
+        } else { //If not correct answer
+            props.questionData.solved_correctly = 0;
+            props.onSolve(props.questionData);
             setLastAnswerResult(AnswerResult.Incorrect);
         }
     }
