@@ -38,6 +38,54 @@
             of the other fields, first_time_correct and total_retries, in order to not overwrite the existing values.
             </summary>
         </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.CalculateGCD(System.Int32,System.Int32)">
+            <summary>
+            Calculates the GCD of two positive integers using the Euclidean algorithm
+            TODO: Move into separate math utilities class?
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.ReduceFraction(System.Int32,System.Int32)">
+            <summary>
+            Takes a numerator and denominator and produces a string that is the reduced fraction.
+            If the reduced denominator is 1, then just outputs the numerator.
+            TODO: Move into separate math utilities class?
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.GeneratePythagoreanTriple(System.Random)">
+            <summary>
+            Generates an integral Pythagorean triple.
+            First two side lengths are the legs; the third is the hypotenuse.
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.PickAngleAndTrigFunction(System.Random,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Takes in right triangle lengths.
+            Randomly picks an angle and a trig function.
+            Then, it calculates the numerator and denominator of that function's value for that angle.
+            </summary>
+            <returns>
+            A quadruple of (angle name "A"/"B", sine function "sine"/"cosine"/"tangent", numerator, denominator)
+            </returns>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.GenerateRightTriangleJSON(System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Generates a JSON string with a right triangle's side lengths, specified angle, and trig function.
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.TrigFunctions">
+            <summary>
+            Generates a trig function question for a right triangle.
+            Answer is a reduced fraction.
+            Ex. Calculate sin(A) given a = 3, b = 4, c = 5. Answer = 3/5.
+            </summary>
+        </member>
+        <member name="M:JebraAzureFunctions.Questions.Trigonometry.InverseTrigFunctions">
+            <summary>
+            Generates an inverse trig function question for a right triangle.
+            Answer is an angle in degrees rounded to the nearest degree.
+            Ex. Calculate asin(A) given a = 3, b = 4, c = 5. Answer = 37.
+            </summary>
+        </member>
         <member name="M:JebraAzureFunctions.Tools.PrintDebug(System.String)">
             <summary>
             Prints to Visual Studio debug console.
