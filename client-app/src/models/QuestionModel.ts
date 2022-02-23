@@ -16,7 +16,6 @@ export default interface QuestionModel {
     answer_a: string,
     answer_b: string | null,
     question: string,
-    solved_correctly: number // 0 or 1
     subject_name: SubjectName,
     is_json: boolean
 }
@@ -33,6 +32,5 @@ export function isQuestionModel(data: any): data is QuestionModel {
         && (typeof questionData.answer_b === "string" || questionData.answer_b === null)
         && typeof questionData.question === "string"
         && typeof questionData.subject_name === "string"
-        && typeof questionData.solved_correctly === "number"
         && typeof questionData.is_json === "boolean";
 }
