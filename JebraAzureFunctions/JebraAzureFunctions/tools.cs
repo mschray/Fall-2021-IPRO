@@ -190,17 +190,17 @@ namespace JebraAzureFunctions
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static async Task<bool> InsertQuestionsAsync(List<QuestionModel> list)
+        public static async Task<int> InsertQuestionsAsync(List<QuestionModel> list)
         {
             try
             {
                 string command = InsertQuestionsSQLCommandGenerator(list);
                 await ExecuteNonQueryAsync(command);
-                return true;
+                return list.ToArray().Length;
             }
             catch
             {
-                return false;
+                return 0;
             }
         }
 
