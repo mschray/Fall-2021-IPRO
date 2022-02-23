@@ -139,14 +139,14 @@ Sarah is a middle school algebra teacher who likes to make classes fun and engag
 | --- | --- |
 | February 1, 2022 | Tommy Vadakumchery |
 | February 8, 2022 | Tommy Vadakumchery |
-| February 15, 2022 | TBD |
-| February 22, 2022 | TBD |
-| March 1, 2022 | TBD |
-| March 8, 2022 | TBD |
-| March 15, 2022 | TBD |
-| March 22, 2022 | TBD |
-| March 29, 2022 | TBD |
-| April 5, 2022 | TBD |
-| April 12, 2022 | TBD |
-| April 19, 2022 | TBD |
-| April 26, 2022 | TBD |
+| February 15, 2022 | Christopher Converse |
+| February 22, 2022 | Christopher Converse |
+| March 1, 2022 | Dan Tiberi |
+| March 8, 2022 | Dan Tiberi |
+| March 15, 2022 | Emily Ciezobka |
+| March 22, 2022 | Emily Ciezobka |
+| March 29, 2022 | Khiem Nguyen |
+| April 5, 2022 | Khiem Nguyen |
+| April 12, 2022 | Nam Nguyen |
+| April 19, 2022 | Nam Nguyen |
+| April 26, 2022 | Tommy Vadakumchery |
