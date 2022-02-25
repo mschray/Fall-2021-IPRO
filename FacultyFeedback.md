@@ -19,10 +19,17 @@
 	- what I am planning this time
  - what are the blockers (if any)
 
-
 ## Week 6 ##
+- Think of new scenarios that you are targeting for this term
+- From these scenarios what stories do you need to complete for the 3/1 presentation. 
 
 ## Week 7 ##
+- Color friendly color schemes via style sheets
+- Mobile first
+- New types of problems 
+	- Quadratics, trig 
+	- New ways to answer questions
+	- More information on the teachers
 
 ## Week 8 ##
 
