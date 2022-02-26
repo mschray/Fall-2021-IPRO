@@ -114,6 +114,9 @@ Jimmy just doesn’t understand algebra. He has difficulty comprehending the not
 ### Scenario #3
 Sarah is a middle school algebra teacher who likes to make classes fun and engaging for her students. She has noticed over the last few years that her English and History teacher colleagues have been integrating student’s personal devices into fun games that help students learn about the material. However, when she tries using these same apps for math, her students complain that it just feels like another quiz instead of a game. This time Sarah uses a new app that creates a campaign for the whole class to participate in real-time while also providing much more intuitive options for solving problems step-by-step. After class, she can view how students performed across the different sections and prepare a different campaign for next time.
 
+### Scenario #4
+Albert is a high school geometry student who was previously intimidated by trigonometry. He'd heard his older sister talk about sine, cosine, and tangent while doing her calculus homework, so he got scared when he saw these same functions being employed in his geometry class. During trigonometry quizzes, he'd become wracked with anxiety and mentally shut down. Upon seeing this behavior from Albert, his teacher began using Jebra's "Right Triangle Trigonometry" subjects in class. With the help of Jebra's gamified and graphical representation of trigonometry problems, Albert familiarized himself with trig in a collaborative and engaging environment. Now, he breezes through the trig quizzes that had once troubled him!
+
 ## Team Members
 | Name | Location | Timezone offset from Chicago (Chicago is 0) |
 | --- | --- | --- | 
