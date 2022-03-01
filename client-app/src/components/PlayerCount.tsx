@@ -1,5 +1,6 @@
 import getAzureFunctions from 'getAzureFunctions';
 import React, { useCallback, useEffect, useState } from 'react'
+import styles from "./PlayerCount.module.scss";
 
 interface PlayerCountProps {
     courseId: number
@@ -27,22 +28,22 @@ export const PlayerCount: React.FC<PlayerCountProps> = (props) => {
     useEffect(
         () => {
             // Immediately fetch number of players
-            getNumberOfPlayers();
+            //getNumberOfPlayers();
             // Continue to fetch stage events + number of players every EVENTS_INTERVAL milliseconds
             console.log("starting ping interval for number of players!");
-            const intervalNumberOfPlayers = setInterval(getNumberOfPlayers, EVENTS_INTERVAL);
+            //const intervalNumberOfPlayers = setInterval(getNumberOfPlayers, EVENTS_INTERVAL);
             return () => {
                 console.log("clearing ping interval for number of players!");
-                clearInterval(intervalNumberOfPlayers);//Runs automatically as cleanup
+                //clearInterval(intervalNumberOfPlayers);//Runs automatically as cleanup
             }
         },
         [getNumberOfPlayers]
     );
     
     return (
-        <div>
-            <h3>Player Count</h3>
-            <h3>{numberOfPlayers}</h3>
+        <div className={styles.container}>
+            <h3 className={styles.label}>Number of Players:</h3>
+            <h3 className={styles.count}>{numberOfPlayers}</h3>
         </div>
     )
 }
