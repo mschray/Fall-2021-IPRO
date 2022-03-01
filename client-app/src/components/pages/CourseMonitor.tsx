@@ -95,6 +95,17 @@ const CourseMonitor: React.FC<CourseMonitorProps> = props => {
         );
     }
 
+    //Code to call endGameRequest when the window closes or component unmounts - Dan Tiberi
+    window.onbeforeunload = async function (e) { //On window close
+        await endGameRequest();
+        e.returnValue = 'onbeforeunload';
+        return 'onbeforeunload';
+    };
+    React.useEffect(() => () => { //On component unmount (Goto another page)
+        endGameRequest();
+    }, []);
+    //End
+
     return (
         <Fade in={true} timeout={500}>
             <div className={styles.content}>
