@@ -68,21 +68,11 @@ const Play: React.FC<PlayProps> = props => {
         await executeFunction();
     }
 
-    //Remove player from game when window closes. 
-    //Broken... :( Does not work in newer browsers.
-        /*
-    window.addEventListener("beforeunload", async (ev) => {
-        //alert("WOW");
-        await removePlayer();
-        //alert("END OF WOW");
-    });
-    */
-   
-    window.onbeforeunload = async function(e) {
+    window.onbeforeunload = async function (e) {
         await removePlayer();
         e.returnValue = 'onbeforeunload';
         return 'onbeforeunload';
-      };
+    };
 
     //Remove player from game when component unmounts.
     React.useEffect(() => () => {
