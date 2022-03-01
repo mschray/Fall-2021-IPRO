@@ -14,7 +14,7 @@ import RightTriangle from "components/diagrams/RightTriangle";
 // Properties for the Question React component
 interface QuestionProperties {
     questionData: QuestionModel,
-    onSolve: (questionData: QuestionModel) => void,
+    onSolve: (questionData: QuestionModel, correct: number) => void,
     questionNumber?: number
 }
 
@@ -62,12 +62,13 @@ const Question: React.FC<QuestionProperties> = (props) => {
 
     // Callback to be fired when the Submit button is entered
     async function submitAnswerCallback(state: AnswerFormState) {
-        if (state.answer === props.questionData.answer_a || state.answer === props.questionData.answer_b) {
+        if (state.answer === props.questionData.answer_a || state.answer === props.questionData.answer_b) { //If correct answer
             setLastAnswerResult(AnswerResult.Correct);
-            props.onSolve(props.questionData);
+            props.onSolve(props.questionData, 1);
             // Clear input field
             setFormState({ answer: "" });
-        } else {
+        } else { //If not correct answer
+            props.onSolve(props.questionData, 0);
             setLastAnswerResult(AnswerResult.Incorrect);
         }
     }
