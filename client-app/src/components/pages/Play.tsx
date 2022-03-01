@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 
 import styles from "./Page.module.scss";
 
@@ -8,7 +8,7 @@ import Fade from '@mui/material/Fade';
 import { isGameModel } from "models/GameModel";
 import StageEndModel from "models/StageEndModel";
 import UserSignInResponseModel from "models/UserSignInResponseModel";
-import useEffect from 'react';
+
 import Game from "components/Game";
 
 interface PlayProps {
@@ -23,6 +23,7 @@ const Play: React.FC<PlayProps> = props => {
 
     const url = new URL(getAzureFunctions().GetSubjectNameFromStageId);
     url.searchParams.append("stage_id", props.userData.stageId.toString());
+
     const gameFetchResult = useFetch(
         url.toString(),
         (data) => {
@@ -56,39 +57,44 @@ const Play: React.FC<PlayProps> = props => {
         );
     }
 
-    //Run DropPlayer az function.
-    const removePlayer = async () => {
-        console.log("Removing player from game:")
-        const url = new URL(getAzureFunctions().DropPlayer);
-        url.searchParams.append("userId", props.userData.userId.toString());
-        url.searchParams.append("courseId", props.userData.courseId.toString());
-        const executeFunction = async () => {
-            await fetch(url.toString(), { method: 'DELETE' }).then(response => console.log(response));
-        }
-        await executeFunction();
-    }
+    // Run DropPlayer az function.
+    const removePlayer = useCallback(
+        () => {
+            console.log("Removing player from game:")
 
-    //Remove player from game when window closes. 
-    //Broken... :( Does not work in newer browsers.
-        /*
-    window.addEventListener("beforeunload", async (ev) => {
-        //alert("WOW");
-        await removePlayer();
-        //alert("END OF WOW");
-    });
-    */
-   
-    window.onbeforeunload = async function(e) {
-        await removePlayer();
-        e.returnValue = 'onbeforeunload';
-        return 'onbeforeunload';
-      };
+            const url = new URL(getAzureFunctions().DropPlayer);
+            url.searchParams.append("userId", props.userData.userId.toString());
+            url.searchParams.append("courseId", props.userData.courseId.toString());
 
-    //Remove player from game when component unmounts.
+            const requestInit: RequestInit = { method: 'DELETE' };
+
+            fetch(url.toString(), requestInit)
+                .then(response => console.log(response));
+        },
+        [props.userData.userId, props.userData.courseId]
+    );
+
+    // Attach beforeunload event listener
+    useEffect(
+        () => {
+            const listener = (e: BeforeUnloadEvent) => {
+                e.preventDefault(); // Shows prompt on Firefox
+                e.returnValue = ''; // Shows prompt on Chrome
+                removePlayer();
+            };
+
+            window.addEventListener('beforeunload', listener);
+            return () => {
+                window.removeEventListener('beforeunload', listener);
+            }
+        },
+        [removePlayer]
+    );
+
+    // Remove player from game when component unmounts.
     React.useEffect(() => () => {
         removePlayer();
-    }, []);
-    //React.useEffect( () => () => console.log("unmount"), [] );
+    }, [removePlayer]);
 
     return (
         <Fade in={true} timeout={500}>
