@@ -4,6 +4,7 @@ import styles from "./PlayerCount.module.scss";
 
 interface PlayerCountProps {
     courseId: number
+    className: any
 }
 
 export const PlayerCount: React.FC<PlayerCountProps> = (props) => {
@@ -39,11 +40,12 @@ export const PlayerCount: React.FC<PlayerCountProps> = (props) => {
         },
         [getNumberOfPlayers]
     );
-    
     return (
-        <div className={styles.container}>
-            <h3 className={styles.label}>Number of Players:</h3>
-            <h3 className={styles.count}>{numberOfPlayers}</h3>
+        <div className = {props.className}>
+            <div className={styles.container}>
+                <h3 className={styles.label}>Number of Players:</h3>
+                <h3 className={styles.count}>{numberOfPlayers}</h3>
+            </div>
         </div>
     )
 }

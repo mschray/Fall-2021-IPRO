@@ -106,7 +106,7 @@ const Stage: React.FC<StageProps> = (props) => {
     const contents = (
         <>
             <p>Course code: {props.courseCode}</p>
-            <PlayerCount courseId={props.courseId}></PlayerCount>
+            <PlayerCount courseId={props.courseId} className={styles.player_count}></PlayerCount>
             <img
                 className={styles.gif}
                 src={(hp > 0) ? monsterHavocGif : monsterDefeatGif}
