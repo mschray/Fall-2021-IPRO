@@ -22,7 +22,7 @@ interface GameProps {
 }
 
 // Amount of damage to deal per correct answer
-const INFLICTED_HP = 10;
+var INFLICTED_HP = 10;
 
 const Game: React.FC<GameProps> = (props) => {
     // Fetch the questions
@@ -46,6 +46,13 @@ const Game: React.FC<GameProps> = (props) => {
     // Callback when question is solved correctly or incorrectly.
     const onQuestionSolve = useCallback(
         (questionData: QuestionModel, correct: number) => {
+            if(correct === 0){
+                INFLICTED_HP = 0;
+            }
+            else{
+                INFLICTED_HP = 10;
+            }
+
             publishStageEvent({
                 stage_id: props.userData.stageId,
                 course_id: props.userData.courseId,
