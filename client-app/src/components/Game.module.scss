@@ -2,9 +2,13 @@
     width: 40vmin;
 }
 
+.code{
+    font-size: 150%;
+}
+
 @media screen and (max-width: 450px) {
     .player_count {
-        font-size: 80%;
+        font-size: 70%;
     } 
 }
 
@@ -19,14 +23,12 @@
 
 @media screen and (min-width: 1200px) {
     .player_count {
-        margin-left: 4em;
-        font-size: 125%;
+        font-size: 100%;
     } 
 }
 
 @media screen and (min-width: 1450px) {
     .player_count {
-        margin-left: 4em;
-        font-size: 150%;
+        font-size: 125%;
     } 
 }

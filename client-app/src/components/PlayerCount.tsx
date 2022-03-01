@@ -29,13 +29,13 @@ export const PlayerCount: React.FC<PlayerCountProps> = (props) => {
     useEffect(
         () => {
             // Immediately fetch number of players
-            //getNumberOfPlayers();
+            getNumberOfPlayers();
             // Continue to fetch stage events + number of players every EVENTS_INTERVAL milliseconds
             console.log("starting ping interval for number of players!");
-            //const intervalNumberOfPlayers = setInterval(getNumberOfPlayers, EVENTS_INTERVAL);
+            const intervalNumberOfPlayers = setInterval(getNumberOfPlayers, EVENTS_INTERVAL);
             return () => {
                 console.log("clearing ping interval for number of players!");
-                //clearInterval(intervalNumberOfPlayers);//Runs automatically as cleanup
+                clearInterval(intervalNumberOfPlayers);//Runs automatically as cleanup
             }
         },
         [getNumberOfPlayers]

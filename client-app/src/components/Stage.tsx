@@ -89,13 +89,13 @@ const Stage: React.FC<StageProps> = (props) => {
     useEffect(
         () => {
             // Immediately fetch stage events
-            //fetchStageEvents();
+            fetchStageEvents();
             // Continue to fetch stage events + number of players every EVENTS_INTERVAL milliseconds
             console.log("starting ping interval!");
-            //const interval = setInterval(fetchStageEvents, EVENTS_INTERVAL);
+            const interval = setInterval(fetchStageEvents, EVENTS_INTERVAL);
             return () => {
                 console.log("clearing ping interval!");
-                //clearInterval(interval);
+                clearInterval(interval);
             }
         },
         [fetchStageEvents]
@@ -105,7 +105,7 @@ const Stage: React.FC<StageProps> = (props) => {
 
     const contents = (
         <>
-            <p>Course code: {props.courseCode}</p>
+            <h3 className={styles.code}>Course code: {props.courseCode}</h3>
             <PlayerCount courseId={props.courseId} className={styles.player_count}></PlayerCount>
             <img
                 className={styles.gif}
