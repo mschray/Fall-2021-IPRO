@@ -1,0 +1,23 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "label"
+        "count";
+    font-size: 165%;
+    color: #FF9999
+}
+
+.label {
+    grid-area: label;
+    margin: 0;
+}
+
+.count {
+    grid-area: count;
+    margin: 0;
+    font-size: 150%;
+    margin-top: -0.25em;
+}
