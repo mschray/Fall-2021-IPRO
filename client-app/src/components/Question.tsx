@@ -96,7 +96,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
         const subjectName = props.questionData.subject_name;
         if (isRightTriangleTrigModel(parsed)) {
             let hideA, hideB, hideC;
-            hideA = hideB = hideC = true;
+            hideA = hideB = hideC = false;
 
             if (subjectName === "Trig Functions") {
                 const latexFunc = (parsed.function === "sine")    ? "sin"
@@ -109,7 +109,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
             } else if (subjectName === "Inverse Trig Functions") {
                 const latexString = `$m \\angle ${parsed.angle}$`;
                 questionStatement = (
-                    <>Solve: <Latex>{latexString}</Latex> rounded to the nearest hundredth of a degree. {parsed.function}</>
+                    <>Solve: <Latex>{latexString}</Latex> rounded to the nearest hundredth of a degree</>
                 );
 
                 hideA = parsed.function !== "arctangent"

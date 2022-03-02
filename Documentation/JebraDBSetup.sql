@@ -167,5 +167,5 @@ CREATE TABLE [dbo].stage_event_join (
 	CONSTRAINT course_id_fk_on_stage_event_join FOREIGN KEY (course_id) REFERENCES [dbo].course(id) ON DELETE CASCADE,
 	CONSTRAINT user_id_fk_on_stage_event_join FOREIGN KEY (origin_user_id) REFERENCES [dbo].app_user(id),
 	CONSTRAINT question_id_fk_on_stage_event_join FOREIGN KEY (question_id) REFERENCES [dbo].question(id),
-	CONSTRAINT stage_event_id_fk_on_stage_event_join FOREIGN KEY (stage_event_id) REFERENCES [dbo].stage_event(id)
+	CONSTRAINT stage_event_id_fk_on_stage_event_join FOREIGN KEY (stage_event_id) REFERENCES [dbo].stage_event(id) ON DELETE CASCADE
 );
