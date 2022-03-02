@@ -131,6 +131,7 @@ namespace JebraAzureFunctions
                 q.question = obj?.question;
                 q.id = obj?.id;
                 q.subject_id = obj?.subject_id;
+                q.is_json = obj?.is_json;
                 ret.Add(q);
             }
             return ret;
@@ -190,17 +191,17 @@ namespace JebraAzureFunctions
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static async Task<bool> InsertQuestionsAsync(List<QuestionModel> list)
+        public static async Task<int> InsertQuestionsAsync(List<QuestionModel> list)
         {
             try
             {
                 string command = InsertQuestionsSQLCommandGenerator(list);
                 await ExecuteNonQueryAsync(command);
-                return true;
+                return list.ToArray().Length;
             }
             catch
             {
-                return false;
+                return 0;
             }
         }
 
@@ -262,7 +263,7 @@ namespace JebraAzureFunctions
             string command = "";
             foreach(QuestionModel question in list)
             {
-                command += $"INSERT INTO question VALUES('{question.answer_a}', {question.answer_b}, '{question.question}', {question.subject_id}) \n";
+                command += $"INSERT INTO question VALUES('{question.answer_a}', {question.answer_b}, '{question.question}', {question.subject_id}, '{question.is_json}') \n";
             }
             return command;
         }

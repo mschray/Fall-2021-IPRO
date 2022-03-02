@@ -22,7 +22,7 @@ interface GameProps {
 }
 
 // Amount of damage to deal per correct answer
-const INFLICTED_HP = 10;
+var INFLICTED_HP = 10;
 
 const Game: React.FC<GameProps> = (props) => {
     // Fetch the questions
@@ -43,20 +43,28 @@ const Game: React.FC<GameProps> = (props) => {
     // Current question number as a state variable
     const [questionIndex, setQuestionIndex] = useState(0);
 
-    // Callback when question is solved correctly
+    // Callback when question is solved correctly or incorrectly.
     const onQuestionSolve = useCallback(
-        (questionData: QuestionModel) => {
+        (questionData: QuestionModel, correct: number) => {
+            if(correct === 0){
+                INFLICTED_HP = 0;
+            }
+            else{
+                INFLICTED_HP = 10;
+            }
+
             publishStageEvent({
                 stage_id: props.userData.stageId,
                 course_id: props.userData.courseId,
                 origin_user_id: props.userData.userId,
                 question_id: questionData.id,
                 inflicted_hp: INFLICTED_HP,
-                was_correct: 1,
+                was_correct: correct,
                 event_time: new Date().toISOString().slice(0, 19).replace('T', ' ')
             }).then(() => {
                 setQuestionIndex(questionIndex => questionIndex + 1);
             });
+            console.log("onQuestionSolve: questionData.solved_correctly = " + correct);
         },
         [props.userData.stageId, props.userData.courseId, props.userData.userId, setQuestionIndex]
     );
@@ -77,6 +85,7 @@ const Game: React.FC<GameProps> = (props) => {
                     onStageFinish={props.onStageFinish}
                     onCourseFinish={props.onCourseFinish}
                     forceFetchStageEvents={questionIndex}
+                    courseId={props.userData.courseId}
                 >
                     <Question
                         questionData={fetchResult.payload[questionIndex % fetchResult.payload.length]}

@@ -11,10 +11,25 @@
 ## Week 4 ##
 
 ## Week 5 ##
+- Tommy please complete  the PDD section for who the project manager for each week until class is over
+- Make sure owning stories on the board
+- Make sure work your doing is reflected on the board
+- Starting next week during faculty time each team member will present their work by answering the questions: 
+	- what I did since last time
+	- what I am planning this time
+ - what are the blockers (if any)
 
 ## Week 6 ##
+- Think of new scenarios that you are targeting for this term
+- From these scenarios what stories do you need to complete for the 3/1 presentation. 
 
 ## Week 7 ##
+- Color friendly color schemes via style sheets
+- Mobile first
+- New types of problems 
+	- Quadratics, trig 
+	- New ways to answer questions
+	- More information on the teachers
 
 ## Week 8 ##
 

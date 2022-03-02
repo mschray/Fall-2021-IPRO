@@ -1,3 +1,34 @@
 .gif {
     width: 40vmin;
 }
+
+.code{
+    font-size: 150%;
+}
+
+@media screen and (max-width: 450px) {
+    .player_count {
+        font-size: 70%;
+    } 
+}
+
+@media screen and (min-width: 950px) {
+    .player_count {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 1em;
+    } 
+}
+
+@media screen and (min-width: 1200px) {
+    .player_count {
+        font-size: 100%;
+    } 
+}
+
+@media screen and (min-width: 1450px) {
+    .player_count {
+        font-size: 125%;
+    } 
+}

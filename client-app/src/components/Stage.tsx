@@ -12,6 +12,7 @@ import StageEndModel, { isStageEndModel } from "models/StageEndModel";
 import { isStageEventModel } from "models/StageEventModel";
 
 import ProgressBar from "components/ProgressBar";
+import { PlayerCount } from "./PlayerCount";
 
 interface StageProps {
     max_hp: number,
@@ -21,7 +22,8 @@ interface StageProps {
     winMessage: string,
     onStageFinish: (data: StageEndModel) => void,
     onCourseFinish: () => void,
-    forceFetchStageEvents?: number                  // Used to force Stage to re-fetch stage events when set to a new number (hacky!)
+    forceFetchStageEvents?: number,                  // Used to force Stage to re-fetch stage events when set to a new number (hacky!)
+    courseId: number
 }
 
 // Time (in milliseconds) between each GetEvents request
@@ -77,7 +79,7 @@ const Stage: React.FC<StageProps> = (props) => {
                 })
                 .catch(err => {
                     console.log(err);
-                    setEventsErrorMessage("Unexpected error occured while fetching stage events. Check console.");
+                    setEventsErrorMessage("Unexpected error occurred while fetching stage events. Check console.");
                 });
         },
         [setEventsErrorMessage, setMonsterHP, props.stageId, props.courseCode, props.max_hp, onStageFinish, onCourseFinish, props.forceFetchStageEvents, shouldPing, setShouldPing]
@@ -88,7 +90,7 @@ const Stage: React.FC<StageProps> = (props) => {
         () => {
             // Immediately fetch stage events
             fetchStageEvents();
-            // Continue to fetch stage events every EVENTS_INTERVAL milliseconds
+            // Continue to fetch stage events + number of players every EVENTS_INTERVAL milliseconds
             console.log("starting ping interval!");
             const interval = setInterval(fetchStageEvents, EVENTS_INTERVAL);
             return () => {
@@ -103,7 +105,8 @@ const Stage: React.FC<StageProps> = (props) => {
 
     const contents = (
         <>
-            <p>Course code: {props.courseCode}</p>
+            <h3 className={styles.code}>Course code: {props.courseCode}</h3>
+            <PlayerCount courseId={props.courseId} className={styles.player_count}></PlayerCount>
             <img
                 className={styles.gif}
                 src={(hp > 0) ? monsterHavocGif : monsterDefeatGif}

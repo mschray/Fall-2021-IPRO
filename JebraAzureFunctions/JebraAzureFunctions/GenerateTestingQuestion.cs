@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using JebraAzureFunctions.Models;
+using JebraAzureFunctions.Questions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -44,40 +45,46 @@ namespace JebraAzureFunctions
 
 
             string response = "";
-            bool status = false;
+            int amountAdded = -1;
             switch (type)
             {
                 case "Simplify Exponents":
-                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifyExponents, amount, subjectId)).GetAwaiter().GetResult();
+                    amountAdded = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifyExponents, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "Simplify Square Roots":
-                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifySquareRoots, amount, subjectId)).GetAwaiter().GetResult();
+                    amountAdded = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifySquareRoots, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "Simplify Exponents 2":
-                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifyExponents2, amount, subjectId)).GetAwaiter().GetResult();
+                    amountAdded = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SimplifyExponents2, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "Factorials":
-                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.Factorials, amount, subjectId)).GetAwaiter().GetResult();
+                    amountAdded = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.Factorials, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "Cartesian Coordinates":
-                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.CartesianCoordinates, amount, subjectId)).GetAwaiter().GetResult();
+                    amountAdded = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.CartesianCoordinates, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "Single Variable":
-                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SingleVariable, amount, subjectId)).GetAwaiter().GetResult();
+                    amountAdded = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SingleVariable, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "System Of Equations":
-                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SystemOfEquations, amount, subjectId)).GetAwaiter().GetResult();
+                    amountAdded = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.SystemOfEquations, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 case "Quadratic Roots":
-                    status = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.QuadraticRoots, amount, subjectId)).GetAwaiter().GetResult();
+                    amountAdded = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Tools.QuadraticRoots, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "Trig Functions":
+                    amountAdded = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Trigonometry.TrigFunctions, amount, subjectId)).GetAwaiter().GetResult();
+                    break;
+                case "Inverse Trig Functions":
+                    amountAdded = Tools.InsertQuestionsAsync(Tools.GenerateUniqueQuestions(Trigonometry.InverseTrigFunctions, amount, subjectId)).GetAwaiter().GetResult();
                     break;
                 default:
-                    status = false;
+                    amountAdded = -1;
                     break;
             }
 
-            if(status)
-                response = $"Successfully requested to insert {amount} {type} questions. :)";
+            if(amountAdded > 0)
+                response = $"Successfully inserted {amountAdded} questions. :)";
             else
                 response = $"Failed to insert {amount} {type} questions. :(";
 
