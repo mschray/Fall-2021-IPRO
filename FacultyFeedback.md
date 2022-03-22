@@ -37,6 +37,8 @@
 
 
 ## Week 9 ##
+- I liked the clarity of Calculus and trig questions, teacher statistics for their students, accessiblity
+
 
 ## Week 10 ##
 
