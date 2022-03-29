@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./Question.module.scss";
 
 import QuestionModel from "models/QuestionModel";
 import determineQuestionFormatting from "determineQuestionFormatting";
 import NumPad from "components/input/numpad";
+import Fade from '@mui/material/Fade';
 
 // Properties for the Question React component
 interface QuestionProperties {
@@ -22,14 +23,33 @@ enum AnswerResult {
 const Question: React.FC<QuestionProperties> = (props) => {
     // Result of last question answered as a state variable
     const [lastAnswerResult, setLastAnswerResult] = useState(AnswerResult.NoAnswersYet);
+    const [resultTimeout, setResultTimeout] = useState<NodeJS.Timeout | undefined>(undefined);
+
+    useEffect(() => () => {
+        if (resultTimeout) {
+            clearTimeout(resultTimeout);
+        }
+    }, [resultTimeout]);
+
+    const showResult = (wasCorrect: boolean) => {
+        setLastAnswerResult(wasCorrect ? AnswerResult.Correct : AnswerResult.Incorrect);
+        setResultTimeout(oldTimeout => {
+            if (oldTimeout) {
+                clearTimeout(oldTimeout);
+            }
+            return setTimeout(() => {
+                setLastAnswerResult(AnswerResult.NoAnswersYet);
+            }, 2000);
+        });
+    };
 
     async function submitAnswer(answer: string) {
         if (answer === props.questionData.answer_a || answer === props.questionData.answer_b) { //If correct answer
-            setLastAnswerResult(AnswerResult.Correct);
+            showResult(true);
             props.onSolve(props.questionData, 1);
         } else { //If not correct answer
+            showResult(false);
             props.onSolve(props.questionData, 0);
-            setLastAnswerResult(AnswerResult.Incorrect);
         }
     }
 
@@ -41,13 +61,17 @@ const Question: React.FC<QuestionProperties> = (props) => {
         <>
             <div style={{gridArea: "question"}}>
                 <p>{questionNumberLabel} {questionStatement}</p>
-                {
-                    (lastAnswerResult === AnswerResult.Correct)
-                        ? <p className={styles.correct}>That was correct!</p>
-                        : (lastAnswerResult === AnswerResult.Incorrect)
-                            ? <p className={styles.incorrect}>That was incorrect. Try again.</p>
-                            : null
-                }
+                    {
+                        (lastAnswerResult === AnswerResult.Correct)
+                            ? <Fade in={true} timeout={500}>
+                                <p className={styles.correct}>That was correct!</p>
+                            </Fade>
+                            : (lastAnswerResult === AnswerResult.Incorrect)
+                                ? <Fade in={true} timeout={500}>
+                                    <p className={styles.incorrect}>That was incorrect. Try again.</p>
+                                </Fade>
+                                : null
+                    }
             </div>
             <NumPad
                 onSubmit={submitAnswer}
