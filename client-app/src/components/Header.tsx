@@ -49,6 +49,7 @@ const useStyles = makeStyles(() => ({
         paddingRight: "5rem",
         justifyContent: "space-between",
         "@media (max-width: 900px)": {
+            height: "3.5rem",
             paddingLeft: "2rem",
             paddingRight: "2rem",
             justifyContent: "start",
