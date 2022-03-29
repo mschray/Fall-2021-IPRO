@@ -1,5 +1,15 @@
 @import "styles/colors";
 
+.svg {
+    grid-area: media;
+
+    width: 80%;
+
+    @media (max-width: 600px) {
+        width: 50%;
+    }
+}
+
 .triangleFill {
     fill: $blue;
 }
@@ -19,6 +29,10 @@
     font-size: 1.1em;
     font-weight: 500;
     fill: $dark-blue;
+
+    @media (max-width: 600px) {
+        font-size: 1.8em;
+    }
 }
 
 // I keep separate classes for side length labels and angle labels
