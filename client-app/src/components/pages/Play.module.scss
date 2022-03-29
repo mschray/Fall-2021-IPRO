@@ -26,7 +26,14 @@
         "health numpad";
 
     @media (max-width: 600px) {
-
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, auto);
+        
+        grid-template-areas:
+            "health"
+            "media"
+            "question"
+            "numpad";
     }
 }
 
