@@ -12,7 +12,7 @@ import UserSignInResponseModel from "models/UserSignInResponseModel";
 
 import Question from "components/Question";
 import Stage from "components/Stage";
-import determineQuestionFormatting from "determineQuestionFormatting";
+import { determineQuestionDiagram } from "questionFormatting";
 
 interface GameProps {
     game: GameModel,
@@ -78,7 +78,7 @@ const Game: React.FC<GameProps> = (props) => {
         } else {
             const question = fetchResult.payload[questionIndex % fetchResult.payload.length];
 
-            const [questionStatement, diagram] = determineQuestionFormatting(question);
+            const diagram = determineQuestionDiagram(question);
 
             return (
                 <Stage

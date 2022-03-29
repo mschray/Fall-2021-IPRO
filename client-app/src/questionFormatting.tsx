@@ -3,12 +3,34 @@ import QuestionModel from "models/QuestionModel";
 import { isRightTriangleTrigModel } from "models/questions/RightTriangleTrigModel";
 import Latex from "react-latex";
 
-const determineQuestionFormatting = (question: QuestionModel) => {
-    let diagram: JSX.Element | undefined = undefined;
-    let statement = (
+export const determineQuestionStatement = (question: QuestionModel) => {
+    if (question.is_json) {
+        const parsed = JSON.parse(question.question);
+        const subjectName = question.subject_name;
+        if (isRightTriangleTrigModel(parsed)) {
+            if (subjectName === "Trig Functions") {
+                const latexFunc = (parsed.function === "sine")    ? "sin"
+                                : (parsed.function === "cosine")  ? "cos"
+                                                                  : "tan";
+                const latexString = `$\\${latexFunc}{${parsed.angle}}$`;
+                return (
+                    <>Solve: <Latex>{latexString}</Latex> as a reduced fraction</>
+                );
+            } else if (subjectName === "Inverse Trig Functions") {
+                const latexString = `$m \\angle ${parsed.angle}$`;
+                return (
+                    <>Solve: <Latex>{latexString}</Latex> rounded to the nearest hundredth of a degree</>
+                );
+            }
+        }
+    }
+
+    return (
         <>Solve: <Latex>{question.question}</Latex></>
     );
+}
 
+export const determineQuestionDiagram = (question: QuestionModel) => {
     if (question.is_json) {
         const parsed = JSON.parse(question.question);
         const subjectName = question.subject_name;
@@ -16,20 +38,7 @@ const determineQuestionFormatting = (question: QuestionModel) => {
             let hideA, hideB, hideC;
             hideA = hideB = hideC = false;
 
-            if (subjectName === "Trig Functions") {
-                const latexFunc = (parsed.function === "sine")    ? "sin"
-                                : (parsed.function === "cosine")  ? "cos"
-                                                                  : "tan";
-                const latexString = `$\\${latexFunc}{${parsed.angle}}$`;
-                statement = (
-                    <>Solve: <Latex>{latexString}</Latex> as a reduced fraction</>
-                );
-            } else if (subjectName === "Inverse Trig Functions") {
-                const latexString = `$m \\angle ${parsed.angle}$`;
-                statement = (
-                    <>Solve: <Latex>{latexString}</Latex> rounded to the nearest hundredth of a degree</>
-                );
-
+            if (subjectName === "Inverse Trig Functions") {
                 hideA = parsed.function !== "arctangent"
                      && (  parsed.function !== "arcsine" || parsed.angle !== "A")
                      && (parsed.function !== "arccosine" || parsed.angle !== "B");
@@ -41,7 +50,7 @@ const determineQuestionFormatting = (question: QuestionModel) => {
                 hideC = parsed.function === "arctangent";
             }
 
-            diagram = (
+            return (
                 <RightTriangle
                     a={parsed.a}
                     b={parsed.b}
@@ -55,7 +64,5 @@ const determineQuestionFormatting = (question: QuestionModel) => {
         }
     }
 
-    return [statement, diagram];
+    return undefined;
 };
-
-export default determineQuestionFormatting;

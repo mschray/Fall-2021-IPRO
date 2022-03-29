@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Question.module.scss";
 
 import QuestionModel from "models/QuestionModel";
-import determineQuestionFormatting from "determineQuestionFormatting";
+import { determineQuestionStatement } from "questionFormatting";
 import NumPad from "components/input/numpad";
 import Fade from '@mui/material/Fade';
 
@@ -55,7 +55,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
 
     const questionNumberLabel = (props.questionNumber !== undefined) ? `(${props.questionNumber})` : null;
 
-    const [questionStatement, _] = determineQuestionFormatting(props.questionData);
+    const questionStatement = determineQuestionStatement(props.questionData);
 
     return (
         <>
