@@ -4,7 +4,7 @@ import { isRightTriangleTrigModel } from "models/questions/RightTriangleTrigMode
 import Latex from "react-latex";
 
 const determineQuestionFormatting = (question: QuestionModel) => {
-    let diagram: JSX.Element | null = null;
+    let diagram: JSX.Element | undefined = undefined;
     let statement = (
         <>Solve: <Latex>{question.question}</Latex></>
     );

@@ -10,6 +10,7 @@ import Latex from "react-latex";
 
 import TextField from "@mui/material/TextField";
 import RightTriangle from "components/diagrams/RightTriangle";
+import determineQuestionFormatting from "determineQuestionFormatting";
 
 // Properties for the Question React component
 interface QuestionProperties {
@@ -86,56 +87,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
 
     const questionNumberLabel = (props.questionNumber !== undefined) ? `(${props.questionNumber})` : null;
 
-    let diagram: JSX.Element | null = null;
-    let questionStatement = (
-        <>Solve: <Latex>{props.questionData.question}</Latex></>
-    );
-
-    if (props.questionData.is_json) {
-        const parsed = JSON.parse(props.questionData.question);
-        const subjectName = props.questionData.subject_name;
-        if (isRightTriangleTrigModel(parsed)) {
-            let hideA, hideB, hideC;
-            hideA = hideB = hideC = false;
-
-            if (subjectName === "Trig Functions") {
-                const latexFunc = (parsed.function === "sine")    ? "sin"
-                                : (parsed.function === "cosine")  ? "cos"
-                                                                  : "tan";
-                const latexString = `$\\${latexFunc}{${parsed.angle}}$`;
-                questionStatement = (
-                    <>Solve: <Latex>{latexString}</Latex> as a reduced fraction</>
-                );
-            } else if (subjectName === "Inverse Trig Functions") {
-                const latexString = `$m \\angle ${parsed.angle}$`;
-                questionStatement = (
-                    <>Solve: <Latex>{latexString}</Latex> rounded to the nearest hundredth of a degree</>
-                );
-
-                hideA = parsed.function !== "arctangent"
-                     && (  parsed.function !== "arcsine" || parsed.angle !== "A")
-                     && (parsed.function !== "arccosine" || parsed.angle !== "B");
-
-                hideB = parsed.function !== "arctangent"
-                     && (  parsed.function !== "arcsine" || parsed.angle !== "B")
-                     && (parsed.function !== "arccosine" || parsed.angle !== "A");
-
-                hideC = parsed.function === "arctangent";
-            }
-
-            diagram = (
-                <RightTriangle
-                    a={parsed.a}
-                    b={parsed.b}
-                    c={parsed.c}
-                    angle={parsed.angle}
-                    hideA={hideA}
-                    hideB={hideB}
-                    hideC={hideC}
-                />
-            );
-        }
-    }
+    const [questionStatement, diagram] = determineQuestionFormatting(props.questionData);
 
     return (
         <div style={{gridArea: "question"}}>
