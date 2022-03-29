@@ -164,7 +164,7 @@ const RightTriangle: React.FC<RightTriangleProps> = props => {
     vectorRight = { x: vectorRight.x / magnitudeRight * arcRadius, y: vectorRight.y / magnitudeRight * arcRadius};
 
     return (
-        <svg width={TRIANGLE_WIDTH + 2*PADDING} height={height + 2*PADDING}>
+        <svg width={TRIANGLE_WIDTH + 2*PADDING} height={height + 2*PADDING} style={{gridArea: "media"}}>
             <polygon
                 className={styles.triangleFill}
                 points={points}

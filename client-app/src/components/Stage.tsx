@@ -24,7 +24,7 @@ interface StageProps {
     onCourseFinish: () => void,
     forceFetchStageEvents?: number,                  // Used to force Stage to re-fetch stage events when set to a new number (hacky!)
     courseId: number,
-    monsterReplacement?: JSX.Element,                // Element to replace the monster GIF with (for diagrams)
+    hideMonster?: boolean,
     hideCourseCode?: boolean,
     hidePlayerCount?: boolean,
     hideHealthNumber?: boolean,
@@ -36,6 +36,7 @@ const EVENTS_INTERVAL = 2500;
 const BETWEEN_STAGE_TIMEOUT = 8000;
 
 const Stage: React.FC<StageProps> = (props) => {
+    const hideMonster = (props.hideMonster !== undefined) ? props.hideMonster : false;
     const hideCourseCode = (props.hideCourseCode !== undefined) ? props.hideCourseCode : false;
     const hidePlayerCount = (props.hidePlayerCount !== undefined) ? props.hidePlayerCount : false;
     const hideHealthNumber = (props.hideHealthNumber !== undefined) ? props.hideHealthNumber : false;
@@ -124,13 +125,13 @@ const Stage: React.FC<StageProps> = (props) => {
                     : null
             }
             {
-                (props.monsterReplacement !== undefined)
-                    ? props.monsterReplacement
-                    : <img
+                (!hideMonster)
+                    ? <img
                         className={styles.gif}
                         src={(hp > 0) ? monsterHavocGif : monsterDefeatGif}
                         alt="This evil monster is destroying Jebraville! Solve math questions to defeat the monster."
                     />
+                    : null
             }
             {
                 (!hideHealthNumber)

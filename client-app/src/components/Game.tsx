@@ -91,7 +91,7 @@ const Game: React.FC<GameProps> = (props) => {
                     onCourseFinish={props.onCourseFinish}
                     forceFetchStageEvents={questionIndex}
                     courseId={props.userData.courseId}
-                    monsterReplacement={diagram}
+                    hideMonster={diagram !== undefined}
                     hideCourseCode={true}
                     hidePlayerCount={true}
                     hideHealthNumber={true}
@@ -101,6 +101,7 @@ const Game: React.FC<GameProps> = (props) => {
                         onSolve={onQuestionSolve}
                         questionNumber={questionIndex + 1}
                     />
+                    {diagram}
                 </Stage>
             );
         }

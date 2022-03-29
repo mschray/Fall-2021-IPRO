@@ -117,7 +117,7 @@ const NumPad: React.FC<NumpadProps> = (props) => {
     }, []);
     
     return (
-        <div>
+        <div style={{gridArea: "numpad"}}>
             <div className={styles.numpad_container}>
                 <span className={styles.numpad_display}><h3 className="numpad_display_text" onClick={() =>handleNumpadButtonClick(-5, onSubmit)}>&gt;</h3></span>            
                 <button onClick={() =>handleNumpadButtonClick(7, onSubmit)} className={[styles.num7, styles.numpad_button].join(" ")}>7</button>

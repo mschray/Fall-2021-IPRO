@@ -11,6 +11,7 @@ import Latex from "react-latex";
 import TextField from "@mui/material/TextField";
 import RightTriangle from "components/diagrams/RightTriangle";
 import determineQuestionFormatting from "determineQuestionFormatting";
+import NumPad from "components/input/numpad";
 
 // Properties for the Question React component
 interface QuestionProperties {
@@ -61,9 +62,8 @@ const Question: React.FC<QuestionProperties> = (props) => {
     // Result of last question answered as a state variable
     const [lastAnswerResult, setLastAnswerResult] = useState(AnswerResult.NoAnswersYet);
 
-    // Callback to be fired when the Submit button is entered
-    async function submitAnswerCallback(state: AnswerFormState) {
-        if (state.answer === props.questionData.answer_a || state.answer === props.questionData.answer_b) { //If correct answer
+    async function submitAnswer(answer: string) {
+        if (answer === props.questionData.answer_a || answer === props.questionData.answer_b) { //If correct answer
             setLastAnswerResult(AnswerResult.Correct);
             props.onSolve(props.questionData, 1);
             // Clear input field
@@ -72,6 +72,11 @@ const Question: React.FC<QuestionProperties> = (props) => {
             props.onSolve(props.questionData, 0);
             setLastAnswerResult(AnswerResult.Incorrect);
         }
+    }
+
+    // Callback to be fired when the Submit button is entered
+    async function submitAnswerCallback(state: AnswerFormState) {
+        submitAnswer(state.answer);
     }
     
     // Default state for the Answer form
@@ -90,38 +95,42 @@ const Question: React.FC<QuestionProperties> = (props) => {
     const [questionStatement, diagram] = determineQuestionFormatting(props.questionData);
 
     return (
-        <div style={{gridArea: "question"}}>
-            {diagram}
-            <p>{questionNumberLabel} {questionStatement}</p>
-            <form onSubmit={onFormSubmit}>
-                <TextField
-                    required
-                    name="answer"
-                    id="answer"
-                    sx={{ m: 1, width: '25ch' }}
-                    label="Answer"
-                    value={formState.answer}
-                    placeholder="Answer"
-                    type={hasNumericAnswer(props.questionData) ? "number" : "text"}
-                    inputProps={
-                        hasNumericAnswer(props.questionData)
-                            ? { step: Math.pow(10, -getDecimalPlaces(props.questionData)) }
-                            : {}
-                    }
-                    autoComplete="off"
-                    onChange={onFormChange}
-                />
-                <br />
-                <input type="submit" />
-            </form>
-            {
-                (lastAnswerResult === AnswerResult.Correct)
-                    ? <p className={styles.correct}>That was correct!</p>
-                    : (lastAnswerResult === AnswerResult.Incorrect)
-                        ? <p className={styles.incorrect}>That was incorrect. Try again.</p>
-                        : null
-            }
-        </div>
+        <>
+            <div style={{gridArea: "question"}}>
+                <p>{questionNumberLabel} {questionStatement}</p>
+                <form onSubmit={onFormSubmit}>
+                    <TextField
+                        required
+                        name="answer"
+                        id="answer"
+                        sx={{ m: 1, width: '25ch' }}
+                        label="Answer"
+                        value={formState.answer}
+                        placeholder="Answer"
+                        type={hasNumericAnswer(props.questionData) ? "number" : "text"}
+                        inputProps={
+                            hasNumericAnswer(props.questionData)
+                                ? { step: Math.pow(10, -getDecimalPlaces(props.questionData)) }
+                                : {}
+                        }
+                        autoComplete="off"
+                        onChange={onFormChange}
+                    />
+                    <br />
+                    <input type="submit" />
+                </form>
+                {
+                    (lastAnswerResult === AnswerResult.Correct)
+                        ? <p className={styles.correct}>That was correct!</p>
+                        : (lastAnswerResult === AnswerResult.Incorrect)
+                            ? <p className={styles.incorrect}>That was incorrect. Try again.</p>
+                            : null
+                }
+            </div>
+            <NumPad
+                onSubmit={submitAnswer}
+            />
+        </>
     )
 };
 
