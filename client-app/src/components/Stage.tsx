@@ -23,7 +23,10 @@ interface StageProps {
     onStageFinish: (data: StageEndModel) => void,
     onCourseFinish: () => void,
     forceFetchStageEvents?: number,                  // Used to force Stage to re-fetch stage events when set to a new number (hacky!)
-    courseId: number
+    courseId: number,
+    hideCourseCode?: boolean,
+    hidePlayerCount?: boolean,
+    hideHealthNumber?: boolean,
 }
 
 // Time (in milliseconds) between each GetEvents request
@@ -32,6 +35,10 @@ const EVENTS_INTERVAL = 2500;
 const BETWEEN_STAGE_TIMEOUT = 8000;
 
 const Stage: React.FC<StageProps> = (props) => {
+    const hideCourseCode = (props.hideCourseCode !== undefined) ? props.hideCourseCode : false;
+    const hidePlayerCount = (props.hidePlayerCount !== undefined) ? props.hidePlayerCount : false;
+    const hideHealthNumber = (props.hideHealthNumber !== undefined) ? props.hideHealthNumber : false;
+
     // Current HP of monster as a state variable
     const [monsterHP, setMonsterHP] = useState(props.max_hp);
     // Error message string
@@ -105,14 +112,26 @@ const Stage: React.FC<StageProps> = (props) => {
 
     const contents = (
         <>
-            <h3 className={styles.code}>Course code: {props.courseCode}</h3>
-            <PlayerCount courseId={props.courseId} className={styles.player_count}></PlayerCount>
+            {
+                (!hideCourseCode)
+                    ? <h3 className={styles.code}>Course code: {props.courseCode}</h3>
+                    : null
+            }
+            {
+                (!hidePlayerCount)
+                    ? <PlayerCount courseId={props.courseId} className={styles.player_count}></PlayerCount>
+                    : null
+            }
             <img
                 className={styles.gif}
                 src={(hp > 0) ? monsterHavocGif : monsterDefeatGif}
                 alt="This evil monster is destroying Jebraville! Solve math questions to defeat the monster."
             />
-            <p>{props.stageName}'s Health: {hp} / {props.max_hp}</p>
+            {
+                (!hideHealthNumber)
+                    ? <p>{props.stageName}'s Health: {hp} / {props.max_hp}</p>
+                    : null
+            }
             <ProgressBar alpha={hp / props.max_hp}/>
         </>
     );

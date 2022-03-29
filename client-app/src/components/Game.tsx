@@ -86,6 +86,9 @@ const Game: React.FC<GameProps> = (props) => {
                     onCourseFinish={props.onCourseFinish}
                     forceFetchStageEvents={questionIndex}
                     courseId={props.userData.courseId}
+                    hideCourseCode={true}
+                    hidePlayerCount={true}
+                    hideHealthNumber={true}
                 >
                     <Question
                         questionData={fetchResult.payload[questionIndex % fetchResult.payload.length]}

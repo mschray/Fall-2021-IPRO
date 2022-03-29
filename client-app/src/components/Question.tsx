@@ -138,7 +138,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
     }
 
     return (
-        <div>
+        <div style={{gridArea: "question"}}>
             {diagram}
             <p>{questionNumberLabel} {questionStatement}</p>
             <form onSubmit={onFormSubmit}>

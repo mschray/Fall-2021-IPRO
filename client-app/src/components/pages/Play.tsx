@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 
 import styles from "./Page.module.scss";
+import playStyles from "./Play.module.scss";
 
 import getAzureFunctions from "getAzureFunctions";
 import useFetch, { FetchStatus } from "hooks/useFetch";
@@ -19,8 +20,6 @@ interface PlayProps {
 }
 
 const Play: React.FC<PlayProps> = props => {
-
-
     const url = new URL(getAzureFunctions().GetSubjectNameFromStageId);
     url.searchParams.append("stage_id", props.userData.stageId.toString());
 
@@ -104,8 +103,7 @@ const Play: React.FC<PlayProps> = props => {
 
     return (
         <Fade in={true} timeout={500}>
-            <div className={styles.content}>
-                <h3>Play</h3>
+            <div className={`${styles.content} ${playStyles.content}`}>
                 {contents}
             </div>
         </Fade>
