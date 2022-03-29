@@ -1,6 +1,8 @@
+
+@import "styles/media";
+
 .gif {
-    width: 40vmin;
-    grid-area: media;
+    @include media;
 }
 
 .code{

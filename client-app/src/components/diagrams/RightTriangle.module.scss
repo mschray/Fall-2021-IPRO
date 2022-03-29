@@ -1,13 +1,8 @@
 @import "styles/colors";
+@import "styles/media";
 
 .svg {
-    grid-area: media;
-
-    width: 80%;
-
-    @media (max-width: 600px) {
-        width: 50%;
-    }
+    @include media;
 }
 
 .triangleFill {
@@ -30,7 +25,7 @@
     font-weight: 500;
     fill: $dark-blue;
 
-    @media (max-width: 600px) {
+    @media (max-width: 1000px) {
         font-size: 1.8em;
     }
 }

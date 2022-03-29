@@ -1,6 +1,6 @@
 @import "styles/colors";
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1000px) {
     .header {
         background-color: $green;
     }
@@ -28,7 +28,7 @@
 
 .logoMobile {
     width: 25%;
-    height: 80%;
+    max-height: 80%;
     align-self: center;
     position: fixed;
     left: 50%;

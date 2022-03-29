@@ -21,7 +21,7 @@ body, html {
     flex-wrap: nowrap;
     align-items: stretch;
     gap: 2rem;
-    @media (max-width: 900px) {
+    @media (max-width: 1000px) {
         padding: 1rem;
         gap: 1rem;
     }
