@@ -44,6 +44,9 @@
 
 
 ## Week 11 ##
+- We are not doing  innovation day (4/29) instead we are doing to Audience Choice Competition - pitch competition day on (4/22)
+- Martin to check on Jebra's opportunity to pitch
+- Think about your name.   Are you staying with the current name?
 
 ## Week 12 ##
 
