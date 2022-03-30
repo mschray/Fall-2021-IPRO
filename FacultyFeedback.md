@@ -49,8 +49,16 @@
 - Think about your name.   Are you staying with the current name?
 
 ## Week 12 ##
+- Make sure activities for audience choice and various other deadlines I shared in email are represented on your board
+- Chris Converse #165 in progress
+- Daniel T. #124 in progress
+- Emily #190 in progress
+- Khiem - #191 in progress
+- Nam - #192 in progress
+- Tommy - #172 in progress
 
-## Week 13 Nov 16 ##
+
+## Week 13 ##
 
 - Final Presentation Dry Run
 
