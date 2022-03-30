@@ -39,7 +39,7 @@ const Question: React.FC<QuestionProperties> = (props) => {
             }
             return setTimeout(() => {
                 setLastAnswerResult(AnswerResult.NoAnswersYet);
-            }, 2000);
+            }, 1000);
         });
     };
 
@@ -61,21 +61,21 @@ const Question: React.FC<QuestionProperties> = (props) => {
         <>
             <div style={{gridArea: "question"}}>
                 <p>{questionNumberLabel} {questionStatement}</p>
-                    {
-                        (lastAnswerResult === AnswerResult.Correct)
-                            ? <Fade in={true} timeout={500}>
-                                <p className={styles.correct}>That was correct!</p>
-                            </Fade>
-                            : (lastAnswerResult === AnswerResult.Incorrect)
-                                ? <Fade in={true} timeout={500}>
-                                    <p className={styles.incorrect}>That was incorrect. Try again.</p>
-                                </Fade>
-                                : null
-                    }
             </div>
             <NumPad
                 onSubmit={submitAnswer}
             />
+            {
+                (lastAnswerResult === AnswerResult.Correct)
+                    ? <Fade in={true} timeout={500}>
+                        <p className={styles.correct}>That was correct!</p>
+                    </Fade>
+                    : (lastAnswerResult === AnswerResult.Incorrect)
+                        ? <Fade in={true} timeout={500}>
+                            <p className={styles.incorrect}>That was incorrect. Try again.</p>
+                        </Fade>
+                        : null
+            }
         </>
     )
 };
