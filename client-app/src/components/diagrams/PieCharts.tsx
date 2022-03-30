@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 interface PieChartProperties {
     data: Array<Object>,
     name: string,
-
+    value: string
 }
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -22,10 +22,11 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 };
 
 const PieCharts: React.FC<PieChartProperties> = (props) => {
+  const value = props.value
     return (
         <PieChart width={400} height={400}>
             <Pie
-              dataKey="value"
+              dataKey={value}
               data={props.data}
               nameKey={props.name}
               cx={200}
