@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
-import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, Label } from 'recharts';
 
 interface PieChartProperties {
     data: Array<Object>,
     name: string,
-    value: string
+    value: string,
+    title: string,
 }
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -31,10 +32,12 @@ const PieCharts: React.FC<PieChartProperties> = (props) => {
               nameKey={props.name}
               cx={200}
               cy={200}
-              outerRadius={80}
+              outerRadius={120}
+              innerRadius={60}
               labelLine={false}
               label = {renderCustomizedLabel}
             >
+            <Label value={props.title} position="center" />
             {props.data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
