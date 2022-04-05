@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Label, ResponsiveContainer } from 'recharts';
 
 interface PieChartProperties {
-    data: Array<Array<Object>>,
+    data: {values: Array<Object>, subject: string}[],
     name: string,
-    value: string,
-    title: string,
+    value: string
 }
+
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const RADIAN = Math.PI / 180;
@@ -29,10 +29,10 @@ const PieCharts: React.FC<PieChartProperties> = (props) => {
 
     return (
       <PieChart width={width} height={height}>
-        {props.data.map((data, index) =>(
+        {props.data.map((entry, index) =>(
           <Pie
             dataKey={value}
-            data={data}
+            data={entry.values}
             nameKey={props.name}
             cx={index >= 3 ? (15 + ((index % 3) * 33))+'%' :(15 + (index * 33)) +'%'}
             cy={index >= 3 ?  (Math.floor(index / 3)) * 600 : 200}
@@ -41,8 +41,8 @@ const PieCharts: React.FC<PieChartProperties> = (props) => {
             labelLine={false}
             label = {renderCustomizedLabel}
           >
-          <Label value={props.title} position="center" />
-          {data.map((entry, index) => (
+          <Label value={entry.subject} position="center" />
+          {entry.values.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
           </Pie>
