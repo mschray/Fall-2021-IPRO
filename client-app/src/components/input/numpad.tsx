@@ -108,26 +108,24 @@ const NumPad: React.FC<NumpadProps> = (props) => {
     const buttonStyle = (style: string) => [styles.numpad_button, style].join(" ");
     
     return (
-        <div style={{gridArea: "numpad"}}>
-            <div className={styles.numpad_container}>
-                <span className={styles.numpad_display}>
-                    <h3 className="numpad_display_text" onClick={() =>handleButtonPress("Backspace")}>&gt;{answer}</h3>
-                </span>            
-                <button onClick={() => handleButtonPress(7)} className={buttonStyle(styles.num7)}>7</button>
-                <button onClick={() => handleButtonPress(8)} className={buttonStyle(styles.num8)}>8</button>
-                <button onClick={() => handleButtonPress(9)} className={buttonStyle(styles.num9)}>9</button>
-                <button onClick={() => handleButtonPress(4)} className={buttonStyle(styles.num4)}>4</button>
-                <button onClick={() => handleButtonPress(5)} className={buttonStyle(styles.num5)}>5</button>
-                <button onClick={() => handleButtonPress(6)} className={buttonStyle(styles.num6)}>6</button>
-                <button onClick={() => handleButtonPress(1)} className={buttonStyle(styles.num1)}>1</button>
-                <button onClick={() => handleButtonPress(2)} className={buttonStyle(styles.num2)}>2</button>
-                <button onClick={() => handleButtonPress(3)} className={buttonStyle(styles.num3)}>3</button>
-                <button onClick={() => handleButtonPress(0)} className={buttonStyle(styles.num0)}>0</button>
-                <button onClick={() => handleButtonPress("Dot")} className={buttonStyle(styles.numdot)}><FiberManualRecordIcon sx={{ fontSize: "75%" }} /></button>
-                <button onClick={() => handleButtonPress("Enter")} className={buttonStyle(styles.numenter)}><span><CheckIcon sx={{ fontSize: "140%"}} /></span></button>
-                <button onClick={() => handleButtonPress("Clear")} className={buttonStyle(styles.numclear)}>C</button>
-                <button onClick={() => handleButtonPress("Negative")} className={buttonStyle(styles.numneg)}>-</button>
-            </div>
+        <div className={styles.numpad_container}>
+            <span className={styles.numpad_display}>
+                <h3 className="numpad_display_text" onClick={() =>handleButtonPress("Backspace")}>&gt;{answer}</h3>
+            </span>            
+            <button onClick={() => handleButtonPress(7)} className={buttonStyle(styles.num7)}>7</button>
+            <button onClick={() => handleButtonPress(8)} className={buttonStyle(styles.num8)}>8</button>
+            <button onClick={() => handleButtonPress(9)} className={buttonStyle(styles.num9)}>9</button>
+            <button onClick={() => handleButtonPress(4)} className={buttonStyle(styles.num4)}>4</button>
+            <button onClick={() => handleButtonPress(5)} className={buttonStyle(styles.num5)}>5</button>
+            <button onClick={() => handleButtonPress(6)} className={buttonStyle(styles.num6)}>6</button>
+            <button onClick={() => handleButtonPress(1)} className={buttonStyle(styles.num1)}>1</button>
+            <button onClick={() => handleButtonPress(2)} className={buttonStyle(styles.num2)}>2</button>
+            <button onClick={() => handleButtonPress(3)} className={buttonStyle(styles.num3)}>3</button>
+            <button onClick={() => handleButtonPress(0)} className={buttonStyle(styles.num0)}>0</button>
+            <button onClick={() => handleButtonPress("Dot")} className={buttonStyle(styles.numdot)}><FiberManualRecordIcon sx={{ fontSize: "75%" }} /></button>
+            <button onClick={() => handleButtonPress("Enter")} className={buttonStyle(styles.numenter)}><span><CheckIcon sx={{ fontSize: "140%"}} /></span></button>
+            <button onClick={() => handleButtonPress("Clear")} className={buttonStyle(styles.numclear)}>C</button>
+            <button onClick={() => handleButtonPress("Negative")} className={buttonStyle(styles.numneg)}>-</button>
         </div>
     );
 };
