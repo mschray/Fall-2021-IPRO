@@ -424,7 +424,7 @@ namespace JebraAzureFunctions
         public static Task<string> GetAllUsersInCourse(int courseId)
         {
             string command = @$"
-                SELECT * FROM course_assignment WHERE course_id = {courseId}
+                SELECT user_id FROM course_assignment WHERE user_id IS NOT NULL AND course_id = {courseId}
             ";
             return ExecuteQueryAsync(command);
         }
