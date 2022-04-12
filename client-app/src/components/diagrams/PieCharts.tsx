@@ -24,31 +24,33 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 const PieCharts: React.FC<PieChartProperties> = (props) => {
   const value = props.value
-  const width = window.screen.width
-  const height = window.screen.height
+  const width = window.screen.availWidth /props.data.length
+  const height = window.screen.availHeight /props.data.length
 
     return (
-      <PieChart width={width} height={height}>
-        {props.data.map((entry, index) =>(
-          <Pie
-            dataKey={value}
-            data={entry.values}
-            nameKey={props.name}
-            cx={index >= 3 ? (15 + ((index % 3) * 33))+'%' :(15 + (index * 33)) +'%'}
-            cy={index >= 3 ?  (Math.floor(index / 3)) * 600 : 200}
-            outerRadius={120}
-            innerRadius={60}
-            labelLine={false}
-            label = {renderCustomizedLabel}
-          >
-          <Label value={entry.subject} position="center" />
-          {entry.values.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-          </Pie>
-        ))}
-        <Tooltip />
-    </PieChart>
+        <ResponsiveContainer width="100%" height={height}>
+          <PieChart width={width} height={height}>
+            {props.data.map((entry, index) =>(
+              <Pie
+                dataKey={value}
+                data={entry.values}
+                nameKey={props.name}
+                cx={width * props.data.length < 760? 15+ '%' : (15 + (index * (100/props.data.length))) +'%'}
+                cy={width * props.data.length < 760 * props.data.length? (15 + (index * (100/props.data.length))) +'%' :100}
+                outerRadius={70}
+                innerRadius={50}
+                labelLine={false}
+                label = {renderCustomizedLabel}
+              >
+              <Label value={entry.subject} position="center" />
+              {entry.values.map((_entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+              </Pie>
+            ))}
+            <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
     )
 };
 
