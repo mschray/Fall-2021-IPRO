@@ -24,19 +24,19 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 const PieCharts: React.FC<PieChartProperties> = (props) => {
   const value = props.value
-  const width = window.screen.availWidth /props.data.length
-  const height = window.screen.availHeight /props.data.length
-
+  const width = window.screen.availWidth/props.data.length
+  const height = window.screen.availHeight/props.data.length
+  console.log(width)
     return (
-        <ResponsiveContainer width="100%" height={height}>
-          <PieChart width={width} height={height}>
+        <ResponsiveContainer width="100%" height={200}>
+          <PieChart width={width} height={200}>
             {props.data.map((entry, index) =>(
               <Pie
                 dataKey={value}
                 data={entry.values}
                 nameKey={props.name}
-                cx={(15+(index * (100/props.data.length))) +'%'}
-                cy={100}
+                cx={(width * props.data.length)< 760 ? 15+ '%' : (15 + (index * (100/props.data.length))) +'%'}
+                cy={(width * props.data.length) < 760 ? (15 + (index * (100/props.data.length))) +'%' :100}
                 outerRadius={70}
                 innerRadius={50}
                 labelLine={false}
