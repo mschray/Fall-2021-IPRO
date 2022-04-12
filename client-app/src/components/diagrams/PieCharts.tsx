@@ -35,8 +35,8 @@ const PieCharts: React.FC<PieChartProperties> = (props) => {
                 dataKey={value}
                 data={entry.values}
                 nameKey={props.name}
-                cx={width * props.data.length < 760? 15+ '%' : (15 + (index * (100/props.data.length))) +'%'}
-                cy={width * props.data.length < 760 * props.data.length? (15 + (index * (100/props.data.length))) +'%' :100}
+                cx={(15+(index * (100/props.data.length))) +'%'}
+                cy={100}
                 outerRadius={70}
                 innerRadius={50}
                 labelLine={false}
