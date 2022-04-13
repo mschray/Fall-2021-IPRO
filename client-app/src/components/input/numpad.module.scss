@@ -50,18 +50,24 @@
 
 .numpad_container {
   display: grid; 
-  grid-auto-columns: 1fr; 
-  grid-template-columns: 12vw 12vw 12vw 12vw 12vw; 
-  grid-template-rows: 12vw 12vw 12vw 12vw 12vw 12vw; 
+
+  grid-template-columns: repeat(3, 1fr); 
+  grid-template-rows: repeat(6, 1fr); 
+
   gap: 2vw 2vw; 
   grid-template-areas: 
-    ". disp disp disp ."
-    ". num7 num8 num9 ."
-    ". num4 num5 num6 numneg"
-    ". num1 num2 num3 numclear"
-    ". numenter num0 numdot numclear"
-    ". numclearMobile numclearMobile numnegMobile ."; 
-  width: fit-content;
+    "disp disp disp"
+    "num7 num8 num9"
+    "num4 num5 num6"
+    "num1 num2 num3"
+    "numenter num0 numdot"
+    "numclear numfrac numneg"; 
+    
+  width: 70%;
+  height: 80%;
+
+  // This is for the whole game's grid layout 
+  grid-area: numpad;
 }
 .num7 { grid-area: num7; }
 .num8 { grid-area: num8; }
@@ -74,7 +80,8 @@
 .num3 { grid-area: num3; }
 .num0 { grid-area: num0; }
 .numdot { grid-area: numdot; }
-.numneg { grid-area: numnegMobile; }
+.numneg { grid-area: numneg; }
+.numfrac { grid-area: numfrac; }
 
 .numenter { 
   grid-area: numenter; 
@@ -93,7 +100,7 @@
 }
 
 .numclear { 
-  grid-area: numclearMobile; 
+  grid-area: numclear; 
   color: #FF0000;
   width: auto;
 }
@@ -137,16 +144,24 @@
   }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 500px) {
   .numpad_container {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
-    grid-template-rows: 4em 4em 4em 4em 4em 4em; 
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr); 
+
+    grid-template-areas: 
+      "disp disp disp disp"
+      "num7 num8 num9 ."
+      "num4 num5 num6 numneg"
+      "num1 num2 num3 numfrac"
+      "numenter num0 numdot numclear";
+
     gap: 1vw 1vw; 
+
+    width: 50%;
   }
 
-  .numclear { 
-    grid-area: numclear; 
-  }
+  //.numclear { grid-area: numclear; }
 
-  .numneg { grid-area: numneg; }
+  //.numneg { grid-area: numneg; }
 }

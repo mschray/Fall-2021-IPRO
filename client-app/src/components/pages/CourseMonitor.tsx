@@ -103,7 +103,7 @@ const CourseMonitor: React.FC<CourseMonitorProps> = props => {
     };
     React.useEffect(() => () => { //On component unmount (Goto another page)
         endGameRequest();
-    }, []);
+    }, [endGameRequest]);
     //End
 
     return (
