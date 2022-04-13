@@ -61,7 +61,7 @@
     "num4 num5 num6"
     "num1 num2 num3"
     "numenter num0 numdot"
-    "numclear numclear numneg"; 
+    "numclear numfrac numneg"; 
     
   width: 70%;
   height: 80%;
@@ -81,6 +81,7 @@
 .num0 { grid-area: num0; }
 .numdot { grid-area: numdot; }
 .numneg { grid-area: numneg; }
+.numfrac { grid-area: numfrac; }
 
 .numenter { 
   grid-area: numenter; 
@@ -152,7 +153,7 @@
       "disp disp disp disp"
       "num7 num8 num9 ."
       "num4 num5 num6 numneg"
-      "num1 num2 num3 numclear"
+      "num1 num2 num3 numfrac"
       "numenter num0 numdot numclear";
 
     gap: 1vw 1vw; 

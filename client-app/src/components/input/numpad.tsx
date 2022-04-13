@@ -14,7 +14,8 @@ type NonNumberButton = "Dot"
                      | "Enter"
                      | "Clear"
                      | "Negative"
-                     | "Backspace";
+                     | "Backspace"
+                     | "FractionBar";
 
 /*
 Props: onSubmit = function(string)
@@ -56,6 +57,11 @@ const NumPad: React.FC<NumpadProps> = (props) => {
                     setAnswer(answer.substring(0, answer.length-1));
                 }
                 break;
+            case "FractionBar":
+                if (!answer.includes("/")) {
+                    setAnswer(answer + "/");
+                }
+                break;
             default:
                 // button is implicitly of type 'number' here, since we've exhausted other cases above
                 setAnswer(answer + button.toString());
@@ -85,6 +91,9 @@ const NumPad: React.FC<NumpadProps> = (props) => {
                     break;
                 case '.':
                     handleButtonPress("Dot");
+                    break;
+                case '/':
+                    handleButtonPress("FractionBar");
                     break;
                 case 'Backspace':
                     handleButtonPress("Backspace");
@@ -126,6 +135,7 @@ const NumPad: React.FC<NumpadProps> = (props) => {
             <button onClick={() => handleButtonPress("Enter")} className={buttonStyle(styles.numenter)}><span><CheckIcon sx={{ fontSize: "140%"}} /></span></button>
             <button onClick={() => handleButtonPress("Clear")} className={buttonStyle(styles.numclear)}>C</button>
             <button onClick={() => handleButtonPress("Negative")} className={buttonStyle(styles.numneg)}>-</button>
+            <button onClick={() => handleButtonPress("FractionBar")} className={buttonStyle(styles.numfrac)}>/</button>
         </div>
     );
 };
