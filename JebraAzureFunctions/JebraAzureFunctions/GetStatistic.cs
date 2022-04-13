@@ -37,7 +37,6 @@ namespace JebraAzureFunctions
 
             /*
             string responseMessage = "";
-
             //See GetQuestion for some context here.
             var str = Environment.GetEnvironmentVariable("SqlConnectionString");
             using (SqlConnection conn = new SqlConnection(str))
@@ -49,7 +48,6 @@ namespace JebraAzureFunctions
                     AND statistic_join.course_id = {data?.course_id} 
                     AND statistic.id = statistic_join.statistic_id
                 ";
-
                 using (SqlCommand cmd = new SqlCommand(command, conn))
                 {
                     SqlDataReader rows = await cmd.ExecuteReaderAsync();
@@ -70,4 +68,3 @@ namespace JebraAzureFunctions
         }
     }
 }
-
