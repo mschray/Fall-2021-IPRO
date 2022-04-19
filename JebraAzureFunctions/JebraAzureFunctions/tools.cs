@@ -411,6 +411,24 @@ namespace JebraAzureFunctions
             return questionModel;
         }
 
+        public static Task<string> GetSubjectIdFromCourseId(int courseId)
+        {
+            string command = @$"
+                SELECT stage.subject_id 
+                FROM stage 
+                INNER JOIN course ON stage.id = course.stage_id
+                WHERE course.id = {courseId}
+            ";
+            return ExecuteQueryAsync(command);
+        }
+        public static Task<string> GetAllUsersInCourse(int courseId)
+        {
+            string command = @$"
+                SELECT user_id FROM course_assignment WHERE user_id IS NOT NULL AND course_id = {courseId}
+            ";
+            return ExecuteQueryAsync(command);
+        }
+
         /// <summary>
         /// ex: 3x - 5 = 10 -> x = 5
         /// </summary>

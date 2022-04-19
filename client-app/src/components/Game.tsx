@@ -57,10 +57,10 @@ const Game: React.FC<GameProps> = (props) => {
             publishStageEvent({
                 stage_id: props.userData.stageId,
                 course_id: props.userData.courseId,
-                origin_user_id: props.userData.userId,
+                origin_user_id: props.userData.userId, //Null
                 question_id: questionData.id,
                 inflicted_hp: INFLICTED_HP,
-                was_correct: correct,
+                was_correct: correct, //Needs to be verified 
                 event_time: new Date().toISOString().slice(0, 19).replace('T', ' ')
             }).then(() => {
                 setQuestionIndex(questionIndex => questionIndex + 1);
